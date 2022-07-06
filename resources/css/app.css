@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+    form {
+        background: red;
+    }
+} */
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    @apply cursor-pointer;
+}
+
+.btn {
+    @apply px-4 py-2 text-center text-white border rounded-md text-xl font-medium transition duration-300 disabled:!bg-opacity-30 disabled:cursor-not-allowed dark:disabled:!bg-opacity-30;
+    &.btn-primary {
+        @apply bg-blue-500 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800;
+    }
+}
+.icon {
+    display: inline-block;
+    vertical-align: -0.125em;
+    fill: currentcolor;
+    width: inherit;
+    height: inherit;
+}
+
+.form-input {
+    @apply bg-transparent border border-gray-600;
+    &:focus {
+        @apply font-semibold text-black bg-gray-200 border-green-400;
+        &.auth {
+            @apply text-white bg-blue-900;
+        }
+    }
+    &:invalid,
+    &.inavlid {
+        @apply text-red-700;
+    }
+}
+
+.dark .form-input:focus {
+    @apply text-white bg-gray-700;
+    &:invalid,
+    &.inavlid {
+        @apply text-red-500 placeholder:text-red-500;
+    }
+}
+
+@layer utilities {
+    .indent-1 {
+        text-indent: 0.5rem;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    @apply cursor-pointer;
+}
+
+.alert {
+    @apply px-4 py-3 mx-auto font-semibold rounded shadow;
+    &.alert-danger {
+        @apply text-red-800 bg-red-300;
+    }
+    &.alert-success {
+        /* @apply text-green-800 bg-green-300; */
+        background-color: rgb(6, 194, 6);
+        color: rgb(1, 48, 1);
+    }
+}
+
+.form-input {
+    @apply bg-transparent border;
+    border-color: gray;
+    &:focus {
+        background-color: grey;
+        border-color: green;
+        @apply font-semibold text-black shadow-outline-green;
+        &.auth {
+            @apply text-white bg-blue-900;
+        }
+    }
+    &:invalid {
+        @apply text-red-700 border-red-500 shadow-outline-red;
+    }
+}
+
+.theme-dark .form-input:focus {
+    @apply text-white;
+    background-color: rgb(46, 45, 45);
+}
+
+.toast {
+    @apply flex items-center px-3 py-2 mt-2 transition duration-500 ease-in-out border-l-4 shadow-md;
+    &.toast-default {
+        @apply bg-teal-700 border-teal-500;
+    }
+    &.toast-success {
+        /* @apply bg-green-700 border-green-500; */
+        background-color: rgb(6, 75, 6);
+        border-color: green;
+    }
+    &.toast-info {
+        @apply bg-blue-700 border-blue-500;
+    }
+    &.toast-warn {
+        @apply bg-orange-700 border-orange-500;
+    }
+    &.toast-danger {
+        @apply bg-red-700 border-red-500;
+    }
+}
+
+.list-item {
+    @apply border-t;
+    &:nth-child(1) {
+        @apply border-t-0;
+    }
+}
+
+.social {
+    @apply p-2 mx-1 transition-colors duration-500 ease-linear border border-transparent;
+    color: grey;
+}
+
+.lazyload {
+    opacity: 0;
+}
+
+.lazyloading,
+.lazyloaded {
+    opacity: 1;
+    /* transition: all 300ms; */
+    background: transparent url(./loader.svg) no-repeat center;
+}
+
+.lazyloaded:not([src]) {
+    background-image: none;
+}
