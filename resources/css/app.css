@@ -84,13 +84,13 @@ a {
     &:focus {
         background-color: grey;
         border-color: green;
-        @apply font-semibold text-black shadow-outline-green;
+        @apply font-semibold text-black;
         &.auth {
             @apply text-white bg-blue-900;
         }
     }
     &:invalid {
-        @apply text-red-700 border-red-500 shadow-outline-red;
+        @apply text-red-700 border-red-500;
     }
 }
 
