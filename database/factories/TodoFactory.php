@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Project;
 use App\Models\Todo;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TodoFactory extends Factory
 {
@@ -24,7 +23,7 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            'project_id' => fn() => Project::factory()->create(),
+            'project_id' => fn () => Project::factory()->create(),
             'body' => $this->faker->word,
             'completed' => $this->faker->boolean,
         ];

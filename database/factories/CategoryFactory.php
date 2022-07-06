@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
 {
@@ -24,7 +23,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => fn() => User::factory()->create(),
+            'user_id' => fn () => User::factory()->create(),
             'title' => $this->faker->sentence(4),
             // 'slug' => $this->faker->slug,
         ];
