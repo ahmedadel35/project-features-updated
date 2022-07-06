@@ -15,7 +15,6 @@ class Todo extends Model
      * @var array
      */
     protected $fillable = [
-        'project_id',
         'body',
         'completed',
     ];

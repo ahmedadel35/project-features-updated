@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
@@ -15,7 +16,6 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id',
         'name',
         'slug',
         'cost',
@@ -33,6 +33,11 @@ class Project extends Model
         'cost' => 'float',
         'completed' => 'boolean',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     public function todos()
     {

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\Todo;
 use App\Models\User;
 use DB;
 use Illuminate\Database\Seeder;
@@ -27,18 +28,20 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create()->each(function (User $user) {
             // create categories for each user
-            /** @var \Illuminate\Database\Eloquent\Collection $cats */
+            /** @var \Illuminate\Database\Eloquent\Collection */
             $cats = $user->categories()->saveMany(
                 Category::factory()->count(rand(3, 6))->make()
             );
             
-            /** @var \Illuminate\Database\Eloquent\Collection $projects */
-            $projects = $cats->each(function (Category $category) {
+            /** @var \Illuminate\Database\Eloquent\Collection */
+            $cats->each(function (Category $category) {
                 $category->projects()->saveMany(
                     Project::factory()->count(random_int(3, 16))->make()
                 );
             })->each(function (Project $project) {
-                // $project->todos()->sav
+                $project->todos()->saveMany(
+                    Todo::factory()->count(random_int(5, 16))->make()
+                );
             });
 
             
