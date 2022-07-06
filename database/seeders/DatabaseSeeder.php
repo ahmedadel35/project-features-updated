@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +23,10 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create()->each(function(User $user) {
             // create categories for each user
+            $cats = $user->categories()->saveMany(
+                Category::factory()->count(rand(3, 6))->make()
+            );
+
             
         });
     }
