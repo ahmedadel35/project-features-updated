@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->float('cost')->default('0.0');
-            $table->string('logo');
+            // $table->string('logo');
             $table->boolean('completed')->default(false);
             $table->timestamps();
         });
