@@ -24,7 +24,7 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            'project_id' => Project::factory(),
+            'project_id' => fn() => Project::factory()->create(),
             'body' => $this->faker->word,
             'completed' => $this->faker->boolean,
         ];
