@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +46,13 @@ class User extends Authenticatable
     public function projects(): HasManyThrough
     {
         return $this->hasManyThrough(Project::class, Category::class);
+    }
+
+    public function todos()
+    {
+        return $this->hasManyDeep(Todo::class, [
+            Category::class,
+            Project::class,
+        ]);
     }
 }
