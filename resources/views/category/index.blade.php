@@ -1,4 +1,18 @@
 <x-app-layout>
+    <x-slot name='header'>
+        <div class="flex flex-wrap flex-row justify-between">
+            <div class="my-2">
+                <x-breadcrump current='categories' />
+            </div>
+            <div class="my-2">
+                <button class="btn blue">
+                    <x-fas-plus />
+                    Create
+                </button>
+            </div>
+        </div>
+    </x-slot>
+
     <div class="flex flex-row flex-wrap">
         @foreach($categories as $cat)
             <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4">

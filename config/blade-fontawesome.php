@@ -1,8 +1,8 @@
 <?php
 
 $classes = 'bi icon ltr:mr-2 ltr:-ml-1 rtl:ml-2 rtl:-mr-1';
-$width = 16;
-$height = 16;
+$width = 14;
+$height = 14;
 
 return [
 
