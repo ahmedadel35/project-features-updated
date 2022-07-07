@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Auth;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -40,7 +41,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $req = $request->validate([
+            'title' => 'bail|required|string|max:255',
+            'description' => 'required|string|max:255',
+        ]);
+
+        $category = Auth::user()
+            ->categories()
+            ->create($req);
+
+        return response()->json(
+            [
+                'slug' => $category->slug,
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
