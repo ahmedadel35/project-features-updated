@@ -43,11 +43,37 @@ test('user can update only his category', function () {
 
     // try with another user
     actingAs()
-        ->putJson(route('categories.update', $cat->slug), compact('title', 'description'))
+        ->putJson(
+            route('categories.update', $cat->slug),
+            compact('title', 'description')
+        )
         ->assertForbidden();
+    expect(Category::whereTitle($title)->first())->toBeNull();
 
     // try with owner user
     actingAs($user)
-        ->putJson(route('categories.update', $cat->slug), compact('title', 'description'))
+        ->putJson(
+            route('categories.update', $cat->slug),
+            compact('title', 'description')
+        )
         ->assertNoContent();
+
+    expect(Category::whereSlug($cat->slug)->first())->title->toBe($title);
+});
+
+test('user can delete only owned category', function () {
+    [$user, $cat] = userWithTodos();
+
+    // try with another user
+    actingAs()
+        ->deleteJson(route('categories.destroy', $cat->slug))
+        ->assertForbidden();
+    expect(Category::whereSlug($cat->slug)->count())->toBe(1);
+
+    // try with owner user
+    actingAs($user)
+        ->deleteJson(route('categories.destroy', $cat))
+        ->assertNoContent();
+
+    expect(Category::count())->toBe(0);
 });

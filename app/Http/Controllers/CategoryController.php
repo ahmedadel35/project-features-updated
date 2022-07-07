@@ -13,7 +13,7 @@ class CategoryController extends Controller
         'title' => 'bail|required|string|max:255',
         'description' => 'required|string|max:255',
     ];
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -102,6 +102,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->noContent();
     }
 }
