@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="fixed top-0 left-0 z-10 border-b dark:bg-gray-900 dark:border-gray-900">
+<nav x-data="{ open: false }" class="fixed top-0 left-0 z-10 border-b dark:bg-gray-900 dark:border-gray-900 min-w-full">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -8,6 +8,10 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block w-auto h-10 text-gray-600 fill-current" />
                     </a>
+                </div>
+
+                <div class="bg-red-600">
+                    <x-theme-toggle />
                 </div>
 
                 <!-- Navigation Links -->

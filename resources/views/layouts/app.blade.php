@@ -25,7 +25,7 @@
             </header> --}}
 
             <!-- Page Content -->
-            <main class="mt-10">
+            <main class="pt-24">
                 {{ $slot }}
             </main>
             @vite('resources/js/app.ts')
