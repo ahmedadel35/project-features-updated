@@ -72,8 +72,8 @@ test('user can delete only owned category', function () {
 
     // try with owner user
     actingAs($user)
-        ->deleteJson(route('categories.destroy', $cat))
-        ->assertNoContent();
+        ->deleteJson(route('categories.destroy', $cat->slug))
+        ->assertRedirect();
 
     expect(Category::count())->toBe(0);
 });

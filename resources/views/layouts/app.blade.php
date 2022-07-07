@@ -11,6 +11,11 @@
         {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"> --}}
 
         <!-- Scripts -->
+        <style>
+            x-clock {
+                display: none;
+            }
+        </style>
         @vite('resources/css/app.css')
     </head>
     <body class="font-sans antialiased">

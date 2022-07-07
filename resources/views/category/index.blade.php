@@ -27,10 +27,9 @@
                                 method="post">
                                 @csrf
                                 @method('DELETE')
-                                <x-button-spinner class="btn red" type="submit">
-                                    <x-fas-trash />
+                                <x-btn-with-spinner class="red" type="submit" icon='fas-trash' desc='delete category {{$cat->slug}}'>
                                     Delete
-                                </x-button-spinner>
+                                </x-btn-with-spinner>
                             </form>
                         </div>
                     </div>
