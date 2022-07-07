@@ -2,9 +2,11 @@
 
 use App\Models\User;
 
-test('unloggedin user can not see categories', function() {
+use function Pest\Laravel\get;
 
-})->skip();
+test('unloggedin user can not see categories', function() {
+    get(route('categories.index'))->assertRedirect(route('login'));
+});
 
 test('user can see only his categories', function() {
     [$user, $cat] = userWithTodos();
