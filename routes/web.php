@@ -20,11 +20,19 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})
+    ->middleware(['auth'])
+    ->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
+Route::middleware('auth')->group(function () {
+    Route::resource('/categories', CategoryController::class)->only([
+        'index',
+        'create',
+    ]);
 
-Route::middleware('auth')->group(function() {
-    Route::resource('/categories', CategoryController::class);
+    Route::resource('/categories', CategoryController::class)
+        ->except(['index', 'create'])
+        ->middleware('can:see-category,category');
 });

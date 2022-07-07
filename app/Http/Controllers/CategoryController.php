@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+    const VALIDATION_RULES = [
+        'title' => 'bail|required|string|max:255',
+        'description' => 'required|string|max:255',
+    ];
+    
     /**
      * Display a listing of the resource.
      *
@@ -41,14 +46,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $req = $request->validate([
-            'title' => 'bail|required|string|max:255',
-            'description' => 'required|string|max:255',
-        ]);
-
         $category = Auth::user()
             ->categories()
-            ->create($req);
+            ->create($request->validate(self::VALIDATION_RULES));
 
         return response()->json(
             [
@@ -89,7 +89,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->validate(self::VALIDATION_RULES));
+
+        return response()->noContent();
     }
 
     /**

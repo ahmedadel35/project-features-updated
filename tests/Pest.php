@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Project;
 use App\Models\Todo;
 use App\Models\User;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Vite;
@@ -51,15 +53,29 @@ function actingAs(?User $user = null)
     return test()->actingAs($user);
 }
 
-function userWithTodos(?User $user = null, int $todos_count = 1, int $categories_count = 1): array
+/**
+ * create user with all relatoships
+ *
+ * @param User|null $user
+ * @param integer $todos_count
+ * @param integer $categories_count
+ * @param integer $products_count
+ * @return array
+ */
+function userWithTodos(?User $user = null, int $todos_count = 1, int $categories_count = 1, int $products_count = 1): array
 {
     $user = $user ?? User::factory()->create();
     $cats = Category::factory()->count($categories_count)->for($user)->create();
 
-    $todos = Todo::factory()->count($todos_count)->create([
+    $projs = Project::factory()->count($products_count)->create([
         'category_id' => $cats->first()->id,
     ]);
 
+    $todos = Todo::factory()->count($todos_count)->create([
+        'project_id' => $projs->first()->id,
+    ]);
+
+    /** @var \App\Models\Category $cat */
     $cat = $categories_count === 1 ? $cats->first() : $cats;
 
     return [$user, $cat, $todos];

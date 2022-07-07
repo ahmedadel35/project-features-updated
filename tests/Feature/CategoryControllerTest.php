@@ -3,8 +3,6 @@
 use App\Models\Category;
 use App\Models\User;
 
-use function Pest\Laravel\get;
-
 test('unloggedin user can not see categories', function () {
     get(route('categories.index'))->assertRedirect(route('login'));
 });
@@ -21,8 +19,10 @@ test('user can see only his categories', function () {
         ->assertSee($cat->title);
 });
 
-test('user can not create category with invalid data', function() {
-    actingAs()->postJson(route('categories.store'), [])->assertStatus(422);
+test('user can not create category with invalid data', function () {
+    actingAs()
+        ->postJson(route('categories.store'), [])
+        ->assertStatus(422);
 });
 
 test('user can create category', function () {
@@ -33,4 +33,21 @@ test('user can create category', function () {
     actingAs($user)
         ->postJson(route('categories.store', $cat))
         ->assertCreated();
+});
+
+test('user can update only his category', function () {
+    [$user, $cat] = userWithTodos();
+
+    $title = fake()->sentence;
+    $description = fake()->paragraph;
+
+    // try with another user
+    actingAs()
+        ->putJson(route('categories.update', $cat->slug), compact('title', 'description'))
+        ->assertForbidden();
+
+    // try with owner user
+    actingAs($user)
+        ->putJson(route('categories.update', $cat->slug), compact('title', 'description'))
+        ->assertNoContent();
 });
