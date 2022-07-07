@@ -1,5 +1,9 @@
 <?php
 
+$classes = 'bi icon ltr:mr-1 rtl:ml-1';
+$width = 16;
+$height = 16;
+
 return [
 
     'brands' => [
@@ -8,11 +12,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' =>$classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -23,11 +27,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -38,11 +42,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -65,11 +69,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -80,11 +84,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -95,11 +99,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],
@@ -110,11 +114,11 @@ return [
 
         'fallback' => '',
 
-        'class' => 'bi icon',
+        'class' => $classes,
 
         'attributes' => [
-            'width' => 16,
-            'height' => 16,
+            'width' => $width,
+            'height' => $height,
         ],
 
     ],

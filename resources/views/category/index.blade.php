@@ -1,25 +1,41 @@
 <x-app-layout>
-    @foreach($categories as $cat)
-        <div
-            class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-            <a href="{{route('categories.show', $cat->slug)}}">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {{$cat->title}}
-                </h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                {{$cat->projects_count}}
-            </p>
-            <a href="#"
-                class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                Read more
-                <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </a>
-        </div>
-    @endforeach
+    <div class="flex flex-row flex-wrap">
+        @foreach($categories as $cat)
+            <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4">
+                <div class="p-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 transition duration-200"
+                    id="cat{{ $cat->slug }}">
+                    <a href="{{ route('categories.show', $cat->slug) }}">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {{ $cat->title }}
+                        </h5>
+                    </a>
+                    <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
+                        {{ $cat->description }}
+                    </p>
+                    <div class="px-2 py-4 text-blue-600 dark:text-blue-400 rounded">
+                        Projects: {{ $cat->projects_count }}
+                    </div>
+                    <div class="card-footer flex flex-row flex-wrap">
+                        <div class="w-0 md:w-1/3"></div>
+                        <div class="w-full md:w-2/3">
+                            <button class="btn cyan" type="button">
+                                <x-fas-pencil />
+                                Edit
+                            </button>
+                            <form class="inline-block"
+                                action="{{ route('categories.destroy', $cat->slug) }}"
+                                method="post">
+                                @csrf
+                                @method('DELETE')
+                                <x-button-spinner class="btn red" type="submit">
+                                    <x-fas-trash />
+                                    Delete
+                                </x-button-spinner>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </x-app-layout>
