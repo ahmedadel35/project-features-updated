@@ -7,7 +7,7 @@
     <button {{ $attributes->merge(['class' => 'btn']) }}
         type="{{ $type }}" aria-describedby="{{ $desc }}" x-data="{
         busy: false,
-    }" x-on:click="busy = true" x-bind:disabled='busy'>
+    }" x-on:click="busy = true">
         @if($icon)
             @svg($icon, ['x-show' => '!busy', 'x-clock'])
             @endif

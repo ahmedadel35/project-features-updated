@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\User;
 
 use function Pest\Laravel\get;
+use function Pest\Laravel\withoutExceptionHandling;
 
 test('unloggedin user can not see categories', function () {
     get(route('categories.index'))->assertRedirect(route('login'));

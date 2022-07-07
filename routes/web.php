@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +25,20 @@ Route::get('/dashboard', function () {
     ->middleware(['auth'])
     ->name('dashboard');
 
-require __DIR__ . '/auth.php';
+Route::prefix(LaravelLocalization::setLocale())
+    ->middleware(['localeCookieRedirect'])
+    ->group(function () {
+        require __DIR__ . '/auth.php';
 
-Route::middleware('auth')->group(function () {
-    Route::resource('/categories', CategoryController::class)->only([
-        'index',
-        'create',
-        'store',
-    ]);
+        Route::middleware('auth')->group(function () {
+            Route::resource('categories', CategoryController::class)->only([
+                'index',
+                'create',
+                'store',
+            ]);
 
-    Route::resource('/categories', CategoryController::class)
-        ->except(['index', 'create', 'store'])
-        ->middleware('can:see-category,category');
-});
+            Route::resource('categories', CategoryController::class)
+                ->except(['index', 'create', 'store'])
+                ->middleware('can:see-category,category');
+        });
+    });

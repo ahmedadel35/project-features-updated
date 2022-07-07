@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Vite;
 use JMac\Testing\Traits\AdditionalAssertions;
+use Mcamara\LaravelLocalization\LaravelLocalization;
 use Tests\TestCase;
 
 /*
@@ -29,11 +30,6 @@ uses(
     WithFaker::class
 )->in(__DIR__);
 
-beforeAll(function () {
-    // Vite::useManifest(function ($configuration) {
-    //     return true;
-    // });
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +75,9 @@ function userWithTodos(?User $user = null, int $todos_count = 1, int $categories
     $cat = $categories_count === 1 ? $cats->first() : $cats;
 
     return [$user, $cat, $todos];
+}
+
+function routel(string $name, mixed $var = []): string
+{
+    return Str::replace('/en', '', route($name, $var));
 }
