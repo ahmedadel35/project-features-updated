@@ -21,31 +21,38 @@ class DatabaseSeeder extends Seeder
         // for perfomance
         DB::beginTransaction();
 
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Ahmed Adel',
             'email' => 'admin@admin.com',
         ]);
 
-        User::factory(10)->create()->each(function (User $user) {
-            // create categories for each user
-            /** @var \Illuminate\Database\Eloquent\Collection */
-            $cats = $user->categories()->saveMany(
-                Category::factory()->count(rand(3, 6))->make()
-            );
-            
-            /** @var \Illuminate\Database\Eloquent\Collection */
-            $cats->each(function (Category $category) {
-                $category->projects()->saveMany(
-                    Project::factory()->count(random_int(3, 16))->make()
-                );
-            })->each(function (Project $project) {
-                $project->todos()->saveMany(
-                    Todo::factory()->count(random_int(5, 16))->make()
-                );
-            });
+        $cats = Category::factory()
+            ->has(
+                Project::factory()
+                    ->count(19)
+                    ->has(Todo::factory()->count(random_int(3, 8)))
+            )
+            ->count(5)
+            ->create([
+                'user_id' => $admin->id,
+            ]);
 
-            
-        });
+        User::factory(3)
+            ->create()
+            ->each(function (User $user) {
+                // create categories for each user
+
+                Category::factory()
+                    ->count(random_int(1, 2))
+                    ->has(
+                        Project::factory()
+                            ->count(random_int(1, 2))
+                            ->has(Todo::factory()->count(1, 2))
+                    )
+                    ->create([
+                        'user_id' => $user->id,
+                    ]);
+            });
 
         DB::commit();
     }

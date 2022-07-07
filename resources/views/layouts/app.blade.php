@@ -17,15 +17,15 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
+            {{-- <!-- Page Heading -->
             <header class="bg-white shadow">
                 <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {{ $header }}
+                    {{ $header ?? '' }}
                 </div>
-            </header>
+            </header> --}}
 
             <!-- Page Content -->
-            <main>
+            <main class="mt-10">
                 {{ $slot }}
             </main>
             @vite('resources/js/app.ts')

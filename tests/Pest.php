@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Todo;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Vite;
@@ -41,7 +44,23 @@ beforeAll(function () {
 |
 */
 
-function something()
+function actingAs(?User $user = null)
 {
-    // ..
+    $user = $user ?: User::factory()->create();
+
+    return test()->actingAs($user);
+}
+
+function userWithTodos(?User $user = null, int $todos_count = 1, int $categories_count = 1): array
+{
+    $user = $user ?? User::factory()->create();
+    $cats = Category::factory()->count($categories_count)->for($user)->create();
+
+    $todos = Todo::factory()->count($todos_count)->create([
+        'category_id' => $cats->first()->id,
+    ]);
+
+    $cat = $categories_count === 1 ? $cats->first() : $cats;
+
+    return [$user, $cat, $todos];
 }

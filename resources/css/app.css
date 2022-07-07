@@ -146,3 +146,13 @@ a {
 .lazyloaded:not([src]) {
     background-image: none;
 }
+:root {
+    --color-primary: blue;
+}
+
+.neon {
+    --color-primary: teal;
+}
+.light {
+    --color-primary: red;
+}

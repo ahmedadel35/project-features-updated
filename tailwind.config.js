@@ -17,6 +17,9 @@ module.exports = {
             fontFamily: {
                 sans: ["Cairo", ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: 'var(--color-primary)'
+            }
         },
     },
 

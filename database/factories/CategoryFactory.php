@@ -23,9 +23,9 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => fn () => User::factory()->create(),
+            'user_id' => fn () => User::factory(),
             'title' => $this->faker->sentence(4),
-            // 'slug' => $this->faker->slug,
+            'slug' => $this->faker->slug,
         ];
     }
 }
