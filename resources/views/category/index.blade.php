@@ -16,8 +16,7 @@
                         Projects: {{ $cat->projects_count }}
                     </div>
                     <div class="card-footer flex flex-row flex-wrap">
-                        <div class="w-0 md:w-1/3"></div>
-                        <div class="w-full md:w-2/3">
+                        <div class="w-full text-end">
                             <button class="btn cyan" type="button">
                                 <x-fas-pencil />
                                 Edit
