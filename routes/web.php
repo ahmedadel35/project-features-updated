@@ -30,9 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/categories', CategoryController::class)->only([
         'index',
         'create',
+        'store',
     ]);
 
     Route::resource('/categories', CategoryController::class)
-        ->except(['index', 'create'])
+        ->except(['index', 'create', 'store'])
         ->middleware('can:see-category,category');
 });
