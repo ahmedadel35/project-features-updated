@@ -79,5 +79,9 @@
                 </x-card>
             </div>
         </div>
+
+        <div class="py-5">
+            {{ $projects->links() }}
+        </div>
     </div>
 </x-app-layout>

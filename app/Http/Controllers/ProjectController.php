@@ -24,7 +24,9 @@ class ProjectController extends Controller
     {
         SEOTools::setTitle($category->title);
 
-        $projects = Project::whereCategoryId($category->id)->paginate();
+        $projects = Project::whereCategoryId($category->id)
+            ->orderByDesc('updated_at')
+            ->paginate();
 
         return view('project.index', compact('projects', 'category'));
     }
