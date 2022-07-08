@@ -36,9 +36,20 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Category $category)
     {
-        //
+        $proj = $category->projects()->create(
+            request()->validate([
+                'name' => 'required|string|max:255',
+                'cost' => 'required|numeric|min:1.00',
+                'info' => 'required|string|max:255',
+            ])
+        );
+
+        return redirect()->route('projects.show', [
+            $category->slug,
+            $proj->slug,
+        ]);
     }
 
     /**

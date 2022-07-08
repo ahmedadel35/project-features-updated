@@ -12,7 +12,7 @@ return [
 
         'fallback' => '',
 
-        'class' =>$classes,
+        'class' => $classes,
 
         'attributes' => [
             'width' => $width,

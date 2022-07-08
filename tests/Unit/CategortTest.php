@@ -20,7 +20,7 @@ test('category has projects', function () {
     expect($cat->projects)->toHaveCount(2);
 });
 
-test('category belongs to user', function() {
+test('category belongs to user', function () {
     $user_id = User::factory()->create()->id;
     $cat = Category::factory()->create(compact('user_id'));
 

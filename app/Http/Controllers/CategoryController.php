@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Project;
 use Auth;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {

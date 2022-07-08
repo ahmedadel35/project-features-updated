@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +20,7 @@ class Project extends Model
         'name',
         'slug',
         'cost',
-        'logo',
+        'info',
         'completed',
     ];
 
@@ -33,6 +34,15 @@ class Project extends Model
         'cost' => 'float',
         'completed' => 'boolean',
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+            ],
+        ];
+    }
 
     public function category(): BelongsTo
     {

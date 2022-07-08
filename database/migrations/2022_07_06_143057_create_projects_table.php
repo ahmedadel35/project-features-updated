@@ -21,7 +21,7 @@ class CreateProjectsTable extends Migration
                 ->onDelete('cascade');
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->float('cost')->default('0.0');
+            $table->float('cost')->default('1.00');
             $table->string('info');
             $table->boolean('completed')->default(false);
             $table->timestamps();

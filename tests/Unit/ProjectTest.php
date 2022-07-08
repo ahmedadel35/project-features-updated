@@ -20,5 +20,3 @@ test('project have todos', function () {
         ->toHaveCount(5)
         ->first()->body->toBeString();
 });
-
-

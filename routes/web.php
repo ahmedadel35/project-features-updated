@@ -38,24 +38,33 @@ Route::prefix(LaravelLocalization::setLocale())
                 'store',
             ]);
 
-            Route::resource('categories', CategoryController::class)
-                ->except(['index', 'create', 'store', 'show'])
-                ->middleware('can:see-category,category');
+            Route::middleware('can:see-category,category')->group(function () {
+                Route::resource(
+                    'categories',
+                    CategoryController::class
+                )->except(['index', 'create', 'store', 'show']);
 
-            // projects
-            Route::get('c/{category}/projects', [
-                ProjectController::class,
-                'index',
-            ])
-                ->name('categories.show')
-                ->middleware('can:see-category,category');
-            Route::resource(
-                'c/{category}/projects',
-                ProjectController::class
-            )->only([
-                // 'index',
-                'create',
-                'store',
-            ]);
+                // projects
+                Route::get('c/{category}/projects', [
+                    ProjectController::class,
+                    'index',
+                ])->name('categories.show');
+                Route::resource(
+                    'c/{category}/projects',
+                    ProjectController::class
+                )->only([
+                    // 'index',
+                    'create',
+                    'store',
+                ]);
+                Route::resource(
+                    'c/{category}/projects',
+                    ProjectController::class
+                )->except([
+                    // 'index',
+                    'create',
+                    'store',
+                ]);
+            });
         });
     });

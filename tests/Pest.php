@@ -4,12 +4,9 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
 use App\Models\User;
-use GuzzleHttp\Handler\Proxy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Vite;
 use JMac\Testing\Traits\AdditionalAssertions;
-use Mcamara\LaravelLocalization\LaravelLocalization;
 use Tests\TestCase;
 
 /*
@@ -29,7 +26,6 @@ uses(
     RefreshDatabase::class,
     WithFaker::class
 )->in(__DIR__);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +48,10 @@ function actingAs(?User $user = null)
 /**
  * create user with all relatoships
  *
- * @param User|null $user
- * @param integer $todos_count
- * @param integer $categories_count
- * @param integer $products_count
+ * @param  User|null  $user
+ * @param  int  $todos_count
+ * @param  int  $categories_count
+ * @param  int  $products_count
  * @return array
  */
 function userWithTodos(?User $user = null, int $todos_count = 1, int $categories_count = 1, int $products_count = 1): array
@@ -74,10 +70,11 @@ function userWithTodos(?User $user = null, int $todos_count = 1, int $categories
     /** @var \App\Models\Category $cat */
     $cat = $categories_count === 1 ? $cats->first() : $cats;
 
-    return [$user, $cat, $todos];
-}
+    /** @var \App\Models\Project $proj */
+    $proj = $products_count === 1 ? $projs->first() : $projs;
 
-function routel(string $name, mixed $var = []): string
-{
-    return Str::replace('/en', '', route($name, $var));
+    /** @var \App\Models\Todo $todos */
+    $todos = $todos_count === 1 ? $todos->first() : $todos;
+
+    return [$user, $cat, $proj, $todos];
 }

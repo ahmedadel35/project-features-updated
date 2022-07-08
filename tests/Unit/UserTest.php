@@ -21,7 +21,6 @@ test('user have projects through categories', function () {
     expect($user)->projects->toHaveCount(5);
 });
 
-
 test('user have todos through categories, projects', function () {
     $user = User::factory()
         ->has(Category::factory()->has(Project::factory()->has(Todo::factory()->count(6))))
