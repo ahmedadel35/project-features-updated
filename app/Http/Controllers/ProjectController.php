@@ -102,8 +102,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy(Category $category, Project $project)
     {
-        //
+        $project->delete();
+
+        return response()->noContent();
     }
 }

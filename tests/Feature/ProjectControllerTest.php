@@ -38,9 +38,15 @@ test('only category owner can update projects in it', function () {
 
     // try with any user
     actingAs()
-        ->putJson(route('projects.update', array_merge([$cat->slug, $proj->slug], $proj->toArray())), compact('name', 'cost'))
+        ->putJson(
+            route(
+                'projects.update',
+                array_merge([$cat->slug, $proj->slug], $proj->toArray())
+            ),
+            compact('name', 'cost')
+        )
         ->assertForbidden();
-    
+
     expect(
         Project::whereName($name)
             ->whereSlug($proj->slug)
@@ -50,17 +56,34 @@ test('only category owner can update projects in it', function () {
     // try with the owner
     actingAs($user)
         ->putJson(
-            route('projects.update', array_merge([$cat->slug, $proj->slug], $proj->toArray())),
+            route(
+                'projects.update',
+                array_merge([$cat->slug, $proj->slug], $proj->toArray())
+            ),
             compact('name', 'cost')
         )
-        ->assertRedirect(route('projects.show', [
-            $cat->slug,
-            $proj->slug
-        ]));
+        ->assertRedirect(route('projects.show', [$cat->slug, $proj->slug]));
 
     expect(
         Project::whereName($name)
             ->whereSlug($proj->slug)
             ->exists()
     )->toBeTrue();
+});
+
+test('only project owner can delete it', function () {
+    [$user, $cat, $proj] = userWithTodos();
+    // try with any user
+    actingAs()
+        ->deleteJson(route('projects.destroy', [$cat->slug, $proj->slug]))
+        ->assertForbidden();
+
+    expect(Project::whereSlug($proj->slug)->exists())->toBeTrue();
+
+    // try with the owner
+    actingAs($user)
+        ->deleteJson(route('projects.destroy', [$cat->slug, $proj->slug]))
+        ->assertNoContent();
+
+    expect(Project::whereSlug($proj->slug)->exists())->toBeFalse();
 });
