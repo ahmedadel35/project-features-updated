@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Str;
 
 class CategoryFactory extends Factory
 {
@@ -24,8 +25,8 @@ class CategoryFactory extends Factory
     {
         return [
             'user_id' => fn () => User::factory(),
-            'title' => $this->faker->sentence,
-            'slug' => $this->faker->slug,
+            'title' => $this->faker->sentence(3),
+            'slug' => Str::slug(fake()->sentence(2)),
             'description' => fake()->paragraph,
         ];
     }

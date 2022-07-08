@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Project;
 use App\Models\User;
 use Gate;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -46,6 +47,16 @@ class RouteServiceProvider extends ServiceProvider
         // allow only category owner to create, see, update and delete it
         Gate::define('see-category', function (User $user, Category $category) {
             return $category->user_id === $user->id;
+        });
+
+        // allow only project owner to update it
+        Gate::define('see-project', function (
+            User $user,
+            Category $category,
+            Project $project
+        ) {
+            return $project->category_id === $category->id &&
+                $category->user_id === $user->id;
         });
     }
 

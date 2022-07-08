@@ -54,17 +54,19 @@ Route::prefix(LaravelLocalization::setLocale())
                     ProjectController::class
                 )->only([
                     // 'index',
-                    'create',
+                    // 'create',
                     'store',
                 ]);
                 Route::resource(
                     'c/{category}/projects',
                     ProjectController::class
-                )->except([
-                    // 'index',
-                    'create',
-                    'store',
-                ]);
+                )
+                    ->except([
+                        'index',
+                        'create',
+                        'store',
+                    ])
+                    ->middleware('can:see-project,category,project');
             });
         });
     });

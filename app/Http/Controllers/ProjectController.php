@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    const VALIDATION_RULES = [
+        'name' => 'required|string|max:255',
+        'cost' => 'required|numeric|min:1.00',
+        'info' => 'required|string|max:255',
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -38,13 +44,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request, Category $category)
     {
-        $proj = $category->projects()->create(
-            request()->validate([
-                'name' => 'required|string|max:255',
-                'cost' => 'required|numeric|min:1.00',
-                'info' => 'required|string|max:255',
-            ])
-        );
+        $proj = $category
+            ->projects()
+            ->create(request()->validate(self::VALIDATION_RULES));
 
         return redirect()->route('projects.show', [
             $category->slug,
@@ -81,9 +83,17 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
-    {
-        //
+    public function update(
+        Request $request,
+        Category $category,
+        Project $project
+    ) {
+        $project->update(request()->validate(self::VALIDATION_RULES));
+
+        return redirect()->route('projects.show', [
+            $category->slug,
+            $project->slug,
+        ]);
     }
 
     /**
