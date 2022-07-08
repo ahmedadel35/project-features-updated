@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cviebrock\EloquentSluggable\Sluggable;
+use DB;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends Model
 {
@@ -16,13 +18,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'slug',
-        'cost',
-        'info',
-        'completed',
-    ];
+    protected $fillable = ['name', 'slug', 'cost', 'info', 'completed'];
 
     /**
      * The attributes that should be cast to native types.
@@ -57,5 +53,23 @@ class Project extends Model
     public function todos()
     {
         return $this->hasMany(Todo::class);
+    }
+
+    public function team(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_user');
+    }
+
+    public function addToTeam(User $user): void
+    {
+        $this->team()->attach($user);
+    }
+
+    public function isTeamMember(User $user): bool
+    {
+        return DB::table('project_user')
+            ->where('project_id', $this->id)
+            ->where('user_id', $user->id)
+            ->exists();
     }
 }
