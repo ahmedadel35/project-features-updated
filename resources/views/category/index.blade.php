@@ -21,35 +21,33 @@
 
     <div class="flex flex-row flex-wrap">
         @foreach($categories as $cat)
-            <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4" id="{{ $cat->slug }}">
-                <div class="p-3 max-w-sm card-bg">
-                    <a href="{{ route('categories.show', $cat->slug) }}">
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            {{ $cat->title }}
-                        </h5>
-                    </a>
+            <x-card :id="$cat->slug" :url="route('categories.show', $cat->slug)">
+                <x-slot name='title'>
+                    {{ $cat->title }}
+                </x-slot>
+
+                <x-slot name='body'>
                     <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
                         {{ $cat->description }}
                     </p>
                     <div class="px-2 py-4 text-blue-600 dark:text-blue-400 rounded">
                         Projects: {{ $cat->projects_count }}
                     </div>
-                    <div class="card-footer flex flex-row flex-wrap">
-                        <div class="w-full text-end">
-                            <button class="btn cyan" x-data type="button" x-on:click.prevent="$dispatch('category-modal', {
-                                editMode: true,
-                                slug: '{{ $cat->slug }}',
-                                name: '{{ $cat->title }}',
-                                desc: '{{ $cat->description }}',
-                            })">
-                                <x-fas-pencil />
-                                {{ __('category.edit') }}
-                            </button>
-                            @include('category.index.delete')
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </x-slot>
+
+                <x-slot name='footer'>
+                    <button class="btn cyan" x-data type="button" x-on:click.prevent="$dispatch('category-modal', {
+                    editMode: true,
+                    slug: '{{ $cat->slug }}',
+                    name: '{{ $cat->title }}',
+                    desc: '{{ $cat->description }}',
+                })">
+                        <x-fas-pencil />
+                        {{ __('category.edit') }}
+                    </button>
+                    @include('category.index.delete')
+                </x-slot>
+            </x-card>
         @endforeach
 
         <div class="py-5">
