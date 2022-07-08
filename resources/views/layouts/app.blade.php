@@ -38,6 +38,7 @@
                 {{ $slot }}
             </main>
         </div>
+        <x-toast />
         @vite('resources/js/app.ts')
     </div>
 </body>
