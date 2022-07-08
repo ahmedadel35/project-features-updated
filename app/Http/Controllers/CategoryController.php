@@ -23,20 +23,10 @@ class CategoryController extends Controller
     {
         $categories = Category::withCount('projects')
             ->whereUserId(Auth::id())
-            ->orderByDesc('updated_at')
+            ->latest('updated_at')
             ->paginate();
 
         return view('category.index', compact('categories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -47,11 +37,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $req = $request->validate(self::VALIDATION_RULES);
-
         $category = Auth::user()
             ->categories()
-            ->create($req);
+            ->create($request->validate(self::VALIDATION_RULES));
 
         return redirect()->route('categories.show', $category->slug);
     }
@@ -64,18 +52,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        
     }
 
     /**
