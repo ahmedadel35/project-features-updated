@@ -80,7 +80,7 @@ class ProjectController extends Controller
      */
     public function edit(Category $category, Project $project)
     {
-        SEOTools::setTitle(__('nav.edit_project') . ' ' . $project->title);
+        SEOTools::setTitle(__('nav.edit_project') . ' ' . $project->name);
 
         return view('project.edit', compact('category', 'project'));
     }
