@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Project;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        SEOTools::setTitle(Auth::user()->name . ' ' . __('nav.categories'));
+
         $categories = Category::withCount('projects')
             ->whereUserId(Auth::id())
             ->latest('updated_at')

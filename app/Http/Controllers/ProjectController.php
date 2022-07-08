@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Artesaos\SEOTools\Facades\SEOTools;
 
 class ProjectController extends Controller
 {
@@ -21,6 +22,8 @@ class ProjectController extends Controller
      */
     public function index(Category $category)
     {
+        SEOTools::setTitle($category->title);
+
         $projects = Project::whereCategoryId($category->id)->paginate();
 
         return view('project.index', compact('projects', 'category'));
