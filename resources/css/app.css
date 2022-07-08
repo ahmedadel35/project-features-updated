@@ -230,3 +230,15 @@ body {
         @apply text-gray-500 dark:text-gray-300;
     }
 }
+body.gr-bg {
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+    .card-bg {
+        --tw-bg-opacity: .85;
+    }
+}
+.dark body.gr-bg {
+    background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
+    .card-bg {
+        --tw-bg-opacity: .80;
+    }
+}

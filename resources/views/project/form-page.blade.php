@@ -13,7 +13,7 @@
         ]" />
     </x-slot>
 
-    <div class="relative py-10 mx-auto mt-5 card-bg md:wh-4/5" x-data="{
+    <div class="relative py-10 mx-auto mt-5 card-bg md:w-4/5" x-data="{
         saving: false,
         form: {
             name: '{{ $vals["name"] }}',
@@ -44,7 +44,7 @@
             this.saving = true;
             this.$refs.projectForm.submit();
         },
-    }">
+    }" x-init="() => document.body.classList.add('gr-bg')">
         <div class="w-full mb-4 text-center">
             <h3 class="text-3xl">{{ __('nav.'.$title.'_project') }}</h3>
         </div>
@@ -55,7 +55,7 @@
             @isset($putMethod)
                 @method('PUT')
             @endisset
-            <div class="grid xl:grid-cols-2 xl:gap-6">
+            <div class="grid grid-cols-1">
                 <div class="relative z-0 w-full mb-6 group">
 
                     <input type="text" name="name" id="name"
@@ -92,7 +92,7 @@
                     </label>
                 </div>
             </div>
-            <div class="grid xl:grid-cols-2 xl:gap-6">
+            <div class="grid grid-cols-1">
                 <div class="relative z-0 w-full mb-6 group">
                     <textarea name="info" id="info"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
