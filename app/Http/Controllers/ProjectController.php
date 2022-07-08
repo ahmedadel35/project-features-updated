@@ -34,9 +34,11 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        SEOTools::setTitle(__('nav.create_project'));
+
+        return view('project.create', compact('category'));
     }
 
     /**
@@ -63,9 +65,9 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show(Category $category, Project $project)
     {
-        //
+        dd($project);
     }
 
     /**

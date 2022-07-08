@@ -87,3 +87,17 @@ test('only project owner can delete it', function () {
 
     expect(Project::whereSlug($proj->slug)->exists())->toBeFalse();
 });
+
+test('only category owner can create projects for it', function() {
+    [$user, $cat] = userWithTodos();
+    // try with any user
+    actingAs()
+        ->get(route('projects.create', $cat->slug))
+        ->assertForbidden();
+
+    // try with the owner
+    actingAs($user)
+        ->get(route('projects.create', $cat->slug))
+        ->assertOk()
+        ->assertSee(__('nav.create_project'));
+});

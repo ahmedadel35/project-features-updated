@@ -8,22 +8,19 @@
                             'name' => 'categories',
                         ],
                         [
-                                    'url' => '#',
-                                    'name' => $category->title,
+                            'url' => '#',
+                            'no_trans' => true,
+                            'name' => $category->title,
                         ],
                     ]" current='projects' />
             </div>
             <div class="my-2">
                 {{-- modal toggle --}}
-                <button class="btn blue" x-data x-on:click.prevent="$dispatch('category-modal', {
-                        editMode: false,
-                        slug: '',
-                        name: '',
-                        desc: '',
-                    })">
+                <a class="btn blue" href="{{ route('projects.create', $category->slug) }}"
+                    aria-describedby="create new project">
                     <x-fas-plus />
-                    Create
-                </button>
+                    {{ __('category.create') }}
+                </a>
             </div>
         </div>
     </x-slot>
@@ -76,7 +73,8 @@
                     </x-slot>
 
                     <x-slot name='footer'>
-                        <x-btn-delete :url="route('categories.destroy', $category->slug)" :to="route('categories.index')" :id="$category->slug" />
+                        <x-btn-delete :url="route('categories.destroy', $category->slug)"
+                            :to="route('categories.index')" :id="$category->slug" />
                     </x-slot>
                 </x-card>
             </div>

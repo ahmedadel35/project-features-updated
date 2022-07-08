@@ -27,7 +27,7 @@ class ProjectFactory extends Factory
             'category_id' => fn () => Category::factory()->create(),
             'name' => $this->faker->sentence(3),
             'slug' => Str::slug(fake()->sentence(3)),
-            'cost' => $this->faker->randomFloat(2, 0, 9999.99),
+            'cost' => $this->faker->randomFloat(0, 0, 9999.99),
             // 'logo' => 'http://images.test/posts/'.random_int(0, 9).'.jpg',
             'info' => fake()->paragraph(1),
             'completed' => $this->faker->boolean,

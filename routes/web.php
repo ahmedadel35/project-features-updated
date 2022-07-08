@@ -54,7 +54,7 @@ Route::prefix(LaravelLocalization::setLocale())
                     ProjectController::class
                 )->only([
                     // 'index',
-                    // 'create',
+                    'create',
                     'store',
                 ]);
                 Route::resource(
