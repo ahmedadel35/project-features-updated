@@ -19,16 +19,17 @@ test('project have todos', function () {
 
     expect($p->todos)
         ->toHaveCount(5)
-        ->first()->body->toBeString();
+        ->first()
+        ->body->toBeString();
 });
 
-test('project have team', function() {
+test('project have team', function () {
     $p = Project::factory()->create();
 
     expect($p->team)->toHaveCount(0);
 });
 
-test('project can add users to team', function() {
+test('project can add users to team', function () {
     $p = Project::factory()->create();
 
     expect($p->team)->toHaveCount(0);
@@ -39,7 +40,7 @@ test('project can add users to team', function() {
     expect($p->team)->toHaveCount(1);
 });
 
-test('project can check if user is team member', function() {
+test('project can check if user is team member', function () {
     $p = Project::factory()->create();
     $user = User::factory()->create();
 
@@ -51,16 +52,16 @@ test('project can check if user is team member', function() {
     expect($p->isTeamMember($user))->toBeTrue();
 });
 
-test('project have owner', function() {
-    [$user,,$proj] = userWithTodos();
+test('project have owner', function () {
+    [$user, , $proj] = userWithTodos();
 
     expect($proj->owner->email)->toBe($user->email);
 });
 
-test('project owner can not be added to team', function() {
+test('project owner can not be added to team', function () {
     /** @var \App\Models\Project */
     $p = Project::factory()->create();
-    
+
     expect($p->team)->toHaveCount(0);
 
     $p->addToTeam($p->owner);
@@ -69,4 +70,23 @@ test('project owner can not be added to team', function() {
     $p->refresh();
     expect($p->team)->toHaveCount(0);
     expect($p->isTeamMember($p->owner))->toBeFalse();
+});
+
+test('project can not dublicate team members', function () {
+    /** @var \App\Models\Project */
+    $p = Project::factory()->create();
+    $user = User::factory()->create();
+
+    $p->refresh();
+    expect($p->team)->toHaveCount(0);
+
+    $p->addToTeam($user);
+    $p->refresh();
+    expect($p->team)->toHaveCount(1);
+    expect($p->isTeamMember($user))->toBeTrue();
+
+    $p->addToTeam($user);
+    $p->refresh();
+    expect($p->team)->toHaveCount(1);
+    expect($p->isTeamMember($user))->toBeTrue();
 });

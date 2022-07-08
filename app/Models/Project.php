@@ -69,7 +69,10 @@ class Project extends Model
 
     public function addToTeam(User $user): void
     {
-        if ($this->owner->email === $user->email) {
+        if (
+            $this->owner->email === $user->email ||
+            $this->isTeamMember($user)
+        ) {
             return;
         }
 
