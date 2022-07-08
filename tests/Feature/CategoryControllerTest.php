@@ -35,7 +35,7 @@ test('user can create category', function () {
 
     actingAs($user)
         ->postJson(route('categories.store', $cat))
-        ->assertCreated();
+        ->assertRedirect();
 });
 
 test('user can update only his category', function () {

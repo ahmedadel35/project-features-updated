@@ -24,10 +24,28 @@
                 </button>
             </div>
 
-            <form class="mt-5" action="{{ route('categories.store') }}" method="post" x-data="{
+            <form class="mt-5" action="{{ route('categories.store') }}" method="post" x-ref='categoryForm' x-data="{
                 name: '{{ old("title", null) }}',
-                desc: '{{ old("description", null) }}', 
-            }" x-on:submit.prevent="if (!name.length || !desc.length) return false;">
+                desc: '{{ old("description", null) }}',
+                nameErr: false,
+                descErr: false,
+                saving: false, 
+                save: function() {
+                    if (this.saving) return false;
+                    this.nameErr = this.descErr = false;
+                    if (!this.name.length) {
+                        this.nameErr = true;
+                    }
+                    if (!this.desc.length) {
+                        this.descErr = true;
+                    }
+                    if (this.nameErr || this.descErr) return false;
+;
+
+                    this.saving = true;
+                    this.$refs.categoryForm.submit();
+                },
+            }" x-on:submit.prevent="save" novalidate>
                 @if($errors->any())
                     <x-alert color="red">
                         {{ __('category.error') }}
@@ -48,11 +66,14 @@
                     <div class="w-full flex">
                         <div class="md:w-1/5"></div>
                         <div>
-                            @error('title')
-                                <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                @error('title')
                                     {{ $message }}
-                                </p>
-                            @enderror
+                                @enderror
+                                <span x-show='nameErr'>
+                                    {{ __('validation.required', ['attribute' => __('category.title')]) }}
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -64,24 +85,28 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <x-fas-info class="w-5 h-5 text-gray-500 dark:text-gray-400" />
                         </div>
-                        <textarea type="text" id="category-desc" class="input" placeholder="{{__('category.desc_pl')}}" name="description"
-                            rows="4" x-model='desc' required>
+                        <textarea type="text" id="category-desc" class="input"
+                            placeholder="{{ __('category.desc_pl') }}" name="description" rows="4"
+                            x-model='desc' required>
                         </textarea>
                     </div>
                     <div class="w-full flex">
                         <div class="md:w-1/5"></div>
                         <div>
-                            @error('description')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                    @error('description')
                                     {{ $message }}
+                                    @enderror
+                                    <span x-show='descErr'>
+                                        {{__('validation.required', ['attribute' => __('category.desc')])}}
+                                    </span>
                                 </p>
-                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="mt-4 text-end">
-                    <x-btn-with-spinner icon='fas-save' type='submit' desc='save new category'>
-                        {{__('category.create')}}
+                    <x-btn-with-spinner icon='fas-save' type='submit' desc='save new category' busy='saving'>
+                        {{ __('category.create') }}
                     </x-btn-with-spinner>
                 </div>
             </form>
