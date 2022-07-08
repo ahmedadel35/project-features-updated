@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Cviebrock\EloquentSluggable\Sluggable;
 use DB;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Project extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory;
+    use Sluggable, BelongsToThrough;
 
     /**
      * The attributes that are mass assignable.
@@ -53,6 +55,11 @@ class Project extends Model
     public function todos()
     {
         return $this->hasMany(Todo::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsToThrough(User::class, Category::class);
     }
 
     public function team(): BelongsToMany

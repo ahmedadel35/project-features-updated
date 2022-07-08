@@ -50,3 +50,15 @@ test('project can check if user is team member', function() {
     $p->refresh();
     expect($p->isTeamMember($user))->toBeTrue();
 });
+
+test('project have owner', function() {
+    [$user,,$proj] = userWithTodos();
+
+    expect($proj->owner->email)->toBe($user->email);
+});
+
+// test('project owner can add him self to team', function() {
+//     $p = Project::factory()->create();
+//     $owner = 
+
+// });
