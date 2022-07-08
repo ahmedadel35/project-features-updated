@@ -53,9 +53,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $projects = Project::whereCategoryId($category->id)->paginate();
+        // $projects = Project::whereCategoryId($category->id)->paginate();
 
-        return view('category.show', compact('projects', 'category'));
+        // return view('category.show', compact('projects'));
     }
 
     /**

@@ -28,6 +28,7 @@ class ProjectFactory extends Factory
             'slug' => $this->faker->slug,
             'cost' => $this->faker->randomFloat(2, 0, 9999.99),
             // 'logo' => 'http://images.test/posts/'.random_int(0, 9).'.jpg',
+            'info' => fake()->paragraph,
             'completed' => $this->faker->boolean,
         ];
     }

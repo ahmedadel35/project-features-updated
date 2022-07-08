@@ -5,7 +5,7 @@
     ])
 
     <div class="{{$class}}" id="{{ $id }}">
-        <div class="p-3 max-w-sm card-bg">
+        <div class="p-3 max-w-sm card-bg relative">
             <a href="{{ $url }}">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {{ $title }}

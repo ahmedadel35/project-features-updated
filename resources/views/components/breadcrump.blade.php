@@ -27,7 +27,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                         <a href="{{ $l['url'] }}"
-                            class="ml-1 text-sm font-medium text-gray-700 hover:text-gray-900 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{ __('nav.' . $l['name']) }}</a>
+                            class="ml-1 font-medium text-gray-700 hover:text-gray-900 md:ml-2 dark:text-gray-400 dark:hover:text-white @if($l['url'] === '#') text-xs @else text-sm @endif">{{ $l['url'] === '#' ? $l['name'] : __('nav.' . $l['name']) }}</a>
                     </div>
                 </li>
             @endforeach

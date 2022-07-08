@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -33,12 +34,28 @@ Route::prefix(LaravelLocalization::setLocale())
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([
                 'index',
-                'create',
+                // 'create',
                 'store',
             ]);
 
             Route::resource('categories', CategoryController::class)
-                ->except(['index', 'create', 'store'])
+                ->except(['index', 'create', 'store', 'show'])
                 ->middleware('can:see-category,category');
+
+            // projects
+            Route::get('c/{category}/projects', [
+                ProjectController::class,
+                'index',
+            ])
+                ->name('categories.show')
+                ->middleware('can:see-category,category');
+            Route::resource(
+                'c/{category}/projects',
+                ProjectController::class
+            )->only([
+                // 'index',
+                'create',
+                'store',
+            ]);
         });
     });
