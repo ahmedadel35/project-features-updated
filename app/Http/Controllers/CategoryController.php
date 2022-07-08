@@ -46,16 +46,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $req = $request->validate(self::VALIDATION_RULES);
+
         $category = Auth::user()
             ->categories()
-            ->create($request->validate(self::VALIDATION_RULES));
+            ->create($req);
 
-        return response()->json(
-            [
-                'slug' => $category->slug,
-            ],
-            Response::HTTP_CREATED
-        );
+        return redirect()->route('categories.show', $category->slug);
     }
 
     /**

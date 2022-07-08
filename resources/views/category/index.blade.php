@@ -5,7 +5,8 @@
                 <x-breadcrump current='categories' />
             </div>
             <div class="my-2">
-                <button class="btn blue">
+                {{-- modal toggle --}}
+                <button class="btn blue" x-on:click.prevent="modelOpen = !modelOpen">
                     <x-fas-plus />
                     Create
                 </button>
@@ -16,7 +17,7 @@
     <div class="flex flex-row flex-wrap">
         @foreach($categories as $cat)
             <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4">
-                <div class="p-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 transition duration-200"
+                <div class="p-3 max-w-sm card-bg"
                     id="cat{{ $cat->slug }}">
                     <a href="{{ route('categories.show', $cat->slug) }}">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -40,7 +41,8 @@
                                 method="post">
                                 @csrf
                                 @method('DELETE')
-                                <x-btn-with-spinner class="red" type="submit" icon='fas-trash' desc='delete category {{$cat->slug}}'>
+                                <x-btn-with-spinner class="red" type="submit" icon='fas-trash'
+                                    desc='delete category {{ $cat->slug }}'>
                                     Delete
                                 </x-btn-with-spinner>
                             </form>
@@ -50,4 +52,7 @@
             </div>
         @endforeach
     </div>
+
+    {{-- create modal --}}
+    @include('category.create')
 </x-app-layout>
