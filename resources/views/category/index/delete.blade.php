@@ -15,9 +15,13 @@
 
         $dispatch('toast', {type: 'success', text: '{{__("category.success")}}' })
 
-        {{-- remove element from dom --}}
-        const el = document.querySelector('#' + slug)
-        el.remove();
+        @if (isset($to))
+            location.href = '{{$to}}';
+        @else
+            {{-- remove element from dom --}}
+            const el = document.querySelector('#' + slug)
+            el.remove();
+        @endif
     },
 }">
     <x-btn-with-spinner class="red" type="button" icon='fas-trash'

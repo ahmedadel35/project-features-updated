@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Project;
 use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +53,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        
+        $projects = Project::whereCategoryId($category->id)->paginate();
+
+        return view('category.show', compact('projects', 'category'));
     }
 
     /**
