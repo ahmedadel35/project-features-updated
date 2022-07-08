@@ -57,8 +57,16 @@ test('project have owner', function() {
     expect($proj->owner->email)->toBe($user->email);
 });
 
-// test('project owner can add him self to team', function() {
-//     $p = Project::factory()->create();
-//     $owner = 
+test('project owner can not be added to team', function() {
+    /** @var \App\Models\Project */
+    $p = Project::factory()->create();
+    
+    expect($p->team)->toHaveCount(0);
 
-// });
+    $p->addToTeam($p->owner);
+
+    // still have no team
+    $p->refresh();
+    expect($p->team)->toHaveCount(0);
+    expect($p->isTeamMember($p->owner))->toBeFalse();
+});
