@@ -16,9 +16,8 @@
 
     <div class="flex flex-row flex-wrap">
         @foreach($categories as $cat)
-            <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4">
-                <div class="p-3 max-w-sm card-bg"
-                    id="cat{{ $cat->slug }}">
+            <div class="w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4" id="{{$cat->slug}}">
+                <div class="p-3 max-w-sm card-bg">
                     <a href="{{ route('categories.show', $cat->slug) }}">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {{ $cat->title }}
@@ -36,16 +35,7 @@
                                 <x-fas-pencil />
                                 Edit
                             </button>
-                            <form class="inline-block"
-                                action="{{ route('categories.destroy', $cat->slug) }}"
-                                method="post">
-                                @csrf
-                                @method('DELETE')
-                                <x-btn-with-spinner class="red" type="submit" icon='fas-trash'
-                                    desc='delete category {{ $cat->slug }}'>
-                                    Delete
-                                </x-btn-with-spinner>
-                            </form>
+                            @include('category.index.delete')
                         </div>
                     </div>
                 </div>
