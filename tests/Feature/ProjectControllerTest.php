@@ -101,3 +101,17 @@ test('only category owner can create projects for it', function() {
         ->assertOk()
         ->assertSee(__('nav.create_project'));
 });
+
+test('only category owner can edit project', function() {
+    [$user, $cat, $proj] = userWithTodos();
+    // try with any user
+    actingAs()
+        ->get(route('projects.edit', [$cat->slug, $proj->slug]))
+        ->assertForbidden();
+
+    // try with the owner
+    actingAs($user)
+        ->get(route('projects.edit', [$cat->slug, $proj->slug]))
+        ->assertOk()
+        ->assertSee(__('nav.edit_project'));
+});

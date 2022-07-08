@@ -15,12 +15,11 @@
                     ]" current='projects' />
             </div>
             <div class="my-2">
-                {{-- modal toggle --}}
-                <a class="btn blue" href="{{ route('projects.create', $category->slug) }}"
-                    aria-describedby="create new project">
-                    <x-fas-plus />
+                <x-btn-with-spinner tag='a'
+                    href="{{ route('projects.create', $category->slug) }}"
+                    desc="create new project" icon="fas-plus">
                     {{ __('category.create') }}
-                </a>
+                </x-btn-with-spinner>
             </div>
         </div>
     </x-slot>
@@ -51,9 +50,12 @@
                     </x-slot>
 
                     <x-slot name='footer'>
-                        <button class="btn cyan">
-                            Edit
-                        </button>
+                        <x-btn-with-spinner tag='a'
+                            href="{{ route('projects.edit', [$category->slug, $p->slug]) }}"
+                            desc="edit project {{ $p->slug }}" icon="fas-pencil">
+                            {{ __('category.edit') }}
+                        </x-btn-with-spinner>
+
                         <x-btn-delete :url="route('projects.destroy', [$category->slug, $p->slug])" :id="$p->slug" />
                     </x-slot>
                 </x-card>

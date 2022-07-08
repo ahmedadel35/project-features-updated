@@ -78,9 +78,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project)
+    public function edit(Category $category, Project $project)
     {
-        //
+        SEOTools::setTitle(__('nav.edit_project') . ' ' . $project->title);
+
+        return view('project.edit', compact('category', 'project'));
     }
 
     /**

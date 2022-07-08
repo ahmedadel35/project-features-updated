@@ -2,10 +2,11 @@
     'type' => 'button',
     'icon' => null,
     'desc' => '',
-    'busy' => 'busy'
+    'busy' => 'busy',
+    'tag' => 'button',
     ])
 
-    <button {{ $attributes->merge(['class' => 'btn']) }}
+    <{{$tag}} {{ $attributes->merge(['class' => 'btn']) }}
         type="{{ $type }}" aria-describedby="{{ $desc }}" @if($busy === 'busy') x-data="{
         busy: false,
     }" x-on:click="busy = true" @endif>
@@ -14,4 +15,4 @@
             @endif
             <x-btn-spinner x-show='{{ $busy }}' />
             {{ $slot }}
-    </button>
+    </{{$tag}}>
