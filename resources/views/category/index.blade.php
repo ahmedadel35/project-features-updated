@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name='header'>
-        <div class="flex flex-wrap flex-row justify-between">
+        <div class="flex flex-row flex-wrap justify-between">
             <div class="my-2">
                 <x-breadcrump current='categories' />
             </div>
@@ -30,7 +30,7 @@
                     <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
                         {{ $cat->description }}
                     </p>
-                    <div class="px-2 py-4 text-blue-600 dark:text-blue-400 rounded">
+                    <div class="px-2 py-4 text-blue-600 rounded dark:text-blue-400">
                         Projects: {{ $cat->projects_count }}
                     </div>
                 </x-slot>
@@ -45,7 +45,7 @@
                         <x-fas-pencil />
                         {{ __('category.edit') }}
                     </button>
-                    @include('category.index.delete')
+                    <x-btn-delete :url="route('categories.destroy', $cat->slug)" :id="$cat->slug" />
                 </x-slot>
             </x-card>
         @endforeach

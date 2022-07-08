@@ -27,7 +27,7 @@ class CategoryFactory extends Factory
             'user_id' => fn () => User::factory(),
             'title' => $this->faker->sentence(3),
             'slug' => Str::slug(fake()->sentence(2)),
-            'description' => fake()->paragraph,
+            'description' => fake()->paragraph(1),
         ];
     }
 }

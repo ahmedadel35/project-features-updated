@@ -1,10 +1,16 @@
+@props([
+    'url' => '',
+    'to' => null,
+    'id' => '',
+])
+
 <div class="inline-block" x-data="{
     removing: false,
     remove: async function(slug) {
         if (this.removing || !slug) return;
         this.removing = true;
 
-        const res = await axios.delete('{{ route('categories.destroy', $cat->slug) }}').catch(err => {});
+        const res = await axios.delete('{{$url}}').catch(err => {});
 
         this.removing = false;
 
@@ -25,7 +31,7 @@
     },
 }">
     <x-btn-with-spinner class="red" type="button" icon='fas-trash'
-        desc='delete category {{ $cat->slug }}' busy='removing' x-on:click.prevent="remove('{{$cat->slug}}')">
+        desc='delete element {{ $id }}' busy='removing' x-on:click.prevent="remove('{{ $id }}')">
         {{__('category.delete')}}
     </x-btn-with-spinner>
 </div>

@@ -54,6 +54,11 @@ class DatabaseSeeder extends Seeder
                     ]);
             });
 
+            
+        foreach(range(1, 3) as $i) {
+            Project::first()->addToTeam(User::find($i));
+        }
+
         DB::commit();
     }
 }

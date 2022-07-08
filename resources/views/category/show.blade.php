@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="my-2 flex justify-center">
+    <div class="flex justify-center my-2">
         <x-card :id="$category->slug" class="w-full">
             <x-slot name='title'>
                 {{ $category->title }}
@@ -12,10 +12,7 @@
             </x-slot>
 
             <x-slot name='footer'>
-                @include('category.index.delete', [
-                'cat' => $category,
-                'to' => route('categories.index')
-                ])
+                <x-btn-delete :url="route('categories.destroy', $category->slug)" :to="route('categories.index')" :id="$category->slug" />
             </x-slot>
         </x-card>
     </div>
