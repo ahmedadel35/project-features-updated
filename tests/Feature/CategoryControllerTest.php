@@ -59,7 +59,7 @@ test('user can update only his category', function () {
             route('categories.update', $cat->slug),
             compact('title', 'description')
         )
-        ->assertNoContent();
+        ->assertRedirect();
 
     expect(Category::whereSlug($cat->slug)->first())->title->toBe($title);
 });

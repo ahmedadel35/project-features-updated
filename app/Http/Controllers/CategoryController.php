@@ -23,6 +23,7 @@ class CategoryController extends Controller
     {
         $categories = Category::withCount('projects')
             ->whereUserId(Auth::id())
+            ->orderByDesc('updated_at')
             ->paginate();
 
         return view('category.index', compact('categories'));
@@ -88,7 +89,7 @@ class CategoryController extends Controller
     {
         $category->update($request->validate(self::VALIDATION_RULES));
 
-        return response()->noContent();
+        return redirect()->route('categories.show', $category);
     }
 
     /**

@@ -14,7 +14,7 @@
 
     <!-- Scripts -->
     <style>
-        [x-clock] {
+        [x-cloak] {
             display: none;
         }
     </style>
@@ -25,19 +25,17 @@
     <div class="min-h-screen">
         @include('layouts.navigation')
 
-        <div x-data="{ modelOpen: false }">
-            <!-- Page Heading -->
-            <header class="bg-white shadow pt-16">
-                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {{ $header ?? '' }}
-                </div>
-            </header>
+        <!-- Page Heading -->
+        <header class="bg-white shadow pt-16">
+            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                {{ $header ?? '' }}
+            </div>
+        </header>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        <!-- Page Content -->
+        <main>
+            {{ $slot }}
+        </main>
         <x-toast />
         @vite('resources/js/app.ts')
     </div>

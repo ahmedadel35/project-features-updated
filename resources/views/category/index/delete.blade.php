@@ -22,6 +22,6 @@
 }">
     <x-btn-with-spinner class="red" type="button" icon='fas-trash'
         desc='delete category {{ $cat->slug }}' busy='removing' x-on:click.prevent="remove('{{$cat->slug}}')">
-        Delete
+        {{__('category.delete')}}
     </x-btn-with-spinner>
 </div>

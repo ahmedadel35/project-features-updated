@@ -6,7 +6,12 @@
             </div>
             <div class="my-2">
                 {{-- modal toggle --}}
-                <button class="btn blue" x-on:click.prevent="modelOpen = !modelOpen">
+                <button class="btn blue" x-data x-on:click.prevent="$dispatch('category-modal', {
+                    editMode: false,
+                    slug: '',
+                    name: '',
+                    desc: '',
+                })">
                     <x-fas-plus />
                     Create
                 </button>
@@ -31,9 +36,14 @@
                     </div>
                     <div class="card-footer flex flex-row flex-wrap">
                         <div class="w-full text-end">
-                            <button class="btn cyan" type="button">
+                            <button class="btn cyan" x-data type="button" x-on:click.prevent="$dispatch('category-modal', {
+                                editMode: true,
+                                slug: '{{$cat->slug}}',
+                                name: '{{$cat->title}}',
+                                desc: '{{$cat->description}}',
+                            })">
                                 <x-fas-pencil />
-                                Edit
+                                {{__('category.edit')}}
                             </button>
                             @include('category.index.delete')
                         </div>
