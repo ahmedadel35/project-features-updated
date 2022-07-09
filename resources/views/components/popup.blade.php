@@ -1,6 +1,5 @@
 @props([
     'id' => 'pop-modal' . random_int(1, 9999),
-    'head'
     ])
 
     <div x-data="{
@@ -36,7 +35,7 @@
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            {{ $head }}
+                            {{ __('project.confirm') }}
                         </h3>
                         <button x-on:click.prevent="confirm" type="button"
                             class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">

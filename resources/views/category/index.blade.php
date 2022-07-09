@@ -55,6 +55,7 @@
         </div>
     </div>
 
+    <x-popup />
     {{-- create modal --}}
     @include('category.create')
 </x-app-layout>

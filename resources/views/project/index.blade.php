@@ -86,6 +86,6 @@
             {{ $projects->links() }}
         </div>
 
-        <x-popup :head="__('project.confirm')" />
+        <x-popup />
     </div>
 </x-app-layout>
