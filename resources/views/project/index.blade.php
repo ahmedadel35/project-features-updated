@@ -48,13 +48,11 @@
                             {{ $p->info }}
                         </p>
 
-                        <hr class='my-3 border border-gray-600 dark:border-gray-300' wire:ignore />
-                        <div class='px-2'>
+                        {{-- <hr class='my-3 border border-gray-600 dark:border-gray-300' /> --}}
+                        <div class='flex my-1 -space-x-4 justify-end'>
                             @foreach(
                                 $p->team as $team_user)
-                                <img data-src="{{ $team_user->profile_photo_url }}"
-                                    class='inline object-cover w-10 h-10 -m-2 border-2 border-gray-300 rounded-full lazyload'
-                                    alt='{{ $team_user->name }} profile photo' title='{{ $team_user->name }}' />
+                                <x-avatar src="{{ $team_user->avatar }}" alt='{{ $team_user->name }} profile photo' title='{{ $team_user->name }}' />
                             @endforeach
                         </div>
                     </x-slot>

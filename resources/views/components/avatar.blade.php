@@ -13,5 +13,5 @@
         </svg>
     </div>
 
-    <img src="{{$src}}" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" x-on:load.window="show = true" x-cloak />
+    <img src="{{$src}}" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" x-on:load.window="show = true" x-cloak {{$attributes}} />
 </div>
