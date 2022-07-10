@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name='header'>
         <div class="flex flex-row flex-wrap justify-between">
-            <div class="my-2">
+            <div class="my-1 md:my-2">
                 <x-breadcrump :links="[
                         [
                             'url' => route('categories.index'),
@@ -14,7 +14,7 @@
                         ],
                     ]" current='projects' />
             </div>
-            <div class="my-2">
+            <div class="my-1 md:my-2">
                 <x-btn-with-spinner tag='a'
                     href="{{ route('projects.create', $category->slug) }}"
                     desc="create new project" icon="fas-plus">
@@ -22,6 +22,9 @@
                 </x-btn-with-spinner>
             </div>
         </div>
+
+        <hr class='my-3 border border-gray-600 dark:border-gray-300' />
+        @include('project.index.filters')
     </x-slot>
 
     <div class="flex flex-row flex-wrap">
@@ -48,22 +51,23 @@
                             {{ $p->info }}
                         </p>
 
-                        {{-- <hr class='my-3 border border-gray-600 dark:border-gray-300' /> --}}
-                        <div class='flex my-1 -space-x-4 justify-end' id="{{$p->slug}}-team">
+                        <div class='flex justify-end my-1 -space-x-4' id="{{ $p->slug }}-team">
                             @foreach(
                                 $p->team as $team_user)
-                                <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
+                                <x-avatar :src="$team_user->avatar" :title="$team_user->name"
+                                    alt='{{ $team_user->name }} profile photo' />
                             @endforeach
                         </div>
                     </x-slot>
 
                     <x-slot name='footer'>
-                        <button type="button" class="btn teal" aria-describedby="invite user to team" x-data x-on:click.prevent="$dispatch('project-invite-modal', {
-                            slug: '{{$p->slug}}',
-                            url: '{{route('projects.invite', [$category->slug, $p->slug])}}'
+                        <button type="button" class="btn teal" aria-describedby="invite user to team" x-data
+                            x-on:click.prevent="$dispatch('project-invite-modal', {
+                            slug: '{{ $p->slug }}',
+                            url: '{{ route('projects.invite', [$category->slug, $p->slug]) }}'
                         })">
                             <x-fas-users />
-                            {{__('project.invite')}}
+                            {{ __('project.invite') }}
                         </button>
                         <x-btn-with-spinner tag='a'
                             href="{{ route('projects.edit', [$category->slug, $p->slug]) }}"
@@ -79,7 +83,7 @@
             @endforelse
         </div>
         <div class="w-full md:w-1/4">
-            <div class="flex justify-center my-2 mx-auto">
+            <div class="flex justify-center mx-auto my-2">
                 <x-card :id="$category->slug" class="w-full">
                     <x-slot name='title'>
                         {{ $category->title }}
