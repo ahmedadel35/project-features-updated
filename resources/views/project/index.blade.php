@@ -58,6 +58,10 @@
                     </x-slot>
 
                     <x-slot name='footer'>
+                        <button type="button" class="btn teal" aria-describedby="invite user to team">
+                            <x-fas-users />
+                            {{__('project.invite')}}
+                        </button>
                         <x-btn-with-spinner tag='a'
                             href="{{ route('projects.edit', [$category->slug, $p->slug]) }}"
                             desc="edit project {{ $p->slug }}" icon="fas-pencil">
