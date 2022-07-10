@@ -29,13 +29,19 @@ class DatabaseSeeder extends Seeder
         $cats = Category::factory()
             ->has(
                 Project::factory()
-                    ->count(19)
+                    ->count(7)
                     ->has(Todo::factory()->count(random_int(3, 8)))
             )
             ->count(5)
             ->create([
                 'user_id' => $admin->id,
             ]);
+
+        foreach (range(1, 3) as $i) {
+            Project::latest()
+                ->first()
+                ->addToTeam(User::factory()->create());
+        }
 
         User::factory(3)
             ->create()
@@ -53,11 +59,6 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $user->id,
                     ]);
             });
-
-            
-        foreach(range(1, 3) as $i) {
-            Project::first()->addToTeam(User::find($i));
-        }
 
         DB::commit();
     }
