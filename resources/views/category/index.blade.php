@@ -20,7 +20,7 @@
     </x-slot>
 
     <div class="flex flex-row flex-wrap">
-        @foreach($categories as $cat)
+        @forelse($categories as $cat)
             <x-card :id="$cat->slug" :url="route('categories.show', $cat->slug)">
                 <x-slot name='title'>
                     {{ $cat->title }}
@@ -48,7 +48,9 @@
                     <x-btn-delete :url="route('categories.destroy', $cat->slug)" :id="$cat->slug" />
                 </x-slot>
             </x-card>
-        @endforeach
+        @empty
+            @include('category.index.empty')
+        @endforelse
 
         <div class="py-5">
             {{ $categories->links() }}
