@@ -42,13 +42,13 @@ Route::prefix(LaravelLocalization::setLocale())
                 Route::resource(
                     'categories',
                     CategoryController::class
-                )->except(['index', 'create', 'store', 'show']);
+                )->except(['index', 'create', 'store']);
 
                 // projects
-                Route::get('c/{category}/projects', [
-                    ProjectController::class,
-                    'index',
-                ])->name('categories.show');
+                // Route::get('c/{category}/projects', [
+                //     ProjectController::class,
+                //     'index',
+                // ])->name('categories.show');
                 Route::resource(
                     'c/{category}/projects',
                     ProjectController::class

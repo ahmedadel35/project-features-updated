@@ -55,9 +55,14 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        // $projects = Project::whereCategoryId($category->id)->paginate();
+        SEOTools::setTitle($category->title);
 
-        // return view('category.show', compact('projects'));
+        $projects = Project::with(['team'])
+            ->whereCategoryId($category->id)
+            ->orderByDesc('updated_at')
+            ->paginate();
+
+        return view('project.index', compact('projects', 'category'));
     }
 
     /**

@@ -26,14 +26,7 @@ class ProjectController extends Controller
      */
     public function index(Category $category)
     {
-        SEOTools::setTitle($category->title);
-
-        $projects = Project::with(['team'])
-            ->whereCategoryId($category->id)
-            ->orderByDesc('updated_at')
-            ->paginate();
-
-        return view('project.index', compact('projects', 'category'));
+    
     }
 
     /**
