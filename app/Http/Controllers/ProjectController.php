@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOTools;
+use DB;
 
 class ProjectController extends Controller
 {
@@ -24,7 +25,8 @@ class ProjectController extends Controller
     {
         SEOTools::setTitle($category->title);
 
-        $projects = Project::whereCategoryId($category->id)
+        $projects = Project::with(['team'])
+            ->whereCategoryId($category->id)
             ->orderByDesc('updated_at')
             ->paginate();
 
