@@ -58,7 +58,7 @@
                     </x-slot>
 
                     <x-slot name='footer'>
-                        <button type="button" class="btn teal" aria-describedby="invite user to team">
+                        <button type="button" class="btn teal" aria-describedby="invite user to team" x-data x-on:click.prevent="$dispatch('project-invite-modal', {slug: '{{$p->slug}}'})">
                             <x-fas-users />
                             {{__('project.invite')}}
                         </button>
@@ -101,4 +101,5 @@
     </div>
 
     <x-popup />
+    @include('project.index.invite-modal')
 </x-app-layout>

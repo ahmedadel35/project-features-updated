@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Blade;
 use DB;
+use View;
 
 class ProjectController extends Controller
 {
@@ -118,5 +121,23 @@ class ProjectController extends Controller
         $project->delete();
 
         return response()->noContent();
+    }
+
+    public function invite(Category $category, Project $project)
+    {
+        $req = request()->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::firstWhere('email', '=', $req['email']);
+
+        $project->addToTeam($user);
+
+        $html = file_get_contents(View::getFinder()->find('components.avatar'));
+
+        return Blade::render(str_replace(["@props(['src'])"], '', $html), [
+            'src' => $user->avatar,
+            'attributes' => '',
+        ]);
     }
 }

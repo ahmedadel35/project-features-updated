@@ -1,6 +1,5 @@
-@props([
-    'src'
-])
+{{-- keep this line updated with project controller invite method --}}
+@props(['src'])
 
 <div x-data="{
     show: false,

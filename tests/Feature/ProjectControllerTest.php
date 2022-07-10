@@ -88,7 +88,7 @@ test('only project owner can delete it', function () {
     expect(Project::whereSlug($proj->slug)->exists())->toBeFalse();
 });
 
-test('only category owner can create projects for it', function() {
+test('only category owner can create projects for it', function () {
     [$user, $cat] = userWithTodos();
     // try with any user
     actingAs()
@@ -102,7 +102,7 @@ test('only category owner can create projects for it', function() {
         ->assertSee(__('nav.create_project'));
 });
 
-test('only category owner can edit project', function() {
+test('only category owner can edit project', function () {
     [$user, $cat, $proj] = userWithTodos();
     // try with any user
     actingAs()
@@ -114,4 +114,24 @@ test('only category owner can edit project', function() {
         ->get(route('projects.edit', [$cat->slug, $proj->slug]))
         ->assertOk()
         ->assertSee(__('nav.edit_project'));
+});
+
+test('only project owner can invite users to team', function () {
+    [$user, $cat, $proj] = userWithTodos();
+    $teamUser = User::factory()->create();
+
+    // try with any user
+    actingAs()
+        ->post(route('projects.invite', [$cat->slug, $proj->slug]), [
+            'email' => $teamUser->email,
+        ])
+        ->assertForbidden();
+
+    // try with owner
+    actingAs($user)
+        ->post(route('projects.invite', [$cat->slug, $proj->slug]), [
+            'email' => $teamUser->email,
+        ])
+        ->assertOk()
+        ->assertSee($teamUser->avatar);
 });

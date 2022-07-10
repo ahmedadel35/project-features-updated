@@ -57,16 +57,21 @@ Route::prefix(LaravelLocalization::setLocale())
                     'create',
                     'store',
                 ]);
-                Route::resource(
-                    'c/{category}/projects',
-                    ProjectController::class
-                )
-                    ->except([
-                        'index',
-                        'create',
-                        'store',
-                    ])
-                    ->middleware('can:see-project,category,project');
+
+                Route::prefix('c/{category}')
+                    ->middleware('can:see-project,category,project')
+                    ->group(function () {
+                        Route::resource('projects', ProjectController::class)->except([
+                            'index',
+                            'create',
+                            'store',
+                        ]);
+
+                        Route::post('/{project}/invite', [
+                            ProjectController::class,
+                            'invite',
+                        ])->name('projects.invite');
+                    });
             });
         });
     });
