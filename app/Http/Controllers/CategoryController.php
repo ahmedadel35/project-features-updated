@@ -7,6 +7,8 @@ use App\Models\Project;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {
@@ -57,10 +59,13 @@ class CategoryController extends Controller
     {
         SEOTools::setTitle($category->title);
 
-        $projects = Project::with(['team'])
-            ->whereCategoryId($category->id)
-            ->orderByDesc('updated_at')
-            ->paginate();
+        $projects = QueryBuilder::for(Project::class)
+            ->with('team')
+            ->allowedFilters([
+                AllowedFilter::exact('completed'),
+            ])
+            ->paginate()
+            ->appends(request()->query());
 
         return view('project.index', compact('projects', 'category'));
     }

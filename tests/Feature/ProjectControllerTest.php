@@ -163,3 +163,28 @@ test('project owner can not invite user twice', function () {
         ])
         ->assertStatus(422);
 });
+
+test('user can see only completed projects', function () {
+    [$user, $cat, $proj] = userWithTodos(projects_count: 5);
+    $proj->first()->update(['completed' => true]);
+
+    // create non completed project
+    $nonCompleted = Project::factory()->create([
+        'category_id' => $cat->id,
+        'completed' => false,
+    ]);
+
+    $url = route('categories.show', $cat->slug);
+
+    actingAs($user)
+        ->get($url . '?filter[completed]=true')
+        ->assertOk()
+        ->assertSee($proj->first()->slug)
+        ->assertDontSee($nonCompleted->slug);
+
+    actingAs($user)
+        ->get($url . '?filter[completed]=false')
+        ->assertOk()
+        ->assertDontSee($proj->first()->slug)
+        ->assertSee($nonCompleted->slug);
+});
