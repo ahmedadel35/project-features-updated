@@ -26,7 +26,7 @@
 
     <div class="flex flex-row flex-wrap">
         <div class="flex flex-row flex-wrap w-full md:w-3/4">
-            @foreach($projects as $p)
+            @forelse($projects as $p)
                 <x-card :id='$p->slug' class="w-full p-3 sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4">
                     <x-slot name='title'>
                         {{ $p->name }}
@@ -71,7 +71,9 @@
                         <x-btn-delete :url="route('projects.destroy', [$category->slug, $p->slug])" :id="$p->slug" />
                     </x-slot>
                 </x-card>
-            @endforeach
+            @empty
+                @include('project.index.empty')
+            @endforelse
         </div>
         <div class="w-full md:w-1/4">
             <div class="flex justify-center my-2 mx-auto">
@@ -93,11 +95,10 @@
                 </x-card>
             </div>
         </div>
-
-        <div class="py-5">
-            {{ $projects->links() }}
-        </div>
-
-        <x-popup />
     </div>
+    <div class="py-5">
+        {{ $projects->links() }}
+    </div>
+
+    <x-popup />
 </x-app-layout>
