@@ -49,16 +49,19 @@
                         </p>
 
                         {{-- <hr class='my-3 border border-gray-600 dark:border-gray-300' /> --}}
-                        <div class='flex my-1 -space-x-4 justify-end'>
+                        <div class='flex my-1 -space-x-4 justify-end' id="{{$p->slug}}-team">
                             @foreach(
                                 $p->team as $team_user)
-                                <x-avatar src="{{ $team_user->avatar }}" alt='{{ $team_user->name }} profile photo' title='{{ $team_user->name }}' />
+                                <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
                             @endforeach
                         </div>
                     </x-slot>
 
                     <x-slot name='footer'>
-                        <button type="button" class="btn teal" aria-describedby="invite user to team" x-data x-on:click.prevent="$dispatch('project-invite-modal', {slug: '{{$p->slug}}'})">
+                        <button type="button" class="btn teal" aria-describedby="invite user to team" x-data x-on:click.prevent="$dispatch('project-invite-modal', {
+                            slug: '{{$p->slug}}',
+                            url: '{{route('projects.invite', [$category->slug, $p->slug])}}'
+                        })">
                             <x-fas-users />
                             {{__('project.invite')}}
                         </button>

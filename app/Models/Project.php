@@ -67,16 +67,17 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_user');
     }
 
-    public function addToTeam(User $user): void
+    public function addToTeam(User $user): bool
     {
         if (
             $this->owner->email === $user->email ||
             $this->isTeamMember($user)
         ) {
-            return;
+            return false;
         }
 
         $this->team()->attach($user);
+        return true;
     }
 
     public function isTeamMember(User $user): bool

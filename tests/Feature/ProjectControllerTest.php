@@ -135,3 +135,31 @@ test('only project owner can invite users to team', function () {
         ->assertOk()
         ->assertSee($teamUser->avatar);
 });
+
+test('project owner can not invite un registered user', function () {
+    [$user, $cat, $proj] = userWithTodos();
+    // try with owner
+    actingAs($user)
+        ->postJson(route('projects.invite', [$cat->slug, $proj->slug]), [
+            'email' => fake()->email,
+        ])
+        ->assertStatus(422);
+});
+
+test('project owner can not invite user twice', function () {
+    [$user, $cat, $proj] = userWithTodos();
+    $teamUser = User::factory()->create();
+
+    actingAs($user)
+        ->post(route('projects.invite', [$cat->slug, $proj->slug]), [
+            'email' => $teamUser->email,
+        ])
+        ->assertOk()
+        ->assertSee($teamUser->avatar);
+
+    actingAs($user)
+        ->post(route('projects.invite', [$cat->slug, $proj->slug]), [
+            'email' => $teamUser->email,
+        ])
+        ->assertStatus(422);
+});

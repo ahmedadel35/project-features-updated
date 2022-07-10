@@ -131,13 +131,30 @@ class ProjectController extends Controller
 
         $user = User::firstWhere('email', '=', $req['email']);
 
-        $project->addToTeam($user);
+        if (!$project->addToTeam($user)) {
+            // user already member of this team
+            return response()->json(
+                [
+                    'message' => __('project.is_team'),
+                ],
+                422
+            );
+        }
 
         $html = file_get_contents(View::getFinder()->find('components.avatar'));
 
-        return Blade::render(str_replace(["@props(['src'])"], '', $html), [
-            'src' => $user->avatar,
-            'attributes' => '',
-        ]);
+        return Blade::render(
+            str_replace(
+                ["@props(['src', 'title', 'id' => 'a' . random_int(1, 6999)])"],
+                '',
+                $html
+            ),
+            [
+                'src' => $user->avatar,
+                'id' => 'a' . random_int(1, 9999),
+                'title' => $user->name,
+                'attributes' => "alt='" . $user->name . " avatar'",
+            ]
+        );
     }
 }
