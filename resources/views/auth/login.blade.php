@@ -15,16 +15,26 @@
         <form method="POST" action="{{ route('login') }}" class="">
             @csrf
             <div class="my-2" x-data="{
-                setVal: function() {
+                setVal: function(m, p) {
                     const email = document.querySelector('#email');
                     const pass = document.querySelector('#password');
 
-                    email.value = 'admin@admin.com'
-                    pass.value = 'password';
+                    email.value = m;
+                    pass.value = p;
                 }
             }">
-                <x-button type='button' class="bg-red-600" x-on:click.prevent="setVal()">
+                <x-button type='button' class="btn lime" x-on:click.prevent="setVal(
+                    'admin@site.com',
+                    'password',
+                )">
                     Admin
+                </x-button>
+                
+                <x-button type='button' class="btn red" x-on:click.prevent="setVal(
+                    'user@site.com',
+                    'password',
+                )">
+                    User
                 </x-button>
             </div>
 

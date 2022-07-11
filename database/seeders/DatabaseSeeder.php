@@ -23,7 +23,12 @@ class DatabaseSeeder extends Seeder
 
         $admin = User::factory()->create([
             'name' => 'Ahmed Adel',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@site.com',
+        ]);
+
+        $user = User::factory()->create([
+            'name' => 'Ahmed Adel',
+            'email' => 'user@site.com',
         ]);
 
         $cats = Category::factory()
@@ -36,12 +41,6 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'user_id' => $admin->id,
             ]);
-
-        foreach (range(1, 3) as $i) {
-            Project::latest()
-                ->first()
-                ->addToTeam(User::factory()->create());
-        }
 
         User::factory(3)
             ->create()
@@ -59,6 +58,13 @@ class DatabaseSeeder extends Seeder
                         'user_id' => $user->id,
                     ]);
             });
+
+        Project::limit(20)
+            ->get()
+            ->each->addToTeam($user);
+        Category::factory()
+            ->has(Project::factory()->count(20))
+            ->create(['user_id' => $user->id]);
 
         DB::commit();
     }

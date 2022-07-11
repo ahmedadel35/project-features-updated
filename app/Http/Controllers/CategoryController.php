@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Project;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -62,11 +63,9 @@ class CategoryController extends Controller
         $projects = QueryBuilder::for(Project::class)
             ->with('team')
             ->defaultSort('-updated_at')
-            ->allowedFilters([
-                AllowedFilter::exact('completed'),
-            ])
+            ->allowedFilters([AllowedFilter::exact('completed')])
             ->allowedSorts('name', 'cost', 'updated_at')
-            ->paginate()
+            ->simplePaginate()
             ->appends(request()->query());
 
         return view('project.index', compact('projects', 'category'));

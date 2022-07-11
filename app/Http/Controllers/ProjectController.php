@@ -7,8 +7,11 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Auth;
 use Blade;
 use DB;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 use View;
 
 class ProjectController extends Controller
@@ -24,9 +27,34 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+    public function index()
     {
-    
+        $categories = Category::whereUserId(Auth::id())
+            ->get(['id'])
+            ->pluck('id');
+
+        $invitedToProjects = DB::table('project_user')
+            ->where('user_id', Auth::id())
+            ->get('project_id')
+            ->pluck('project_id');
+
+        $projects = QueryBuilder::for(Project::class)
+            ->with('team', 'category')
+            ->orWhere(
+                fn($q) => $q
+                    ->whereIn('id', $invitedToProjects)
+                    ->orWhereIn('category_id', $categories)
+            )
+            ->defaultSort('-updated_at')
+            ->allowedFilters([AllowedFilter::exact('completed')])
+            ->allowedSorts('name', 'cost', 'updated_at')
+            ->simplePaginate()
+            ->appends(request()->query());
+
+        return view('project.index', [
+            'projects' => $projects,
+            'category' => null,
+        ]);
     }
 
     /**
