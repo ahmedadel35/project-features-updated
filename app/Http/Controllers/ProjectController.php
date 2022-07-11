@@ -128,7 +128,7 @@ class ProjectController extends Controller
 
         $tasks = Todo::whereProjectId($project->id)->paginate();
 
-        return view('project.show', compact('category', 'project', 'tasks'));
+        return view('task.index', compact('category', 'project', 'tasks'));
     }
 
     /**
