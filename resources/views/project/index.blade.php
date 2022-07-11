@@ -105,7 +105,7 @@
     </div>
 
     <button
-        class="fixed !p-0 !rounded-full right-5 bottom-32 btn teal w-10 h-10 opacity-80 transition-opacity hover:opacity-100"
+        class="md:hidden fixed !p-0 !rounded-full right-5 bottom-32 btn teal w-10 h-10 opacity-80 transition-opacity hover:opacity-100"
         x-data x-on:click.prevent="$dispatch('filter-modal', {})">
         <x-fas-filter class="!w-5 !h-5 !m-0" />
     </button>
