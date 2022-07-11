@@ -73,7 +73,7 @@ Route::prefix(LaravelLocalization::setLocale())
                     });
             });
 
-            Route::get('projects', [ProjectController::class, 'index'])->name(
+            Route::get('projects/{project_tab}', [ProjectController::class, 'index'])->name(
                 'projects.index'
             );
         });

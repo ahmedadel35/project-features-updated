@@ -26,6 +26,8 @@
         @include('project.index.filters')
     </x-slot>
 
+    @includeIf('project.index.tabs', [$category === null])
+
     <div class="flex flex-row flex-wrap">
         <div class="flex flex-row flex-wrap w-full md:w-3/4">
             @forelse($projects as $p)

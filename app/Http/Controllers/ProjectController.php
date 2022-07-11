@@ -13,6 +13,7 @@ use DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use View;
+use App\Enums\ProjectTab;
 
 class ProjectController extends Controller
 {
@@ -27,16 +28,23 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProjectTab $projectTab)
     {
-        $categories = Category::whereUserId(Auth::id())
+        $categories = $invitedToProjects = [];
+        
+        if ($projectTab === ProjectTab::All || $projectTab === ProjectTab::Mine) {
+            $categories = Category::whereUserId(Auth::id())
             ->get(['id'])
             ->pluck('id');
-
+        }
+        
+        
+        if ($projectTab === ProjectTab::All || $projectTab === ProjectTab::Invited) {
         $invitedToProjects = DB::table('project_user')
             ->where('user_id', Auth::id())
             ->get('project_id')
             ->pluck('project_id');
+        }
 
         $projects = QueryBuilder::for(Project::class)
             ->with('team', 'category')
