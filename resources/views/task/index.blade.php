@@ -29,6 +29,7 @@
 
     <div class="flex flex-row flex-wrap">
         <div class="flex flex-row flex-wrap w-full md:w-3/4">
+            @include('task.form')
         </div>
         <div class="flex flex-row flex-wrap w-full md:w-1/4">
             @include('project.show', ['p' => $project, 'class' => ''])

@@ -89,7 +89,7 @@
                 <div class="relative z-0 w-full mb-6 group">
 
                     <input type="text" name="name" id="name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        class="input-floating peer"
                         placeholder=" " x-on:keypress="error.name = false" x-model.trim="form.name" required>
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('name')
@@ -100,13 +100,13 @@
                         </span>
                     </p>
                     <label for="name"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        class="peer-focus:font-medium label-floating">
                         {{ __('project.name') }}
                     </label>
                 </div>
                 <div class="relative z-0 w-full mb-6 group">
                     <input type="number" min="1" max="99999.99" name="cost" id="cost"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        class="input-floating peer"
                         placeholder=" " x-on:keypress="error.cost = false" x-model.trim="form.cost" required>
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('cost')
@@ -117,7 +117,7 @@
                         </span>
                     </p>
                     <label for="cost"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                        class="peer-focus:font-medium label-floating">
                         {{ __('project.cost') }}
                     </label>
                 </div>
@@ -125,7 +125,7 @@
             <div class="grid grid-cols-1">
                 <div class="relative z-0 w-full mb-6 group">
                     <textarea name="info" id="info"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        class="input-floating peer"
                         rows="5" placeholder=" " x-on:keypress="error.info = false" x-model.trim="form.info" required></textarea>
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('info')
@@ -136,7 +136,7 @@
                         </span>
                     </p>
                     <label for="info"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75    peer-focus:-translate-y-6">
+                        class="peer-focus:font-medium label-floating">
                         {{ __('project.info') }}
                     </label>
                 </div>
