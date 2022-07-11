@@ -32,7 +32,7 @@
             @include('project.index.filters')
 
             {{-- tabs --}}
-            @includeIf('project.index.tabs', [$category === null])
+            @includeWhen($category === null, 'project.index.tabs')
         </div>
     </div>
 </div>
