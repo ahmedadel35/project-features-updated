@@ -1,10 +1,14 @@
-<div class="my-2" x-data="{
+<div class="w-full px-2 pt-4 mx-2 my-2 card-bg" x-data="{
     body: '',
     bodyErr: '',
-
+    saving: false,
+    editMode: false,
+    save: function() {
+        
+    },
 }">
-    <form method="post" x-on:submit.prevent="save">
-        <div class="flex flex-row flex-wrap justify-between w-full">
+    <form method="post" x-on:submit.prevent="save" class="">
+        <div class="flex items-center justify-between w-full space-x-3">
             <div class="relative z-0 w-full mb-6 group">
                 <input type="text" name="body" id="body" class="input-floating peer" placeholder=" "
                     x-on:keypress="bodyErr = false" x-model.trim="body" required>
@@ -20,9 +24,9 @@
                     {{ __('project.body') }}
                 </label>
             </div>
-            <div>
-                <button class="btn pink">save</button>
-            </div>
+            <x-btn-with-spinner type='submit' icon='fas-save' desc='add new task' busy='saving' class='!flex items-center justify-between'>
+                <span class="inline">{{ __('task.save') }}</span>
+            </x-btn-with-spinner>
         </div>
     </form>
 </div>
