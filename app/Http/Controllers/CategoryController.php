@@ -65,7 +65,7 @@ class CategoryController extends Controller
             ->allowedFilters([
                 AllowedFilter::exact('completed'),
             ])
-            ->allowedSorts('cost', 'updated_at')
+            ->allowedSorts('name', 'cost', 'updated_at')
             ->paginate()
             ->appends(request()->query());
 
