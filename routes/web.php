@@ -58,20 +58,20 @@ Route::prefix(LaravelLocalization::setLocale())
                     'store',
                 ]);
 
-                Route::prefix('c/{category}')
-                    ->middleware('can:see-project,category,project')
-                    ->group(function () {
-                        Route::resource(
-                            'projects',
-                            ProjectController::class
-                        )->except(['index', 'create', 'store']);
-
-                        Route::post('/{project}/invite', [
-                            ProjectController::class,
-                            'invite',
-                        ])->name('projects.invite');
-                    });
+                Route::resource(
+                    'c/{category}/projects',
+                    ProjectController::class
+                )->only(['edit', 'update', 'destroy']);
             });
+
+            Route::prefix('c/{category}')
+                ->controller(ProjectController::class)
+                ->name('projects.')
+                ->group(function () {
+                    Route::get('projects/{project}', 'show')->name('show');
+
+                    Route::post('/{project}/invite', 'invite')->name('invite')->can('update', 'project');
+                });
 
             Route::controller(ProjectController::class)
                 ->name('projects.')

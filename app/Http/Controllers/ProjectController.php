@@ -14,6 +14,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use View;
 use App\Enums\ProjectTab;
+use App\Models\Todo;
 
 class ProjectController extends Controller
 {
@@ -22,6 +23,11 @@ class ProjectController extends Controller
         'cost' => 'required|numeric|min:1.00',
         'info' => 'required|string|max:255',
     ];
+
+    public function __construct(Request $request)
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
 
     /**
      * Display a listing of the resource.
@@ -83,7 +89,10 @@ class ProjectController extends Controller
 
         $categories = [];
         if ($category === null) {
-            $categories = Category::whereUserId(Auth::id())->get(['slug', 'title']);
+            $categories = Category::whereUserId(Auth::id())->get([
+                'slug',
+                'title',
+            ]);
         }
 
         return view('project.create', compact('category', 'categories'));
@@ -113,9 +122,13 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category, Project $project)
+    public function show(Request $request, Category $category, Project $project)
     {
-        dd($project);
+        SEOTools::setTitle($project->name . ' ' . __('nav.todos'));
+
+        $tasks = Todo::whereProjectId($project->id)->paginate();
+
+        return view('project.show', compact('category', 'project', 'tasks'));
     }
 
     /**

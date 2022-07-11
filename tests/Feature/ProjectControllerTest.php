@@ -188,3 +188,26 @@ test('user can see only completed projects', function () {
         ->assertDontSee($proj->first()->slug)
         ->assertSee($nonCompleted->slug);
 });
+
+test('user invited to project can see it', function () {
+    [$user, $cat, $proj] = userWithTodos();
+    $ali = User::factory()->create();
+
+    expect($proj->isTeamMember($ali))->toBeFalse();
+    // try before inviting like anyone
+    // then should fail
+    actingAs($ali)
+        ->get(route('projects.show', [$cat, $proj]))
+        ->assertForbidden();
+
+    // invite user
+    $proj->addToTeam($ali);
+
+    $proj->refresh();
+    expect($proj->isTeamMember($ali))->toBeTrue();
+
+    // should work
+    actingAs($ali)
+        ->get(route('projects.show', [$cat, $proj]))
+        ->assertOk();
+});

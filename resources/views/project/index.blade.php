@@ -28,7 +28,7 @@
     <div class="flex flex-row flex-wrap">
         <div class="flex flex-row flex-wrap w-full md:w-3/4">
             @forelse($projects as $p)
-                <x-card :id='$p->slug' class="w-full p-3 sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4">
+                <x-card :id='$p->slug' class="w-full p-3 sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
                     <x-slot name='title'>
                         {{ $p->name }}
                     </x-slot>
@@ -58,7 +58,7 @@
                     </x-slot>
 
                     <x-slot name='footer'>
-                        @can('see-project', [$category ?? $p->category, $p])
+                        @can('update', $p)
                             <button type="button" class="btn teal" aria-describedby="invite user to team" x-data
                                 x-on:click.prevent="$dispatch('project-invite-modal', {
                                 slug: '{{ $p->slug }}',

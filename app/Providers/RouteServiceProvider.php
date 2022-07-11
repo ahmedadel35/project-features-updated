@@ -67,15 +67,15 @@ class RouteServiceProvider extends ServiceProvider
             return true;
         });
 
-        // allow only project owner to update it
-        Gate::define('see-project', function (
-            User $user,
-            Category $category,
-            Project $project
-        ) {
-            return $project->category_id === $category->id &&
-                $category->user_id === $user->id;
-        });
+        // allow only project owner to update/delete it
+        // Gate::define('see-project', function (
+        //     User $user,
+        //     Category $category,
+        //     Project $project
+        // ) {
+            // return $project->category_id === $category->id &&
+            //     $category->user_id === $user->id;
+        // });
     }
 
     /**
