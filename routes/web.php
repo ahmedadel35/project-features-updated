@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -70,7 +71,9 @@ Route::prefix(LaravelLocalization::setLocale())
                 ->group(function () {
                     Route::get('projects/{project}', 'show')->name('show');
 
-                    Route::post('/{project}/invite', 'invite')->name('invite')->can('update', 'project');
+                    Route::post('/{project}/invite', 'invite')
+                        ->name('invite')
+                        ->can('update', 'project');
                 });
 
             Route::controller(ProjectController::class)
@@ -84,5 +87,11 @@ Route::prefix(LaravelLocalization::setLocale())
                     // add last because it will catch anything
                     Route::get('{project_tab}', 'index')->name('index');
                 });
+
+            // todos
+            Route::resource(
+                'c/{category}/projects/{project}/tasks',
+                TodoController::class
+            )->middleware('can:view,project');
         });
     });
