@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name='header'>
         <div class="flex flex-row flex-wrap justify-between">
-            <div class="my-1 md:my-2">
+            <div class="hidden my-1 md:my-2 sm:inline-block">
                 <x-breadcrump :links="[
                     [
                         'url' => route('categories.index'),
@@ -22,11 +22,8 @@
             </div>
         </div>
 
-        <hr class='my-3 border border-gray-600 dark:border-gray-300' />
-        @include('project.index.filters')
+        @include('project.index.filter-modal')
     </x-slot>
-
-    @includeIf('project.index.tabs', [$category === null])
 
     <div class="flex flex-row flex-wrap">
         <div class="flex flex-row flex-wrap w-full md:w-3/4">
@@ -106,6 +103,12 @@
             @endif
         </div>
     </div>
+
+    <button
+        class="fixed !p-0 !rounded-full right-5 bottom-32 btn teal w-10 h-10 opacity-80 transition-opacity hover:opacity-100"
+        x-data x-on:click.prevent="$dispatch('filter-modal', {})">
+        <x-fas-filter class="!w-5 !h-5 !m-0" />
+    </button>
     <div class="py-5">
         {{ $projects->links() }}
     </div>

@@ -7,7 +7,7 @@
 
     <div x-on:{{ $event }}.window="{{ $action }}" x-show="{{ $id }}" class="fixed inset-0 z-50 overflow-y-auto"
         aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: none;">
-        <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+        <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0" x-cloak>
             <div x-cloak x-on:click="{{ $id }} = false" x-show="{{ $id }}"
                 x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200 transform"
@@ -26,7 +26,7 @@
                         {{ $title }}
                     </h1>
 
-                    <button x-on:click="{{ $id }} = false" class="transition hover:scale-110 transform duration-200">
+                    <button x-on:click="{{ $id }} = false" class="transition duration-200 transform hover:scale-110">
                         <x-fas-times-circle />
                     </button>
                 </div>

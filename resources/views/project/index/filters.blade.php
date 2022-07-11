@@ -1,5 +1,5 @@
-<div class="flex flex-col flex-wrap sm:flex-row sm:justify-between items-center">
-    <div class="my-1 flex flex-row flex-wrap justify-between items-center" x-data="{
+<div class="flex flex-col flex-wrap items-center md:flex-row md:justify-between">
+    <div class="flex flex-row flex-wrap items-center justify-between my-3 sm:my-1" x-data="{
             state: {{ request()->has('filter.completed') ? (request()->get('filter')['completed'] === 'true' ? 2 : 3) : 1 }},
             setState: function() {
                 let queryParams = new URLSearchParams(window.location.search);  
@@ -17,7 +17,7 @@
                 window.location.search = queryParams.toString();
             },
         }">
-        <label for="project-state" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400 px-1"
+        <label for="project-state" class="block px-1 mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
             aria-describedby="select state">
             <span class="w-5">
                 <x-fas-list-check />
@@ -33,7 +33,7 @@
             <option value="3">{{ __('project.filter.state_non_comp') }}</option>
         </select>
     </div>
-    <div class="my-1 flex flex-row flex-wrap justify-between items-center" x-data="{
+    <div class="flex flex-row flex-wrap items-center justify-between my-3 md:my-1" x-data="{
         active: {
             value: '-updated_at',
             name: '{{ __('project.filter.sort.updated_desc') }}',
@@ -92,7 +92,7 @@
     }" x-init="setSortOnInit">
         <div class="px-1">
             <span class="w-5">
-                <x-fas-filter />
+                <x-fas-sort />
             </span>
             <span class="hidden md:inline-block">
                 {{ __('project.filter.sort.by') }}
