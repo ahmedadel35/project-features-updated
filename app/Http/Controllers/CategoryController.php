@@ -63,6 +63,7 @@ class CategoryController extends Controller
         $projects = QueryBuilder::for(Project::class)
             ->with('team')
             ->defaultSort('-updated_at')
+            ->where('category_id', $category->id)
             ->allowedFilters([AllowedFilter::exact('completed')])
             ->allowedSorts('name', 'cost', 'updated_at')
             ->simplePaginate()
