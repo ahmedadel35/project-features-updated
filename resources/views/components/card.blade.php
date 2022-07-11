@@ -5,10 +5,10 @@
     ])
 
     <div class="{{ $class }}" id="{{ $id }}">
-        <div class="max-w-sm card-bg relative">
-            <div class="py-2"></div>
+        <div class="relative max-w-sm card-bg">
+            <div class="py-3"></div>
             <h5
-                class="py-1 pl-3 ltr:border-l-4 rtl:border-r-4 border-cyan-600 hover:border-cyan-800 transition mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white ">
+                class="py-1 pl-3 mb-2 text-2xl font-bold tracking-tight text-gray-900 transition ltr:border-l-4 rtl:border-r-4 border-cyan-600 hover:border-cyan-800 dark:text-white ">
                 <a href="{{ $url }}" class="">
                     {{ $title }}
                 </a>
@@ -16,7 +16,7 @@
             <div class="p-3">
                 {{ $body }}
 
-                <div class="card-footer flex flex-row flex-wrap">
+                <div class="flex flex-row flex-wrap card-footer">
                     <div class="w-full text-end">
                         {{ $footer }}
                     </div>

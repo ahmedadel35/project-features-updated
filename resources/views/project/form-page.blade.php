@@ -58,7 +58,9 @@
         },
     }" x-init="() => document.body.classList.add('gr-bg')">
         <div class="w-full mb-4 text-center">
-            <h3 class="text-3xl">{{ __('nav.' . $title . '_project') }}</h3>
+            <h3 class="text-3xl">
+                {{ __('nav.' . $title . '_project') }}
+            </h3>
         </div>
         <form x-ref='projectForm' x-on:submit.prevent="save" class="px-2 py-10 mx-auto rounded-none md:px-6"
             x-bind:action="url" method="post" novalidate>
@@ -70,7 +72,7 @@
 
             @if (count($categories))
                 <div class="flex flex-row flex-wrap items-center justify-between mb-3">
-                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                    <label for="categories" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
                         {{ __('project.select_cat') }}
                     </label>
                     <select id="categories" class="" x-model="category" x-on:change.prevent="setUrl">
