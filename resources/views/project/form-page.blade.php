@@ -6,19 +6,23 @@
                 'url' => route('categories.index'),
             ],
             [
-                'name' => $category->title,
+                'name' => $category?->title,
                 'no_trans' => true,
-                'url' => route('categories.show', $category->slug),
+                'url' => $category ? route('categories.show', $category->slug) : '#',
             ],
         ]" />
     </x-slot>
 
     <div class="relative py-10 mx-auto mt-5 card-bg md:w-4/5" x-data="{
         saving: false,
+        hasCategory: {{ $category ? 1 : 0 }},
+        url: '{{ $url }}',
+        category: null,
+        fakeSlug: '{{ $fake_slug }}',
         form: {
-            name: '{{ $vals["name"] }}',
-            cost: '{{ $vals["cost"] }}',
-            info: '{{ $vals["info"] }}',
+            name: '{{ $vals['name'] }}',
+            cost: '{{ $vals['cost'] }}',
+            info: '{{ $vals['info'] }}',
         },
         error: {
             name: false,
@@ -28,33 +32,57 @@
         hasError: false,
         save: function() {
             if (this.saving) return false;
-
+    
             {{-- reset --}}
             this.hasError = false;
-
+    
             for (const inp in this.form) {
                 if (!this.form[inp] || !this.form[inp].length) {
                     this.error[inp] = true;
                     this.hasError = true;
                 }
             }
-
+    
             if (this.hasError) return false;
-
+    
             this.saving = true;
             this.$refs.projectForm.submit();
         },
+        setUrl: function() {
+            {{-- check if user visited this page using a category slug --}}
+            if (this.hasCategory) return;
+    
+            {{-- replace fake-slug with slected one --}}
+            this.url = this.url.replace(this.fakeSlug, this.category);
+            this.fakeSlug = this.category;
+        },
     }" x-init="() => document.body.classList.add('gr-bg')">
         <div class="w-full mb-4 text-center">
-            <h3 class="text-3xl">{{ __('nav.'.$title.'_project') }}</h3>
+            <h3 class="text-3xl">{{ __('nav.' . $title . '_project') }}</h3>
         </div>
         <form x-ref='projectForm' x-on:submit.prevent="save" class="px-2 py-10 mx-auto rounded-none md:px-6"
-            action="{{ $url }}" method="post" novalidate>
+            x-bind:action="url" method="post" novalidate>
             @csrf
 
             @isset($putMethod)
                 @method('PUT')
             @endisset
+
+            @if (count($categories))
+                <div class="flex flex-row flex-wrap items-center justify-between mb-3">
+                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                        {{ __('project.select_cat') }}
+                    </label>
+                    <select id="categories" class="" x-model="category" x-on:change.prevent="setUrl">
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->slug }}">
+                                {{ $cat->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
+
             <div class="grid grid-cols-1">
                 <div class="relative z-0 w-full mb-6 group">
 
@@ -112,7 +140,7 @@
                 </div>
             </div>
             <x-btn-with-spinner icon='fas-save' type='submit' desc='save new project' class='green' busy='saving'>
-                {{ __('category.'.$title) }}
+                {{ __('category.' . $title) }}
             </x-btn-with-spinner>
         </form>
     </div>

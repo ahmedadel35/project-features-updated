@@ -27,7 +27,7 @@
             </span>
         </label>
         <select id="project-state" x-on:change.prevent="setState" x-model="state"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            class="">
             <option value="1">{{ __('project.filter.state_all') }}</option>
             <option value="2">{{ __('project.filter.state_comp') }}</option>
             <option value="3">{{ __('project.filter.state_non_comp') }}</option>

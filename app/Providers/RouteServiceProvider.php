@@ -49,6 +49,24 @@ class RouteServiceProvider extends ServiceProvider
             return $category->user_id === $user->id;
         });
 
+        /**
+         * same as above but category is optional
+         *
+         * why :
+         * for route projects/create
+         * then user will select category which
+         * will load only owned categorties
+         */
+        Gate::define('see-category-if-present', function (
+            User $user,
+            ?Category $category = null
+        ) {
+            if ($category) {
+                return $category->user_id === $user->id;
+            }
+            return true;
+        });
+
         // allow only project owner to update it
         Gate::define('see-project', function (
             User $user,

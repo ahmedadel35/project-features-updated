@@ -50,11 +50,11 @@ Route::prefix(LaravelLocalization::setLocale())
                 //     'index',
                 // ])->name('categories.show');
                 Route::resource(
-                    'c/{category?}/projects',
+                    'c/{category}/projects',
                     ProjectController::class
                 )->only([
                     // 'index',
-                    'create',
+                    // 'create',
                     'store',
                 ]);
 
@@ -73,8 +73,16 @@ Route::prefix(LaravelLocalization::setLocale())
                     });
             });
 
-            Route::get('projects/{project_tab}', [ProjectController::class, 'index'])->name(
-                'projects.index'
-            );
+            Route::controller(ProjectController::class)
+                ->name('projects.')
+                ->prefix('/projects')
+                ->group(function () {
+                    Route::get('create/{category?}', 'create')
+                        ->name('create')
+                        ->can('see-category-if-present,category');
+
+                    // add last because it will catch anything
+                    Route::get('{project_tab}', 'index')->name('index');
+                });
         });
     });

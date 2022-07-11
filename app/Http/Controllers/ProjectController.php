@@ -30,20 +30,27 @@ class ProjectController extends Controller
      */
     public function index(ProjectTab $projectTab)
     {
+        SEOTools::setTitle(__('nav.projects'));
+
         $categories = $invitedToProjects = [];
-        
-        if ($projectTab === ProjectTab::All || $projectTab === ProjectTab::Mine) {
+
+        if (
+            $projectTab === ProjectTab::All ||
+            $projectTab === ProjectTab::Mine
+        ) {
             $categories = Category::whereUserId(Auth::id())
-            ->get(['id'])
-            ->pluck('id');
+                ->get(['id'])
+                ->pluck('id');
         }
-        
-        
-        if ($projectTab === ProjectTab::All || $projectTab === ProjectTab::Invited) {
-        $invitedToProjects = DB::table('project_user')
-            ->where('user_id', Auth::id())
-            ->get('project_id')
-            ->pluck('project_id');
+
+        if (
+            $projectTab === ProjectTab::All ||
+            $projectTab === ProjectTab::Invited
+        ) {
+            $invitedToProjects = DB::table('project_user')
+                ->where('user_id', Auth::id())
+                ->get('project_id')
+                ->pluck('project_id');
         }
 
         $projects = QueryBuilder::for(Project::class)
@@ -70,11 +77,16 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category)
+    public function create(?Category $category = null)
     {
         SEOTools::setTitle(__('nav.create_project'));
 
-        return view('project.create', compact('category'));
+        $categories = [];
+        if ($category === null) {
+            $categories = Category::whereUserId(Auth::id())->get(['slug', 'title']);
+        }
+
+        return view('project.create', compact('category', 'categories'));
     }
 
     /**
