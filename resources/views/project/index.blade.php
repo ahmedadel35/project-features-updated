@@ -70,10 +70,12 @@
                             <x-btn-with-spinner tag='a'
                                 href="{{ route('projects.edit', [$category?->slug ?? $p->category->slug, $p->slug]) }}"
                                 desc="edit project {{ $p->slug }}" icon="fas-pencil">
-                                {{ __('category.edit') }}
+                                <span class="sm:hidden lg:inline-block">
+                                    {{ __('category.edit') }}
+                                </span>
                             </x-btn-with-spinner>
 
-                            <x-btn-delete :url="route('projects.destroy', [$category?->slug ?? $p->category->slug, $p->slug])" :id="$p->slug" />
+                            <x-btn-delete :url="route('projects.destroy', [$category?->slug ?? $p->category->slug, $p->slug])" :id="$p->slug"></x-btn-delete>
                         @endcan
                     </x-slot>
                 </x-card>

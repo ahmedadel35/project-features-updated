@@ -38,6 +38,8 @@
 }" x-on:popup-confirm.window="handle($event.detail)">
     <x-btn-with-spinner class="red" type="button" icon='fas-trash'
         desc='delete element {{ $id }}' busy='removing' x-on:click.prevent="$dispatch('popup', {slug: '{{$id}}'})">
-        {{__('category.delete')}}
+        <span class="sm:hidden lg:inline-block">
+            {{__('category.delete')}}
+        </span>
     </x-btn-with-spinner>
 </div>
