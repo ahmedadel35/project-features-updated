@@ -18,13 +18,14 @@
             'inline-block w-full max-w-xl p-8 my-20 overflow-x-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl card-bg h-1/2': size <
                 768
         }"
-            x-show="opend" x-transition x-on:click.outside="opend = false">
+            x-show="opend" x-transition x-on:click.outside="size <
+            768 && opend = false">
             <div class="flex items-center justify-between mb-3 space-x-4 md:hidden">
                 <h1 class="text-xl font-medium ">
                     {{ __('project.filter') }}
                 </h1>
 
-                <button x-on:click="opend = false" class="transition duration-200 transform hover:scale-110">
+                <button type="button" x-on:click="opend = false" class="transition duration-200 transform hover:scale-110">
                     <x-fas-times-circle />
                 </button>
             </div>
