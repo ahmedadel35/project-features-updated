@@ -92,6 +92,8 @@ Route::prefix(LaravelLocalization::setLocale())
             Route::resource(
                 'c/{category}/projects/{project}/tasks',
                 TodoController::class
-            )->middleware('can:view,project');
+            )
+                ->only(['index', 'store', 'update', 'destroy'])
+                ->middleware('can:view,project');
         });
     });
