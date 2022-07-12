@@ -44,6 +44,14 @@
 
                     const res = await axios.get(this.url).catch(err => {})
 
+                    if (!res || !res.data.tasks) {
+                        $dispatch('toast', {
+                            type: 'error',
+                            text: '{{__('category.error')}}',
+                        })
+                        return;
+                    }
+
                     this.tasks = res.data.tasks.data
                 },
                 remove: async function(id)
