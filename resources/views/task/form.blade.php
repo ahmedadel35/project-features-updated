@@ -47,7 +47,6 @@
         $dispatch('add-task', {task: res.data})
     },
     editTask: function(task) {
-        console.log(task)
         this.editMode = true;
         this.task = task;
         this.body = task.body;
@@ -73,8 +72,12 @@
                 </label>
             </div>
             <x-btn-with-spinner type='submit' icon='fas-save' desc='add new task' busy='saving' class='!flex items-center justify-between'>
-                <span class="inline">{{ __('task.save') }}</span>
+                <span class="inline" x-show="!editMode">{{ __('task.save') }}</span>
+                <span class="inline" x-show="editMode">{{ __('task.update') }}</span>
             </x-btn-with-spinner>
+            <button class="btn red" x-show="editMode" x-on:click.prevent="editMode = false;body = '';task = {}" aria-describedby="cancel edit mode">
+                <x-fas-times />
+            </button>
         </div>
     </form>
 </div>
