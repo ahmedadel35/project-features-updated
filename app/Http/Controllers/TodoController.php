@@ -49,12 +49,8 @@ class TodoController extends Controller
             ->todos()
             ->create($request->validate(self::VALIDATION_RULES));
 
-        $html = file_get_contents(View::getFinder()->find('task.show'));
-
-        return response(
-            Blade::render($html, compact('task', 'project', 'category')),
-            201
-        );
+        $task->completed = false;
+        return response()->json($task, 201);
     }
 
     /**

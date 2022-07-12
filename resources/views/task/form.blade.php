@@ -33,9 +33,7 @@
         $dispatch('toast', {type: 'success', text: '{{__('task.success')}}'});
         this.body = this.bodyErr = '';
 
-        {{-- append to tasks list as the first item--}}
-        const tasksList = document.getElementById('tasks');
-        tasksList.innerHTML = res.data + tasksList.innerHTML;
+        $dispatch('add-task', {task: res.data})
     },
 }">
     <form method="post" x-on:submit.prevent="save" class="" novalidate>

@@ -72,7 +72,7 @@
                         1
                     )
                 },
-            }" x-init="loadTasks">
+            }" x-init="loadTasks" x-on:add-task.window="tasks.unshift($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
                 </template>
