@@ -3,7 +3,9 @@
     bodyErr: '',
     saving: false,
     editMode: false,
+    task: {},
     url: '{{route('tasks.store', [$category->slug, $project->slug])}}',
+    postUrl: '{{route('tasks.store', [$category->slug, $project->slug])}}',
     save: async function() {
         if (this.saving) return;
 
@@ -16,7 +18,7 @@
 
         const res = await axios({
             method: this.editMode ? 'put' : 'post',
-            url: this.url,
+            url: this.editMode ? this.url : this.postUrl,
             data: {
                 body: this.body,
             }
@@ -25,17 +27,35 @@
         })
 
         this.saving = false;
-        if (!res || res.status !== 201 || !res.data) {
+        if (!res || (this.editMode && res.status !== 204)
+        || (!this.editMode && res.status !== 201)
+        ) {
             $dispatch('toast', {type: 'error', text: '{{__('category.error')}}'})
             return;
         }
 
         $dispatch('toast', {type: 'success', text: '{{__('task.success')}}'});
+        
+        this.task.body = this.body;
         this.body = this.bodyErr = '';
 
+        if (this.editMode) {
+            $dispatch('update-task', {task: this.task})
+            this.editMode = false;
+            return;
+        }
         $dispatch('add-task', {task: res.data})
     },
-}">
+    editTask: function(task) {
+        console.log(task)
+        this.editMode = true;
+        this.task = task;
+        this.body = task.body;
+        this.bodyErr = false;
+
+        this.url = this.postUrl + '/' + task.id
+    }
+}" x-on:edit-task.window="editTask($event.detail)">
     <form method="post" x-on:submit.prevent="save" class="" novalidate>
         <div class="flex items-center justify-between w-full space-x-3">
             <div class="relative z-0 w-full mb-6 group">

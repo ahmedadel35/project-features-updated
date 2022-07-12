@@ -72,7 +72,17 @@
                         1
                     )
                 },
-            }" x-init="loadTasks" x-on:add-task.window="tasks.unshift($event.detail.task)">
+                update: function(task) {
+                    console.log(task);
+
+                    this.tasks.map(x => {
+                        if (x.id === task.id) {
+                            x.body = task.body;
+                        }
+                        return x;
+                    })
+                }
+            }" x-init="loadTasks" x-on:add-task.window="tasks.unshift($event.detail.task)" x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
                 </template>
