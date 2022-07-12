@@ -7,7 +7,7 @@
             <span x-text="task.body"></span>
         </label>
     </div>
-    <div>
+    <div class="text-end">
         <button class="btn cyan my-1" type="button" aria-describedby="edit task"
             x-on:click.prevent="$dispatch('edit-task', task)">
             <x-fas-pencil />
