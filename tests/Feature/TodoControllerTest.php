@@ -52,16 +52,15 @@ test('user can not update task with invalid data', function () {
     [$user, $cat, $proj, $task] = userWithTodos();
 
     actingAs($user)
-        ->putJson(
-            route('tasks.update', [$cat->slug, $proj->slug, $task->id]),
-            ['body' => '']
-        )
+        ->putJson(route('tasks.update', [$cat->slug, $proj->slug, $task->id]), [
+            'body' => '',
+        ])
         ->assertStatus(422);
 
     expect(Todo::find($task->id))->body->toBe($task->body);
 });
 
-test('project owner can update task', function() {
+test('project owner can update task', function () {
     [$user, $cat, $proj, $task] = userWithTodos();
 
     $body = fake()->sentence;
@@ -76,7 +75,7 @@ test('project owner can update task', function() {
     expect(Todo::find($task->id))->body->toBe($body);
 });
 
-test('project team user can update task', function() {
+test('project team user can update task', function () {
     [, $cat, $proj, $task] = userWithTodos();
     $ali = User::factory()->create();
     $body = fake()->sentence;
@@ -99,4 +98,17 @@ test('project team user can update task', function() {
         ->assertNoContent();
 
     expect(Todo::find($task->id))->body->toBe($body);
+});
+
+test('project owner can delete task', function () {
+    [$user, $cat, $proj, $task] = userWithTodos();
+
+    expect(Todo::find($task->id)->exists())->toBeTrue();
+
+    actingAs($user)
+        ->delete(route('tasks.destroy', [$cat->slug, $proj->slug, $task->id]))
+        ->assertNoContent();
+
+    expect(Todo::find($task->id)?->exists())->toBeNull();
+    $this->assertDatabaseMissing('todos', ['id' => $task->id]);
 });

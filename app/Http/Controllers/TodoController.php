@@ -98,8 +98,10 @@ class TodoController extends Controller
      * @param  \App\Models\Todo  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Todo $task)
+    public function destroy(Category $category, Project $project, Todo $task)
     {
-        //
+        $task->delete();
+
+        return response()->noContent();
     }
 }
