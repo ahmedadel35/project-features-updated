@@ -20,7 +20,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->id === request()->category->user_id;
+        return true;
     }
 
     /**
@@ -33,7 +33,7 @@ class ProjectPolicy
     public function view(User $user, Project $project)
     {
         return ($user->id === request()->category->user_id &&
-            request()->category->id === $project->category_id) ||
+            request()->category?->id === $project->category_id) ||
             $project->isTeamMember($user);
     }
 
@@ -57,7 +57,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $project->category_id === request()->category->id &&
+        return $project->category_id === request()->category?->id &&
             request()->category->user_id === $user->id;
     }
 
@@ -70,7 +70,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $project->category_id === request()->category->id &&
+        return $project->category_id === request()->category?->id &&
             request()->category->user_id === $user->id;
     }
 

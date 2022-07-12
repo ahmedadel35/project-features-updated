@@ -211,3 +211,12 @@ test('user invited to project can see it', function () {
         ->get(route('projects.show', [$cat, $proj]))
         ->assertOk();
 });
+
+test('project owner can see all projects', function () {
+    [$user, $cat, $proj] = userWithTodos(projects_count: 5);
+
+    actingAs($user)
+        ->get(route('projects.index', ['project_tab' => 'all']))
+        ->assertOk()
+        ->assertSee($proj->first()->title);
+});
