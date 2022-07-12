@@ -88,12 +88,19 @@ Route::prefix(LaravelLocalization::setLocale())
                     Route::get('{project_tab}', 'index')->name('index');
                 });
 
-            // todos
-            Route::resource(
-                'c/{category}/projects/{project}/tasks',
-                TodoController::class
-            )
-                ->only(['index', 'store', 'update', 'destroy'])
-                ->middleware('can:view,project');
+            // tasks
+            Route::middleware('can:view,project')
+                ->prefix('c/{category}/projects/{project}')
+                ->group(function () {
+                    Route::resource('/tasks', TodoController::class)->only([
+                        'index',
+                        'store',
+                        'update',
+                        'destroy',
+                    ]);
+
+                    // complete
+                    Route::put('/tasks/{task}', [TodoController::class, 'toggle'])->name('tasks.toggle');
+                });
         });
     });

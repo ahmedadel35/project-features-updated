@@ -34,6 +34,7 @@
             <div class="my-3 flex flex-col flex-wrap w-full px-1" id="tasks" x-data="{
                 tasks: [],
                 loading: false,
+                toggle: false,
                 url: '{{route('tasks.index', [$category->slug, $project->slug])}}',
                 deleting: '',
                 loadTasks: async function() {
@@ -73,15 +74,43 @@
                     )
                 },
                 update: function(task) {
-                    console.log(task);
-
                     this.tasks.map(x => {
                         if (x.id === task.id) {
                             x.body = task.body;
                         }
                         return x;
                     })
-                }
+                },
+                complete: async function(task) {
+                    if (this.toggle) return;
+
+                    this.toggle = task.id;
+                    
+                    const route = '{{route('tasks.toggle', [
+                        $category->slug,
+                        $project->slug,
+                        'id-place-holder'
+                    ])}}';
+                    const res = await axios.put(route.replace('id-place-holder', task.id), {
+                        completed: !task.completed,
+                    }).catch(err => {})
+
+                    this.toggle = false;
+                    if (!res || res.status !== 204) {
+                        $dispatch('toast', {
+                            type: 'error',
+                            text: '{{__('category.error')}}'
+                        })
+                        return;
+                    }
+                    
+                    this.tasks.map(x => {
+                        if (x.id === task.id) {
+                            x.completed = !x.completed;
+                        }
+                        return x;
+                    })
+                },
             }" x-init="loadTasks" x-on:add-task.window="tasks.unshift($event.detail.task)" x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))

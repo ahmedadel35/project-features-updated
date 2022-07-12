@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
 use Blade;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use View;
@@ -51,6 +52,22 @@ class TodoController extends Controller
 
         $task->completed = false;
         return response()->json($task, 201);
+    }
+
+    /**
+     * toggle the state of task
+     *
+     * @param Request $request
+     * @param Category $category
+     * @param Project $project
+     * @param Todo $task
+     * @return void
+     */
+    public function toggle(Request $request, Category $category, Project $project, Todo $task)
+    {
+        $task->update($request->validate(['completed' => 'required|boolean']));
+
+        return response()->noContent();
     }
 
     /**

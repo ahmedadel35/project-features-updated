@@ -161,3 +161,42 @@ test('project team user can get list of tasks', function () {
         ->assertViewIs('task.index')
         ->assertSee($task->first()->body);
 });
+
+test('only project owner can complete task', function () {
+    [$user, $cat, $proj, $task] = userWithTodos();
+    $task->update(['completed' => false]);
+    expect(Todo::find($task->id)->completed)->toBeFalse();
+
+    actingAs($user)
+        ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
+            'completed' => true,
+        ])
+        ->assertNoContent();
+
+    expect(Todo::find($task->id)->completed)->toBeTrue();
+});
+
+test('user invited to project can complete task', function () {
+    [, $cat, $proj, $task] = userWithTodos();
+    $ali = User::factory()->create();
+
+    $task->update(['completed' => false]);
+    expect(Todo::find($task->id)->completed)->toBeFalse();
+
+    actingAs($ali)
+        ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
+            'completed' => true,
+        ])
+        ->assertForbidden();
+    expect(Todo::find($task->id)->completed)->toBeFalse();
+
+    $proj->addToTeam($ali);
+
+    actingAs($ali)
+        ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
+            'completed' => true,
+        ])
+        ->assertNoContent();
+
+    expect(Todo::find($task->id)->completed)->toBeTrue();
+});
