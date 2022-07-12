@@ -27,7 +27,7 @@ test('project owner can add task', function () {
     actingAs($user)
         ->postJson(route('tasks.store', [$cat->slug, $proj->slug]), $task)
         ->assertCreated()
-        ->assertJson(['body' => $task['body']]);
+        ->assertSee($task['body']);
 
     expect(Todo::whereBody($task['body'])->exists())->toBeTrue();
 });
@@ -43,7 +43,7 @@ test('invited user can add task', function () {
     actingAs($invited)
         ->postJson(route('tasks.store', [$cat->slug, $proj->slug]), $task)
         ->assertCreated()
-        ->assertJson(['body' => $task['body']]);
+        ->assertSee($task['body']);
 
     expect(Todo::whereBody($task['body'])->exists())->toBeTrue();
 });

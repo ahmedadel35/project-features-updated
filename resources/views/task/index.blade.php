@@ -31,10 +31,54 @@
         <div class="flex flex-col w-full md:w-3/4">
             @include('task.form')
 
-            <div class="my-3 flex flex-row flex-wrap w-full">
-                @foreach ($tasks as $task)
-                    @include('task.show', compact('task', 'project', 'category'))
-                @endforeach
+            <div class="my-3 flex flex-col flex-wrap w-full px-1" id="tasks" x-data="{
+                tasks: [],
+                loading: false,
+                url: '{{route('tasks.index', [$category->slug, $project->slug])}}',
+                deleting: '',
+                loadTasks: async function() {
+                    if (this.loading) return;
+
+                    this.loading = true;
+
+                    const res = await axios.get(this.url).catch(err => {})
+
+                    this.tasks = res.data.tasks.data
+                },
+                remove: async function(id)
+                {
+                    if (this.deleting === id) return;
+
+                    this.deleting = id;
+
+                    const res = await axios.delete('{{str_replace(25, '', route('tasks.destroy', [$category->slug, $project->slug, 25]))}}' + id).catch(err => {})
+
+                    this.deleting = '';
+
+                    if (!res || res.status !== 204) {
+                        $dispatch('toast', {
+                            type: 'error',
+                            text: '{{__('category.error')}}'
+                        })
+                        return;
+                    }
+
+                    $dispatch('toast', {
+                        type: 'success',
+                        text: '{{__('category.success')}}'
+                    })
+                    this.tasks.splice(
+                        this.tasks.findIndex(x => x.id === id),
+                        1
+                    )
+                },
+            }" x-init="loadTasks">
+                <template x-for="task in tasks" :key="task.id">
+                    @include('task.show', compact('project', 'category'))
+                </template>
+                <template x-if="loading">
+                    <h1>loading</h1>
+                </template>
             </div>
         </div>
         <div class="flex flex-row flex-wrap w-full md:w-1/4">

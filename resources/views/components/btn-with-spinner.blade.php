@@ -11,7 +11,7 @@
         busy: false,
     }" x-on:click="busy = true" @endif>
         @if($icon)
-            @svg($icon, ['x-show' => '!' . $busy, 'x-clock'])
+            @svg($icon, ['x-show' => '!(' . $busy . ')', 'x-clock'])
         @endif
         <x-btn-spinner x-show='{{ $busy }}' />
         {{ $slot }}

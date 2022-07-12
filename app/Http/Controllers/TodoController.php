@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
+use Blade;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use View;
 
 class TodoController extends Controller
 {
@@ -21,9 +23,15 @@ class TodoController extends Controller
      */
     public function index(Category $category, Project $project)
     {
-        $tasks = Todo::where('project_id', $project->id)->simplePaginate();
+        $tasks = Todo::where('project_id', $project->id)
+            ->orderByDesc('updated_at')
+            ->simplePaginate();
 
-        return view('task.index', compact('category', 'project', 'tasks'));
+        if (request()->wantsJson()) {
+            return response()->json(compact('tasks'));
+        }
+
+        return view('task.index', compact('category', 'project'));
     }
 
     /**
@@ -41,7 +49,12 @@ class TodoController extends Controller
             ->todos()
             ->create($request->validate(self::VALIDATION_RULES));
 
-        return response()->json($task, Response::HTTP_CREATED);
+        $html = file_get_contents(View::getFinder()->find('task.show'));
+
+        return response(
+            Blade::render($html, compact('task', 'project', 'category')),
+            201
+        );
     }
 
     /**
