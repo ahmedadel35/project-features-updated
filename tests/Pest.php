@@ -49,12 +49,12 @@ function actingAs(?User $user = null)
  * create user with all relatoships
  *
  * @param  User|null  $user
- * @param  int  $todos_count
+ * @param  int  $tasks_count
  * @param  int  $categories_count
  * @param  int  $projects_count
  * @return array
  */
-function userWithTodos(?User $user = null, int $todos_count = 1, int $categories_count = 1, int $projects_count = 1): array
+function userWithTodos(?User $user = null, int $tasks_count = 1, int $categories_count = 1, int $projects_count = 1): array
 {
     $user = $user ?? User::factory()->create();
     $cats = Category::factory()->count($categories_count)->for($user)->create();
@@ -63,7 +63,7 @@ function userWithTodos(?User $user = null, int $todos_count = 1, int $categories
         'category_id' => $cats->first()->id,
     ]);
 
-    $todos = Todo::factory()->count($todos_count)->create([
+    $todos = Todo::factory()->count($tasks_count)->create([
         'project_id' => $projs->first()->id,
     ]);
 
@@ -74,7 +74,7 @@ function userWithTodos(?User $user = null, int $todos_count = 1, int $categories
     $proj = $projects_count === 1 ? $projs->first() : $projs;
 
     /** @var \App\Models\Todo $todos */
-    $todos = $todos_count === 1 ? $todos->first() : $todos;
+    $todos = $tasks_count === 1 ? $todos->first() : $todos;
 
     return [$user, $cat, $proj, $todos];
 }

@@ -19,9 +19,11 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category, Project $project)
     {
-        //
+        $tasks = Todo::where('project_id', $project->id)->simplePaginate();
+
+        return view('task.index', compact('category', 'project', 'tasks'));
     }
 
     /**

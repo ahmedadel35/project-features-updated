@@ -113,7 +113,6 @@ test('project owner can delete task', function () {
     $this->assertDatabaseMissing('todos', ['id' => $task->id]);
 });
 
-
 test('project team user can delete task', function () {
     [, $cat, $proj, $task] = userWithTodos();
     $ali = User::factory()->create();
@@ -133,4 +132,32 @@ test('project team user can delete task', function () {
 
     expect(Todo::find($task->id)?->exists())->toBeNull();
     $this->assertDatabaseMissing('todos', ['id' => $task->id]);
+});
+
+test('project owner can get list of tasks', function () {
+    [$user, $cat, $proj, $task] = userWithTodos(tasks_count: 10);
+
+    actingAs($user)
+        ->get(route('tasks.index', [$cat->slug, $proj]))
+        ->assertOk()
+        ->assertViewIs('task.index')
+        ->assertSee($task->first()->body);
+});
+
+test('project team user can get list of tasks', function () {
+    [, $cat, $proj, $task] = userWithTodos(tasks_count: 10);
+    $ali = User::factory()->create();
+
+    // try with any user
+    actingAs($ali)
+        ->get(route('tasks.index', [$cat->slug, $proj]))
+        ->assertForbidden();
+
+    $proj->addToTeam($ali);
+
+    actingAs($ali)
+        ->get(route('tasks.index', [$cat->slug, $proj]))
+        ->assertOk()
+        ->assertViewIs('task.index')
+        ->assertSee($task->first()->body);
 });

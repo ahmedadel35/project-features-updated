@@ -28,8 +28,14 @@
     </x-slot>
 
     <div class="flex flex-row flex-wrap">
-        <div class="flex flex-row flex-wrap w-full md:w-3/4">
+        <div class="flex flex-col w-full md:w-3/4">
             @include('task.form')
+
+            <div class="my-3 flex flex-row flex-wrap w-full">
+                @foreach ($tasks as $task)
+                    @include('task.show', compact('task', 'project', 'category'))
+                @endforeach
+            </div>
         </div>
         <div class="flex flex-row flex-wrap w-full md:w-1/4">
             @include('project.show', ['p' => $project, 'class' => ''])
