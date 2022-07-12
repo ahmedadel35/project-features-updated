@@ -112,3 +112,25 @@ test('project owner can delete task', function () {
     expect(Todo::find($task->id)?->exists())->toBeNull();
     $this->assertDatabaseMissing('todos', ['id' => $task->id]);
 });
+
+
+test('project team user can delete task', function () {
+    [, $cat, $proj, $task] = userWithTodos();
+    $ali = User::factory()->create();
+
+    expect(Todo::find($task->id)->exists())->toBeTrue();
+
+    actingAs($ali)
+        ->delete(route('tasks.destroy', [$cat->slug, $proj->slug, $task->id]))
+        ->assertForbidden();
+    expect(Todo::find($task->id)->exists())->toBeTrue();
+
+    $proj->addToTeam($ali);
+
+    actingAs($ali)
+        ->delete(route('tasks.destroy', [$cat->slug, $proj->slug, $task->id]))
+        ->assertNoContent();
+
+    expect(Todo::find($task->id)?->exists())->toBeNull();
+    $this->assertDatabaseMissing('todos', ['id' => $task->id]);
+});
