@@ -25,7 +25,7 @@ class TodoController extends Controller
      */
     public function index(Category $category, Project $project)
     {
-        $tasks = Todo::where('project_id', $project->id)
+        $tasks = Todo::where('project_id', $project->id * 5)
             ->orderByDesc('updated_at')
             ->simplePaginate();
 

@@ -125,6 +125,14 @@
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
                 </template>
+                <template x-if="loadingArr.length <= 0 && tasks.length <= 0">
+                    <div>
+                        @include('task.placeholder')
+                        <h4 class="text-4xl text-center dark:text-white">
+                            {{ __('task.start') }}
+                        </h4>
+                    </div>
+                </template>
                 <template x-for="l in loadingArr" :key="Math.random() * 1000">
                     @include('task.placeholder')
                 </template>
