@@ -76,3 +76,27 @@ test('project owner can update task', function() {
     expect(Todo::find($task->id))->body->toBe($body);
 });
 
+test('project team user can update task', function() {
+    [, $cat, $proj, $task] = userWithTodos();
+    $ali = User::factory()->create();
+    $body = fake()->sentence;
+
+    actingAs($ali)
+        ->putJson(
+            route('tasks.update', [$cat->slug, $proj->slug, $task->id]),
+            compact('body')
+        )
+        ->assertForbidden();
+    expect(Todo::find($task->id))->body->toBe($task->body);
+
+    $proj->addToTeam($ali);
+
+    actingAs($ali)
+        ->putJson(
+            route('tasks.update', [$cat->slug, $proj->slug, $task->id]),
+            compact('body')
+        )
+        ->assertNoContent();
+
+    expect(Todo::find($task->id))->body->toBe($body);
+});
