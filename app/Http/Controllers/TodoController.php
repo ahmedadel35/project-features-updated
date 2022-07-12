@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
+use Blade;
+use Doctrine\DBAL\Query\QueryBuilder;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
+use Symfony\Component\HttpFoundation\Response;
+use View;
 
 class TodoController extends Controller
 {
@@ -22,13 +25,9 @@ class TodoController extends Controller
      */
     public function index(Category $category, Project $project)
     {
-        $tasks = QueryBuilder::for(Todo::class)
-            ->where('project_id', $project->id)
-            ->defaultSort('-updated_at')
-            ->allowedFilters([AllowedFilter::exact('completed')])
-            ->allowedSorts('body', 'completed', 'updated_at')
-            ->simplePaginate()
-            ->appends(request()->query());
+        $tasks = Todo::where('project_id', $project->id)
+            ->orderByDesc('updated_at')
+            ->simplePaginate();
 
         if (request()->wantsJson()) {
             return response()->json(compact('tasks'));
@@ -65,12 +64,8 @@ class TodoController extends Controller
      * @param Todo $task
      * @return void
      */
-    public function toggle(
-        Request $request,
-        Category $category,
-        Project $project,
-        Todo $task
-    ) {
+    public function toggle(Request $request, Category $category, Project $project, Todo $task)
+    {
         $task->update($request->validate(['completed' => 'required|boolean']));
 
         return response()->noContent();

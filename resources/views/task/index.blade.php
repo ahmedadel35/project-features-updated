@@ -35,46 +35,50 @@
                 tasks: [],
                 loading: false,
                 toggle: false,
-                url: '{{route('tasks.index', [$category->slug, $project->slug])}}',
                 deleting: '',
-                loadTasks: async function() {
-                    if (this.loading) return;
-
+                nextPage: null,
+                prevPage: null,
+                loadTasks: async function(url) {
+                    if (this.loading || !url || !url.length) return;
+            
                     this.loading = true;
-
-                    const res = await axios.get(this.url).catch(err => {})
-
+            
+                    const res = await axios.get(url).catch(err => {})
+            
+                    this.loading = false;
+            
                     if (!res || !res.data.tasks) {
                         $dispatch('toast', {
                             type: 'error',
-                            text: '{{__('category.error')}}',
+                            text: '{{ __('category.error') }}',
                         })
                         return;
                     }
-
-                    this.tasks = res.data.tasks.data
+            
+                    this.tasks = res.data.tasks.data;
+                    this.nextPage = res.data.tasks.next_page_url;
+                    this.prevPage = res.data.tasks.prev_page_url;
                 },
-                remove: async function(id)
-                {
+                remove: async function(id) {
                     if (this.deleting === id) return;
-
+            
                     this.deleting = id;
-
-                    const res = await axios.delete('{{str_replace(25, '', route('tasks.destroy', [$category->slug, $project->slug, 25]))}}' + id).catch(err => {})
-
+            
+                    const res = await axios.delete('{{ str_replace(25, '', route('tasks.destroy', [$category->slug, $project->slug, 25])) }}' + id).catch(err => {})
+            
                     this.deleting = '';
-
+            
                     if (!res || res.status !== 204) {
                         $dispatch('toast', {
                             type: 'error',
-                            text: '{{__('category.error')}}'
+                            text: '{{ __('category.error') }}'
                         })
                         return;
                     }
-
+            
                     $dispatch('toast', {
                         type: 'success',
-                        text: '{{__('category.success')}}'
+                        text: '{{ __('category.success') }}'
                     })
                     this.tasks.splice(
                         this.tasks.findIndex(x => x.id === id),
@@ -91,27 +95,23 @@
                 },
                 complete: async function(task) {
                     if (this.toggle) return;
-
+            
                     this.toggle = task.id;
-                    
-                    const route = '{{route('tasks.toggle', [
-                        $category->slug,
-                        $project->slug,
-                        'id-place-holder'
-                    ])}}';
+            
+                    const route = '{{ route('tasks.toggle', [$category->slug, $project->slug, 'id-place-holder']) }}';
                     const res = await axios.put(route.replace('id-place-holder', task.id), {
                         completed: !task.completed,
                     }).catch(err => {})
-
+            
                     this.toggle = false;
                     if (!res || res.status !== 204) {
                         $dispatch('toast', {
                             type: 'error',
-                            text: '{{__('category.error')}}'
+                            text: '{{ __('category.error') }}'
                         })
                         return;
                     }
-                    
+            
                     this.tasks.map(x => {
                         if (x.id === task.id) {
                             x.completed = !x.completed;
@@ -119,13 +119,26 @@
                         return x;
                     })
                 },
-            }" x-init="loadTasks" x-on:add-task.window="tasks.unshift($event.detail.task)" x-on:update-task.window="update($event.detail.task)">
+            }"
+                x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}')" x-on:add-task.window="tasks.unshift($event.detail.task)"
+                x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
                 </template>
                 <template x-if="loading">
                     <h1>loading</h1>
                 </template>
+
+                <div class="my-3 flex items-center justify-between px-5" x-show="prevPage || nextPage">
+                    <button class="btn purple" type="button" aria-describedby="previos page"
+                        x-on:click.prevent="loadTasks(prevPage)" x-bind:disapled="!prevPage">
+                        <x-fas-chevron-left />
+                    </button>
+                    <button class="btn purple" type="button" aria-describedby="next page"
+                        x-on:click.prevent="loadTasks(nextPage)" x-bind:disapled="!nextPage">
+                        <x-fas-chevron-right />
+                    </button>
+                </div>
             </div>
         </div>
         <div class="flex flex-row flex-wrap w-full md:w-1/4">
