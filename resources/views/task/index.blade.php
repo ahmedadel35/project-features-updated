@@ -33,19 +33,19 @@
 
             <div class="my-3 flex flex-col flex-wrap w-full px-1" id="tasks" x-data="{
                 tasks: [],
-                loading: false,
+                loadingArr: [],
                 toggle: false,
                 deleting: '',
                 nextPage: null,
                 prevPage: null,
                 loadTasks: async function(url) {
-                    if (this.loading || !url || !url.length) return;
+                    if (this.loadingArr.length || !url || !url.length) return;
             
-                    this.loading = true;
+                    this.loadingArr = Array(7).fill(0);
             
                     const res = await axios.get(url).catch(err => {})
             
-                    this.loading = false;
+                    this.loadingArr = [];
             
                     if (!res || !res.data.tasks) {
                         $dispatch('toast', {
@@ -125,8 +125,8 @@
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
                 </template>
-                <template x-if="loading">
-                    <h1>loading</h1>
+                <template x-for="l in loadingArr" :key="Math.random() * 1000">
+                    @include('task.placeholder')
                 </template>
 
                 <div class="my-3 flex items-center justify-between px-5" x-show="prevPage || nextPage">
