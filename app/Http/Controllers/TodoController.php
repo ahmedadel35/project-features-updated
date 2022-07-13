@@ -105,7 +105,7 @@ class TodoController extends Controller
 
         // determine if all project tasks was completed or not
         $tasks = Todo::whereProjectId($project->id);
-        $checked = $task->whereCompleted(true);
+        $checked = $tasks->whereCompleted(true);
         if ($tasks->count() === $checked->count()) {
             // update project state to completed
             $project->update(['completed' => true]);
