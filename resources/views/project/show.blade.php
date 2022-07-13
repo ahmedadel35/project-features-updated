@@ -1,4 +1,4 @@
-<x-card :id='$p->slug' class="w-full p-3 {{$class ?? 'sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4'}}" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
+<x-card :id='$p->slug' class="w-full p-3 {{ $class ?? 'sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4' }}" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
     <x-slot name='title'>
         {{ $p->name }}
     </x-slot>
@@ -8,12 +8,11 @@
             {{ numfmt_format_currency(numfmt_create('usd', NumberFormatter::CURRENCY), $p->cost, 'USD') }}
         </div>
 
-        @if ($p->completed)
-            <div
-                class="absolute top-0 ltr:right-0 rtl:left-0 rounded px-2 py-1 bg-green-800 dark:bg-green-600 text-white !bg-opacity-75">
-                {{ __('project.completed') }}
-            </div>
-        @endif
+        <div
+            id="completed-badge"
+            class="@unless($p->completed)hidden @endunless absolute top-0 ltr:right-0 rtl:left-0 rounded px-2 py-1 bg-green-800 dark:bg-green-600 text-white !bg-opacity-75">
+            {{ __('project.completed') }}
+        </div>
 
         <p class="mb-1 font-normal text-gray-700 dark:text-gray-400">
             {{ $p->info }}
@@ -21,8 +20,7 @@
 
         <div class='flex justify-end my-1 -space-x-4' id="{{ $p->slug }}-team">
             @foreach ($p->team as $team_user)
-                <x-avatar :src="$team_user->avatar" :title="$team_user->name"
-                    alt='{{ $team_user->name }} profile photo' />
+                <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
             @endforeach
         </div>
     </x-slot>
