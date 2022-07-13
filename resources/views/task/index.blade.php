@@ -128,9 +128,27 @@
                         badge.classList.add('hidden');
                     }
                 },
-                pre: function() {
-                    console.log('wwww');
-                    
+                pre: function() {            
+                    window.Echo.private('project.{{ $project->slug }}.tasks').listen('TaskEvent', (e) => {
+                        {{-- handle response --}}
+                        {{-- types =>  created | updated | deleted --}}
+                        if (e.type === 'updated') {
+                            $dispatch('toast', {
+                                type: 'success',
+                                text: '{{__('task.updated')}}',
+                                {{-- todo update using user and task --}}
+                            })
+
+                            this.tasks.map(x => {
+                                if (x.id === e.task.id) {
+                                    x.body = e.task.body;
+                                    x.completed = e.task.completed;
+                                }
+                                return x;
+                            })
+                        }
+                        console.log(e);
+                    });
             
                 },
             }"

@@ -36,7 +36,3 @@ window.Echo = new Echo({
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
 });
-
-window.Echo.channel('tasks').listen('TaskToggledEvent', (e) => {
-    console.log(e);
-});

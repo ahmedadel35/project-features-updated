@@ -2,14 +2,19 @@
 
 namespace App\Events;
 
+use App\Models\Project;
 use App\Models\Todo;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskToggledEvent implements ShouldBroadcastNow
+class TaskEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,8 +23,12 @@ class TaskToggledEvent implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct(public Todo $task)
-    {
+    public function __construct(
+        public string $type = 'base',
+        public User $user,
+        protected Project $project,
+        public Todo $task
+    ) {
         //
     }
 
@@ -30,6 +39,6 @@ class TaskToggledEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('tasks');
+        return new PrivateChannel('project.' . $this->project->slug . '.tasks');
     }
 }

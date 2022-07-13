@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Project;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('tasks', function ($user) {
-    // return (int) $user->id === (int) $task->id;
-    // dd('wwwwww');
-    return true;
+Broadcast::channel('project.{project}.tasks', function (
+    $user,
+    Project $project
+) {
+    return (int) $project->category->user_id === (int) $user->id ||
+        $project->isTeamMember($user);
 });

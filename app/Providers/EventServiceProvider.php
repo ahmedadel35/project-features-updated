@@ -29,7 +29,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Todo::observe(TodoObserver::class);
+        Todo::observe(TodoObserver::class);
     }
 
     /**
