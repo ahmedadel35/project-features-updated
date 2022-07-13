@@ -60,7 +60,7 @@ class TodoController extends Controller
          * so we will always (re)fetch project from database
          * to check if it was already completed before
          */
-        $this->updateProjectIfNotCompleted($project);
+        $this->updateProjectIfCompleted($project);
 
         return response()->json($task, 201);
     }
@@ -97,24 +97,29 @@ class TodoController extends Controller
         if (!$completed) {
             // user un checked this task
             // then remove completed state from project if exists
-            $this->updateProjectIfNotCompleted($project);
 
-            return response()->noContent();
+            return response()->json([
+                'project_completed' => $this->updateProjectIfCompleted(
+                    $project
+                ),
+            ]);
         }
         //else
 
         // determine if all project tasks was completed or not
+        $project_completed = $project->completed;
         $tasks = Todo::whereProjectId($project->id);
-        $checked = $tasks->whereCompleted(true);
+        $checked = Todo::whereProjectId($project->id)->whereCompleted(true);
         if ($tasks->count() === $checked->count()) {
             // update project state to completed
             $project->update(['completed' => true]);
+            $project_completed = true;
         } else {
             // check if project was completed
-            $this->updateProjectIfNotCompleted($project);
+            $project_completed = $this->updateProjectIfCompleted($project);
         }
 
-        return response()->noContent();
+        return response()->json(compact('project_completed'));
     }
 
     /**
@@ -154,13 +159,14 @@ class TodoController extends Controller
      * @param Project $project
      * @return void
      */
-    private function updateProjectIfNotCompleted(Project $project): void
+    private function updateProjectIfCompleted(Project $project): bool
     {
         if (!$project->completed) {
-            return;
+            return false;
         }
 
         // then update to not completed
         $project->update(['completed' => false]);
+        return false;
     }
 }

@@ -169,7 +169,7 @@ test('only project owner can complete task', function () {
         ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
             'completed' => true,
         ])
-        ->assertNoContent();
+        ->assertOk();
 
     expect(Todo::find($task->id)->completed)->toBeTrue();
 });
@@ -194,7 +194,7 @@ test('user invited to project can complete task', function () {
         ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
             'completed' => true,
         ])
-        ->assertNoContent();
+        ->assertOk();
 
     expect(Todo::find($task->id)->completed)->toBeTrue();
 });
@@ -216,7 +216,7 @@ test('completing all tasks will turn project state to completed', function () {
                 'completed' => true,
             ]
         )
-        ->assertNoContent();
+        ->assertOk();
 
     $proj->refresh();
     expect($proj->completed)->toBeFalse();
@@ -232,7 +232,7 @@ test('completing all tasks will turn project state to completed', function () {
                 'completed' => true,
             ]
         )
-        ->assertNoContent();
+        ->assertOk();
 
     $proj->refresh();
     expect($proj->completed)->toBeTrue();
@@ -251,7 +251,7 @@ test('un checking task will remove project completed state', function () {
         ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
             'completed' => false,
         ])
-        ->assertNoContent();
+        ->assertOk();
 
     $proj->refresh();
 

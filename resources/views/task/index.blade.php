@@ -104,7 +104,7 @@
                     }).catch(err => {})
             
                     this.toggle = false;
-                    if (!res || res.status !== 204) {
+                    if (!res || !res.data) {
                         $dispatch('toast', {
                             type: 'error',
                             text: '{{ __('category.error') }}'
@@ -118,6 +118,15 @@
                         }
                         return x;
                     })
+            
+            
+                    {{-- toggle project completed state --}}
+                    const badge = document.querySelector('#{{ $project->slug }} #completed-badge');
+                    if (res.data.project_completed) {
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }                    
                 },
             }"
                 x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}')" x-on:add-task.window="tasks.unshift($event.detail.task)"
