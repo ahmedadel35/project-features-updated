@@ -72,7 +72,7 @@ class TodoController extends Controller
         Todo $task
     ) {
         /**
-         * this should not go to observe
+         * this should not go to observer
          * because we do not to run this check 
          * for normal task body update
          * bu instead for the completed state toggle only
@@ -83,6 +83,18 @@ class TodoController extends Controller
         ]);
 
         $task->updateQuietly(compact('completed'));
+
+        // check if user was completeing task or not
+        if (!$completed) {
+            // user un checked this task
+            // then remove completed state from project if exists
+            if ($project->completed) {
+                $project->update(['completed' => false]);
+            }
+
+            return response()->noContent();
+        }
+        //else
         
         // determine if all project tasks was completed or not
         $tasks = Todo::whereProjectId($project->id);

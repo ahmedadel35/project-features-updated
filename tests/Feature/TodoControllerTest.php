@@ -237,3 +237,31 @@ test('completing all tasks will turn project state to completed', function () {
     $proj->refresh();
     expect($proj->completed)->toBeTrue();
 });
+
+test('un checking task will remove project completed state', function() {
+    /** @var \App\Models\Project $proj*/
+    [$user, $cat, $proj, $task] = userWithTodos();
+    $proj->completed = true;
+    $proj->updateQuietly();
+
+    $proj->refresh();
+    expect($proj->completed)->toBeTrue();
+
+    // un check task
+    actingAs($user)
+        ->putJson(
+            route('tasks.toggle', [
+                $cat->slug,
+                $proj->slug,
+                $task->id,
+            ]),
+            [
+                'completed' => false,
+            ]
+        )
+        ->assertNoContent();
+
+    $proj->refresh();
+
+    expect($proj->completed)->toBeFalse();
+});
