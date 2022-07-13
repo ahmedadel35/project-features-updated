@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
 use Blade;
+use DB;
 use Doctrine\DBAL\Query\QueryBuilder;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
@@ -70,9 +71,32 @@ class TodoController extends Controller
         Project $project,
         Todo $task
     ) {
-        $task->update($request->validate([
+        /**
+         * this should not go to observe
+         * because we do not to run this check 
+         * for normal task body update
+         * bu instead for the completed state toggle only
+         */
+
+        ['completed' => $completed] = $request->validate([
             'completed' => 'required|boolean',
-        ]));
+        ]);
+
+        $task->updateQuietly(compact('completed'));
+        
+        // determine if all project tasks was completed or not
+        $tasks = Todo::whereProjectId($project->id);
+        $checked = $task->whereCompleted(true);
+        if ($tasks->count() === $checked->count()) {
+            // update project state to completed
+            $project->update(['completed' => true]);
+        } else {
+            // check if project was completed
+            if ($project->completed) {
+                // then update to not completed
+                $project->update(['completed' => false]);
+            }
+        }
 
         return response()->noContent();
     }

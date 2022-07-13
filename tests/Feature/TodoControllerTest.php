@@ -198,3 +198,42 @@ test('user invited to project can complete task', function () {
 
     expect(Todo::find($task->id)->completed)->toBeTrue();
 });
+
+test('completing all tasks will turn project state to completed', function () {
+    /** @var \App\Models\Project $proj*/
+    [$user, $cat, $proj, $tasks] = userWithTodos(tasks_count: 2);
+    $tasks->each->update(['completed' => false]);
+    expect(Todo::find($tasks->first()->id)->completed)->toBeFalse();
+
+    actingAs($user)
+        ->putJson(
+            route('tasks.toggle', [
+                $cat->slug,
+                $proj->slug,
+                $tasks->first()->id,
+            ]),
+            [
+                'completed' => true,
+            ]
+        )
+        ->assertNoContent();
+
+    $proj->refresh();
+    expect($proj->completed)->toBeFalse();
+
+    actingAs($user)
+        ->putJson(
+            route('tasks.toggle', [
+                $cat->slug,
+                $proj->slug,
+                $tasks->last()->id,
+            ]),
+            [
+                'completed' => true,
+            ]
+        )
+        ->assertNoContent();
+
+    $proj->refresh();
+    expect($proj->completed)->toBeTrue();
+});
