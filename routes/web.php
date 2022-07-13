@@ -100,7 +100,7 @@ Route::prefix(LaravelLocalization::setLocale())
                     ]);
 
                     // complete
-                    Route::put('/tasks/{task}', [TodoController::class, 'toggle'])->name('tasks.toggle');
+                    Route::put('/tasks/{task}/toggle', [TodoController::class, 'toggle'])->name('tasks.toggle');
                 });
         });
     });

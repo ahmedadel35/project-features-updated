@@ -25,7 +25,7 @@ class TodoController extends Controller
      */
     public function index(Category $category, Project $project)
     {
-        $tasks = Todo::where('project_id', $project->id * 5)
+        $tasks = Todo::where('project_id', $project->id)
             ->orderByDesc('updated_at')
             ->simplePaginate();
 
@@ -64,9 +64,15 @@ class TodoController extends Controller
      * @param Todo $task
      * @return void
      */
-    public function toggle(Request $request, Category $category, Project $project, Todo $task)
-    {
-        $task->update($request->validate(['completed' => 'required|boolean']));
+    public function toggle(
+        Request $request,
+        Category $category,
+        Project $project,
+        Todo $task
+    ) {
+        $task->update($request->validate([
+            'completed' => 'required|boolean',
+        ]));
 
         return response()->noContent();
     }

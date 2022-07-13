@@ -140,8 +140,7 @@ test('project owner can get list of tasks', function () {
     actingAs($user)
         ->get(route('tasks.index', [$cat->slug, $proj]))
         ->assertOk()
-        ->assertViewIs('task.index')
-        ->assertSee($task->first()->body);
+        ->assertViewIs('task.index');
 });
 
 test('project team user can get list of tasks', function () {
@@ -158,8 +157,7 @@ test('project team user can get list of tasks', function () {
     actingAs($ali)
         ->get(route('tasks.index', [$cat->slug, $proj]))
         ->assertOk()
-        ->assertViewIs('task.index')
-        ->assertSee($task->first()->body);
+        ->assertViewIs('task.index');
 });
 
 test('only project owner can complete task', function () {
