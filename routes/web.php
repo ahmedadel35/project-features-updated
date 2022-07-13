@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware(['localeCookieRedirect'])
     ->group(function () {
-        require __DIR__ . '/auth.php';
+        require __DIR__.'/auth.php';
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
+use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Cviebrock\EloquentSluggable\Sluggable;
-use DB;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -77,6 +77,7 @@ class Project extends Model
         }
 
         $this->team()->attach($user);
+
         return true;
     }
 

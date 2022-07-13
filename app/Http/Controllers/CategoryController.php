@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Project;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
-use DB;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -25,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        SEOTools::setTitle(Auth::user()->name . ' ' . __('nav.categories'));
+        SEOTools::setTitle(Auth::user()->name.' '.__('nav.categories'));
 
         $categories = Category::withCount('projects')
             ->whereUserId(Auth::id())

@@ -200,7 +200,7 @@ test('user invited to project can complete task', function () {
 });
 
 test('completing all tasks will turn project state to completed', function () {
-    /** @var \App\Models\Project $proj*/
+    /** @var \App\Models\Project $proj */
     [$user, $cat, $proj, $tasks] = userWithTodos(tasks_count: 2);
     $tasks->each->update(['completed' => false]);
     expect(Todo::find($tasks->first()->id)->completed)->toBeFalse();
@@ -239,7 +239,7 @@ test('completing all tasks will turn project state to completed', function () {
 });
 
 test('un checking task will remove project completed state', function () {
-    /** @var \App\Models\Project $proj*/
+    /** @var \App\Models\Project $proj */
     [$user, $cat, $proj, $task] = userWithTodos(
         projectAttrs: ['completed' => true]
     );
@@ -261,7 +261,7 @@ test('un checking task will remove project completed state', function () {
 test(
     'creating a task into completed project will remove completed',
     function () {
-        /** @var \App\Models\Project $proj*/
+        /** @var \App\Models\Project $proj */
         [$user, $cat, $proj, $task] = userWithTodos(
             projectAttrs: ['completed' => true]
         );

@@ -3,8 +3,6 @@
 use App\Models\Project;
 use App\Models\User;
 
-use function Pest\Laravel\withoutExceptionHandling;
-
 test('only logged in users can create projects', function () {
     [$user, $cat, $proj] = userWithTodos();
 
@@ -177,13 +175,13 @@ test('user can see only completed projects', function () {
     $url = route('categories.show', $cat->slug);
 
     actingAs($user)
-        ->get($url . '?filter[completed]=true')
+        ->get($url.'?filter[completed]=true')
         ->assertOk()
         ->assertSee($proj->first()->slug)
         ->assertDontSee($nonCompleted->slug);
 
     actingAs($user)
-        ->get($url . '?filter[completed]=false')
+        ->get($url.'?filter[completed]=false')
         ->assertOk()
         ->assertDontSee($proj->first()->slug)
         ->assertSee($nonCompleted->slug);

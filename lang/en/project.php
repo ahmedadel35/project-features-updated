@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'invite' => 'Invite'
+    'invite' => 'Invite',
 ];

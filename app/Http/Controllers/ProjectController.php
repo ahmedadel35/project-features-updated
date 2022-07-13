@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ProjectTab;
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\Todo;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
 use Blade;
 use DB;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use View;
-use App\Enums\ProjectTab;
-use App\Models\Todo;
 
 class ProjectController extends Controller
 {
@@ -62,7 +62,7 @@ class ProjectController extends Controller
         $projects = QueryBuilder::for(Project::class)
             ->with('team', 'category')
             ->orWhere(
-                fn($q) => $q
+                fn ($q) => $q
                     ->whereIn('id', $invitedToProjects)
                     ->orWhereIn('category_id', $categories)
             )
@@ -124,7 +124,7 @@ class ProjectController extends Controller
      */
     public function show(Request $request, Category $category, Project $project)
     {
-        SEOTools::setTitle($project->name . ' ' . __('nav.todos'));
+        SEOTools::setTitle($project->name.' '.__('nav.todos'));
 
         $tasks = Todo::whereProjectId($project->id)->paginate();
 
@@ -139,7 +139,7 @@ class ProjectController extends Controller
      */
     public function edit(Category $category, Project $project)
     {
-        SEOTools::setTitle(__('nav.edit_project') . ' ' . $project->name);
+        SEOTools::setTitle(__('nav.edit_project').' '.$project->name);
 
         return view('project.edit', compact('category', 'project'));
     }
@@ -185,7 +185,7 @@ class ProjectController extends Controller
 
         $user = User::firstWhere('email', '=', $req['email']);
 
-        if (!$project->addToTeam($user)) {
+        if (! $project->addToTeam($user)) {
             // user already member of this team
             return response()->json(
                 [
@@ -205,9 +205,9 @@ class ProjectController extends Controller
             ),
             [
                 'src' => $user->avatar,
-                'id' => 'a' . random_int(1, 9999),
+                'id' => 'a'.random_int(1, 9999),
                 'title' => $user->name,
-                'attributes' => "alt='" . $user->name . " avatar'",
+                'attributes' => "alt='".$user->name." avatar'",
             ]
         );
     }

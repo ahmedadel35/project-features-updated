@@ -64,6 +64,7 @@ class RouteServiceProvider extends ServiceProvider
             if ($category) {
                 return $category->user_id === $user->id;
             }
+
             return true;
         });
 

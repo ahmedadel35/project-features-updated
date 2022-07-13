@@ -6,13 +6,7 @@ use App\Events\TaskToggledEvent;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
-use Blade;
-use DB;
-use Doctrine\DBAL\Query\QueryBuilder;
-use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use View;
 
 class TodoController extends Controller
 {
@@ -69,10 +63,10 @@ class TodoController extends Controller
     /**
      * toggle the state of task
      *
-     * @param Request $request
-     * @param Category $category
-     * @param Project $project
-     * @param Todo $task
+     * @param  Request  $request
+     * @param  Category  $category
+     * @param  Project  $project
+     * @param  Todo  $task
      * @return void
      */
     public function toggle(
@@ -87,7 +81,6 @@ class TodoController extends Controller
          * for normal task body update
          * bu instead for the completed state toggle only
          */
-
         ['completed' => $completed] = $request->validate([
             'completed' => 'required|boolean',
         ]);
@@ -97,7 +90,7 @@ class TodoController extends Controller
         TaskToggledEvent::dispatch($task);
 
         // check if user was completeing task or not
-        if (!$completed) {
+        if (! $completed) {
             // user un checked this task
             // then remove completed state from project if exists
 
@@ -159,17 +152,18 @@ class TodoController extends Controller
     /**
      * remove completed state from project if exists
      *
-     * @param Project $project
+     * @param  Project  $project
      * @return void
      */
     private function updateProjectIfCompleted(Project $project): bool
     {
-        if (!$project->completed) {
+        if (! $project->completed) {
             return false;
         }
 
         // then update to not completed
         $project->update(['completed' => false]);
+
         return false;
     }
 }
