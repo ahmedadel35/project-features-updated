@@ -159,27 +159,30 @@ a {
 
 .btn {
     @apply text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center inline-block;
-    &.green {
-        @apply from-green-400 via-green-500 to-green-600 focus:ring-green-300 dark:focus:ring-green-800;
-    }
-    &.cyan {
-        @apply from-cyan-400 via-cyan-500 to-cyan-600 focus:ring-cyan-300 dark:focus:ring-cyan-800;
-    }
-    &.teal {
-        @apply from-teal-400 via-teal-500 to-teal-600 focus:ring-teal-300 dark:focus:ring-teal-800;
-    }
-    &.lime {
-        @apply from-lime-400 via-lime-500 to-lime-600 focus:ring-lime-300 dark:focus:ring-lime-800;
-    }
-    &.red {
-        @apply from-red-400 via-red-500 to-red-600 focus:ring-red-300 dark:focus:ring-red-800;
-    }
-    &.pink {
-        @apply from-pink-400 via-pink-500 to-pink-600 focus:ring-pink-300 dark:focus:ring-pink-800;
-    }
-    &.purple {
-        @apply from-purple-400 via-purple-500 to-purple-600 focus:ring-purple-300 dark:focus:ring-purple-800;
-    }
+}
+.has-gr {
+    @apply bg-gradient-to-r hover:bg-gradient-to-br;
+}
+.green {
+    @apply from-green-400 via-green-500 to-green-600 focus:ring-green-300 dark:focus:ring-green-800;
+}
+.cyan {
+    @apply from-cyan-400 via-cyan-500 to-cyan-600 focus:ring-cyan-300 dark:focus:ring-cyan-800;
+}
+.teal {
+    @apply from-teal-400 via-teal-500 to-teal-600 focus:ring-teal-300 dark:focus:ring-teal-800;
+}
+.lime {
+    @apply from-lime-400 via-lime-500 to-lime-600 focus:ring-lime-300 dark:focus:ring-lime-800;
+}
+.red {
+    @apply from-red-400 via-red-500 to-red-600 focus:ring-red-300 dark:focus:ring-red-800;
+}
+.pink {
+    @apply from-pink-400 via-pink-500 to-pink-600 focus:ring-pink-300 dark:focus:ring-pink-800;
+}
+.purple {
+    @apply from-purple-400 via-purple-500 to-purple-600 focus:ring-purple-300 dark:focus:ring-purple-800;
 }
 
 .input {
@@ -206,7 +209,6 @@ body {
 
 .card-bg {
     @apply bg-white rounded-lg shadow-md dark:bg-gray-800  transition duration-200 text-gray-800 dark:text-gray-100;
-
 }
 
 .alert {
@@ -234,13 +236,13 @@ body {
 body.gr-bg {
     background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
     .card-bg {
-        --tw-bg-opacity: .85;
+        --tw-bg-opacity: 0.85;
     }
 }
 .dark body.gr-bg {
     background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);
     .card-bg {
-        --tw-bg-opacity: .80;
+        --tw-bg-opacity: 0.8;
     }
 }
 select {
