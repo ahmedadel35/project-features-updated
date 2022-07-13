@@ -53,6 +53,15 @@ class TodoController extends Controller
             ->create($request->validate(self::VALIDATION_RULES));
 
         $task->completed = false;
+
+        /**
+         * why not using observer here?
+         * because we can not access project instance into observer
+         * so we will always (re)fetch project from database
+         * to check if it was already completed before
+         */
+        $this->updateProjectIfNotCompleted($project);
+
         return response()->json($task, 201);
     }
 
@@ -73,7 +82,7 @@ class TodoController extends Controller
     ) {
         /**
          * this should not go to observer
-         * because we do not to run this check 
+         * because we do not want to run this check
          * for normal task body update
          * bu instead for the completed state toggle only
          */
@@ -88,14 +97,12 @@ class TodoController extends Controller
         if (!$completed) {
             // user un checked this task
             // then remove completed state from project if exists
-            if ($project->completed) {
-                $project->update(['completed' => false]);
-            }
+            $this->updateProjectIfNotCompleted($project);
 
             return response()->noContent();
         }
         //else
-        
+
         // determine if all project tasks was completed or not
         $tasks = Todo::whereProjectId($project->id);
         $checked = $task->whereCompleted(true);
@@ -104,10 +111,7 @@ class TodoController extends Controller
             $project->update(['completed' => true]);
         } else {
             // check if project was completed
-            if ($project->completed) {
-                // then update to not completed
-                $project->update(['completed' => false]);
-            }
+            $this->updateProjectIfNotCompleted($project);
         }
 
         return response()->noContent();
@@ -142,5 +146,21 @@ class TodoController extends Controller
         $task->delete();
 
         return response()->noContent();
+    }
+
+    /**
+     * remove completed state from project if exists
+     *
+     * @param Project $project
+     * @return void
+     */
+    private function updateProjectIfNotCompleted(Project $project): void
+    {
+        if (!$project->completed) {
+            return;
+        }
+
+        // then update to not completed
+        $project->update(['completed' => false]);
     }
 }

@@ -54,18 +54,35 @@ function actingAs(?User $user = null)
  * @param  int  $projects_count
  * @return array
  */
-function userWithTodos(?User $user = null, int $tasks_count = 1, int $categories_count = 1, int $projects_count = 1): array
-{
+function userWithTodos(
+    ?User $user = null,
+    int $tasks_count = 1,
+    int $categories_count = 1,
+    int $projects_count = 1,
+    array $projectAttrs = []
+): array {
     $user = $user ?? User::factory()->create();
-    $cats = Category::factory()->count($categories_count)->for($user)->create();
+    $cats = Category::factory()
+        ->count($categories_count)
+        ->for($user)
+        ->create();
 
-    $projs = Project::factory()->count($projects_count)->create([
-        'category_id' => $cats->first()->id,
-    ]);
+    $projs = Project::factory()
+        ->count($projects_count)
+        ->create(
+            array_merge(
+                [
+                    'category_id' => $cats->first()->id,
+                ],
+                $projectAttrs
+            )
+        );
 
-    $todos = Todo::factory()->count($tasks_count)->create([
-        'project_id' => $projs->first()->id,
-    ]);
+    $todos = Todo::factory()
+        ->count($tasks_count)
+        ->create([
+            'project_id' => $projs->first()->id,
+        ]);
 
     /** @var \App\Models\Category $cat */
     $cat = $categories_count === 1 ? $cats->first() : $cats;

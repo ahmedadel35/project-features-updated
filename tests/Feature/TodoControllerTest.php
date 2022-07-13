@@ -238,30 +238,42 @@ test('completing all tasks will turn project state to completed', function () {
     expect($proj->completed)->toBeTrue();
 });
 
-test('un checking task will remove project completed state', function() {
+test('un checking task will remove project completed state', function () {
     /** @var \App\Models\Project $proj*/
-    [$user, $cat, $proj, $task] = userWithTodos();
-    $proj->completed = true;
-    $proj->updateQuietly();
+    [$user, $cat, $proj, $task] = userWithTodos(
+        projectAttrs: ['completed' => true]
+    );
 
-    $proj->refresh();
     expect($proj->completed)->toBeTrue();
 
     // un check task
     actingAs($user)
-        ->putJson(
-            route('tasks.toggle', [
-                $cat->slug,
-                $proj->slug,
-                $task->id,
-            ]),
-            [
-                'completed' => false,
-            ]
-        )
+        ->putJson(route('tasks.toggle', [$cat->slug, $proj->slug, $task->id]), [
+            'completed' => false,
+        ])
         ->assertNoContent();
 
     $proj->refresh();
 
     expect($proj->completed)->toBeFalse();
 });
+
+test(
+    'creating a task into completed project will remove completed',
+    function () {
+        /** @var \App\Models\Project $proj*/
+        [$user, $cat, $proj, $task] = userWithTodos(
+            projectAttrs: ['completed' => true]
+        );
+
+        actingAs($user)
+            ->post(
+                route('tasks.store', [$cat->slug, $proj->slug]),
+                Todo::factory()->raw()
+            )
+            ->assertCreated();
+
+        $proj->refresh();
+        expect($proj->completed)->toBeFalse();
+    }
+);
