@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskToggledEvent;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
@@ -92,6 +93,8 @@ class TodoController extends Controller
         ]);
 
         $task->updateQuietly(compact('completed'));
+
+        TaskToggledEvent::dispatch($task);
 
         // check if user was completeing task or not
         if (!$completed) {

@@ -1,6 +1,7 @@
 import "./bootstrap";
 
 import Alpine from "alpinejs";
+// import Echo from "laravel-echo";
 
 // @ts-ignore
 window.Alpine = Alpine;

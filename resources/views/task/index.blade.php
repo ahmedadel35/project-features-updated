@@ -126,10 +126,16 @@
                         badge.classList.remove('hidden');
                     } else {
                         badge.classList.add('hidden');
-                    }                    
+                    }
+                },
+                pre: function() {
+                    console.log('wwww');
+                    
+            
                 },
             }"
-                x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}')" x-on:add-task.window="tasks.unshift($event.detail.task)"
+                x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}');
+                pre()" x-on:add-task.window="tasks.unshift($event.detail.task)"
                 x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
