@@ -1,4 +1,4 @@
-<nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 w-full fixed top-0 z-50" x-data="{
+<nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 w-full fixed top-0 z-50" x-data="{
     size: 320, // mobile first,
     navMenuOpen: false,
     initate: function() {
@@ -53,7 +53,7 @@
             </x-dropdown>
             {{-- main menu toggler --}}
             <button x-on:click.prevent="navMenuOpen = !navMenuOpen" type="button"
-                class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                class="inline-flex items-center p-2 ml-1 text-sm text-gray-200 rounded-lg md:hidden hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 aria-controls="mobile-menu-2" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
