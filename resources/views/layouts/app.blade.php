@@ -38,7 +38,7 @@
         @include('layouts.navigation')
 
         <!-- Page Heading -->
-        <header class="pt-12 card-bg !rounded-none">
+        <header class="pt-20 card-bg !rounded-none">
             <div class="px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 {{ $header ?? '' }}
             </div>
