@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Auth;
 use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Database\Eloquent\BroadcastableModelEventOccurred;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -73,5 +74,19 @@ class Todo extends Model
     public function broadcastAs($event)
     {
         return 'TaskEvent';
+    }
+
+    /**
+     * Create a new broadcastable model event for the model.
+     *
+     * @param  string  $event
+     * @return \Illuminate\Database\Eloquent\BroadcastableModelEventOccurred
+     */
+    protected function newBroadcastableEvent($event)
+    {
+        return (new BroadcastableModelEventOccurred(
+            $this,
+            $event
+        ))->dontBroadcastToCurrentUser();
     }
 }
