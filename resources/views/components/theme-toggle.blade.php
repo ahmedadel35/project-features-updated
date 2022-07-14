@@ -1,4 +1,4 @@
-<div class='flex w-8 h-8' x-data>
+<div class='flex w-7 h-7' x-data>
     <button type='button' x-on:click.prevent="$store.common.toggleDark()" x-init="$store.common.setDarkMode($store.common.dark)"
         class='focus:outline-none relative overflow-hidden' aria-label="Toggle theme">
         <svg class="w-full h-full fill-yellow-300" x-show="$store.common.dark" aria-label="Apply light theme"

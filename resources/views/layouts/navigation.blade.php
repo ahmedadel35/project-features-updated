@@ -1,14 +1,15 @@
-<nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 w-full fixed top-0 z-50" x-data="{
-    size: 320, // mobile first,
-    navMenuOpen: false,
-    initate: function() {
-        this.size = window.innerWidth;
-
-        if (this.size >= 768) {
-            this.navMenuOpen = true;
-        }
-    },
-}" x-init="initate">
+<nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 w-full fixed top-0 z-50"
+    x-data="{
+        size: 320, // mobile first,
+        navMenuOpen: false,
+        initate: function() {
+            this.size = window.innerWidth;
+    
+            if (this.size >= 768) {
+                this.navMenuOpen = true;
+            }
+        },
+    }" x-init="initate">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
         <a href="https://flowbite.com/" class="flex items-center">
             <x-fas-trash class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
@@ -18,11 +19,32 @@
         </a>
         <div class="flex items-center md:order-2">
             <x-theme-toggle />
+            {{-- language dropdown --}}
+            <x-dropdown>
+                <x-slot name="trigger">
+                    <button type="button" class="flex mx-1 text-sm" id="lang-menu-button" aria-expanded="false"
+                        data-dropdown-toggle="dropdown" data-dropdown-placement="bottom">
+                        <span class="sr-only">Open lang menu</span>
+                        <x-fas-language class="!w-7 !h-7 !m-0" />
+                    </button>
+                </x-slot>
+
+                <x-slot name='content'>
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <x-dropdown-link rel="alternate" hreflang="{{ $localeCode }}"
+                            href="{{app()->getLocale() == $localeCode ? 'javascript:void' : LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" :active="app()->getLocale() == $localeCode">
+                            {{ $properties['native'] }}
+                        </x-dropdown-link>
+                    @endforeach
+
+
+                </x-slot>
+            </x-dropdown>
             {{-- user dropdown --}}
             <x-dropdown>
                 <x-slot name="trigger">
                     <button type="button"
-                        class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                        class="flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown"
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
@@ -70,7 +92,8 @@
                 </svg>
             </button>
         </div>
-        <div x-show="navMenuOpen" class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2" x-cloak x-transition>
+        <div x-show="navMenuOpen" class="justify-between items-center w-full md:flex md:w-auto md:order-1"
+            id="mobile-menu-2" x-cloak x-transition>
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                 <li>
                     <x-nav-link :active="request()->routeIs('categories.index')" href="{{ route('categories.index') }}">
