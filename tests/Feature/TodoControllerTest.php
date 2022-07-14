@@ -162,7 +162,7 @@ test('project team user can get list of tasks', function () {
 
 test('only project owner can complete task', function () {
     [$user, $cat, $proj, $task] = userWithTodos();
-    $task->update(['completed' => false]);
+    $task->updateQuietly(['completed' => false]);
     expect(Todo::find($task->id)->completed)->toBeFalse();
 
     actingAs($user)
@@ -178,7 +178,7 @@ test('user invited to project can complete task', function () {
     [, $cat, $proj, $task] = userWithTodos();
     $ali = User::factory()->create();
 
-    $task->update(['completed' => false]);
+    $task->updateQuietly(['completed' => false]);
     expect(Todo::find($task->id)->completed)->toBeFalse();
 
     actingAs($ali)
@@ -202,7 +202,7 @@ test('user invited to project can complete task', function () {
 test('completing all tasks will turn project state to completed', function () {
     /** @var \App\Models\Project $proj */
     [$user, $cat, $proj, $tasks] = userWithTodos(tasks_count: 2);
-    $tasks->each->update(['completed' => false]);
+    $tasks->each->updateQuietly(['completed' => false]);
     expect(Todo::find($tasks->first()->id)->completed)->toBeFalse();
 
     actingAs($user)

@@ -6,7 +6,7 @@ use App\Models\Todo;
 use App\Models\User;
 
 test('user have categories', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->createQuietly();
 
     expect($user)
         ->categories->not()
@@ -16,7 +16,7 @@ test('user have categories', function () {
 test('user have projects through categories', function () {
     $user = User::factory()
         ->has(Category::factory()->has(Project::factory()->count(5)))
-        ->create();
+        ->createQuietly();
 
     expect($user)->projects->toHaveCount(5);
 });
@@ -24,7 +24,7 @@ test('user have projects through categories', function () {
 test('user have todos through categories, projects', function () {
     $user = User::factory()
         ->has(Category::factory()->has(Project::factory()->has(Todo::factory()->count(6))))
-        ->create();
+        ->createQuietly();
 
     expect($user)->todos->toHaveCount(6);
 });

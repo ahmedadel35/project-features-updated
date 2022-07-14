@@ -65,11 +65,11 @@ function userWithTodos(
     $cats = Category::factory()
         ->count($categories_count)
         ->for($user)
-        ->create();
+        ->createQuietly();
 
     $projs = Project::factory()
         ->count($projects_count)
-        ->create(
+        ->createQuietly(
             array_merge(
                 [
                     'category_id' => $cats->first()->id,
@@ -80,7 +80,7 @@ function userWithTodos(
 
     $todos = Todo::factory()
         ->count($tasks_count)
-        ->create([
+        ->createQuietly([
             'project_id' => $projs->first()->id,
         ]);
 

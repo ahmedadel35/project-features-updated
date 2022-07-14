@@ -5,7 +5,7 @@ use App\Models\Todo;
 use App\Models\User;
 
 test('project belongs to category', function () {
-    $p = Project::factory()->create();
+    $p = Project::factory()->createQuietly();
 
     expect($p->category)
         ->not->toBeNull()
@@ -15,7 +15,7 @@ test('project belongs to category', function () {
 test('project have todos', function () {
     $p = Project::factory()
         ->has(Todo::factory()->count(5))
-        ->create();
+        ->createQuietly();
 
     expect($p->todos)
         ->toHaveCount(5)
@@ -24,25 +24,25 @@ test('project have todos', function () {
 });
 
 test('project have team', function () {
-    $p = Project::factory()->create();
+    $p = Project::factory()->createQuietly();
 
     expect($p->team)->toHaveCount(0);
 });
 
 test('project can add users to team', function () {
-    $p = Project::factory()->create();
+    $p = Project::factory()->createQuietly();
 
     expect($p->team)->toHaveCount(0);
 
-    $p->addToTeam(User::factory()->create());
+    $p->addToTeam(User::factory()->createQuietly());
 
     $p->refresh();
     expect($p->team)->toHaveCount(1);
 });
 
 test('project can check if user is team member', function () {
-    $p = Project::factory()->create();
-    $user = User::factory()->create();
+    $p = Project::factory()->createQuietly();
+    $user = User::factory()->createQuietly();
 
     expect($p->isTeamMember($user))->toBeFalse();
 
@@ -60,7 +60,7 @@ test('project have owner', function () {
 
 test('project owner can not be added to team', function () {
     /** @var \App\Models\Project */
-    $p = Project::factory()->create();
+    $p = Project::factory()->createQuietly();
 
     expect($p->team)->toHaveCount(0);
 
@@ -74,8 +74,8 @@ test('project owner can not be added to team', function () {
 
 test('project can not dublicate team members', function () {
     /** @var \App\Models\Project */
-    $p = Project::factory()->create();
-    $user = User::factory()->create();
+    $p = Project::factory()->createQuietly();
+    $user = User::factory()->createQuietly();
 
     $p->refresh();
     expect($p->team)->toHaveCount(0);
