@@ -22,7 +22,9 @@
     x-on:add-user.window="addUser($event.detail)" x-on:remove-user.window="removeUser($event.detail)">
     <div class="card-bg w-full" x-show="users.length">
         <div class="bg-cyan-600 text-white rounded">
-            <h4 class="text-2xl text-center uppercase">Active Users</h4>
+            <h4 class="text-2xl text-center uppercase">
+                {{__('task.active_users')}}
+            </h4>
         </div>
         <template x-for="user in users" :key='user.name'>
             <div class="flex items-center space-x-2 my-3"
