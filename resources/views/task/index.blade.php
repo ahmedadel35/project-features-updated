@@ -59,12 +59,18 @@
                     this.nextPage = res.data.tasks.next_page_url;
                     this.prevPage = res.data.tasks.prev_page_url;
                 },
-                insert: function(task) {
-                    this.tasks.unshift(task);
-            
+                toggleBadge: function(show) {
                     {{-- hide project completed state if visible --}}
                     const badge = document.querySelector('#{{ $project->slug }} #completed-badge');
+                    if (show) {
+                        badge.classList.remove('hidden');
+                        return;
+                    }
                     badge.classList.add('hidden');
+                },
+                insert: function(task) {
+                    this.tasks.unshift(task);
+                    this.toggleBadge(false);
                 },
                 remove: async function(id) {
                     if (this.deleting === id) return;
@@ -84,7 +90,7 @@
                     }
             
                     $dispatch('toast', {
-                        type: 'success',
+                        type: 'warning',
                         text: '{{ __('category.success') }}'
                     })
                     this.tasks.splice(
@@ -96,6 +102,12 @@
                     this.tasks.map(x => {
                         if (x.id === task.id) {
                             x.body = task.body;
+                            {{-- check if task was checked --}}
+                            {{-- and user unchecked it --}}
+                            if (x.completed && !task.completed) {
+                                {{-- then remove completed badge from project --}}
+                                this.toggleBadge(false);
+                            }
                             x.completed = task.completed;
                         }
                         return x;
@@ -129,12 +141,7 @@
             
             
                     {{-- toggle project completed state --}}
-                    const badge = document.querySelector('#{{ $project->slug }} #completed-badge');
-                    if (res.data.project_completed) {
-                        badge.classList.remove('hidden');
-                    } else {
-                        badge.classList.add('hidden');
-                    }
+                    this.toggleBadge(res.data.project_completed)
                 },
                 notify: function(text, info, body, user, type) {
                     if (typeof type === 'undefined') {
