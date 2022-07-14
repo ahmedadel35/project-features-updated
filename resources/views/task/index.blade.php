@@ -151,18 +151,13 @@
                 registerTaskEventListener: function() {
                     window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
                         console.log(users);
+                        $dispatch('set-users', users);
                     })
                     .joining((user) => {
-                        this.notify(
-                            '{{__('task.user_joined')}}',
-                            '', '', user, 'info'
-                        )
+                        $dispatch('add-user', user);
                     })
                     .leaving((user) => {
-                        this.notify(
-                            '{{__('task.user_leaved')}}',
-                            '', '', user, 'warning'
-                        )
+                        $dispatch('remove-user', user);
                     })
                     .listen('TaskEvent', (e) => {
                         {{-- handle response --}}
@@ -235,6 +230,8 @@
         </div>
         <div class="flex flex-row flex-wrap w-full md:w-1/4">
             @include('project.show', ['p' => $project, 'class' => ''])
+
+            @include('task.index.users')
         </div>
     </div>
 
