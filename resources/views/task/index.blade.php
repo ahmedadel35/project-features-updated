@@ -89,6 +89,7 @@
                     this.tasks.map(x => {
                         if (x.id === task.id) {
                             x.body = task.body;
+                            x.completed = task.completed;
                         }
                         return x;
                     })
@@ -128,24 +129,19 @@
                         badge.classList.add('hidden');
                     }
                 },
-                pre: function() {            
+                pre: function() {
                     window.Echo.private('project.{{ $project->slug }}.tasks').listen('TaskEvent', (e) => {
                         {{-- handle response --}}
                         {{-- types =>  created | updated | deleted --}}
                         if (e.type === 'updated') {
                             $dispatch('toast', {
                                 type: 'success',
-                                text: '{{__('task.updated')}}',
-                                {{-- todo update using user and task --}}
+                                text: '{{ __('task.updated') }}',
+                                info: e.user.name + ' {{ __('task.word_updated') }} ' + e.task.body,
+                                img: e.user.avatar,
                             })
-
-                            this.tasks.map(x => {
-                                if (x.id === e.task.id) {
-                                    x.body = e.task.body;
-                                    x.completed = e.task.completed;
-                                }
-                                return x;
-                            })
+            
+                            this.update(e.task);
                         }
                         console.log(e);
                     });
