@@ -40,13 +40,20 @@ window.Alpine = Alpine;
 
     Alpine.store("common", {
         dark:
-            JSON.parse(localStorage.getItem("dark-theme") as string) ||
+            JSON.parse(localStorage.getItem("dark-theme") as string) !== null ? JSON.parse(localStorage.getItem("dark-theme") as string) :
             (!!window.matchMedia &&
                 window.matchMedia("(prefers-color-scheme: dark)").matches),
         toggleDark(): void {
             this.dark = !this.dark;
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem("dark-theme", this.dark);
+            this.setDarkMode(this.dark);
+            localStorage.setItem("dark-theme", this.dark ? '1' : '0');
+        },
+        setDarkMode(mode: boolean): void {
+            if (mode) {
+                document.documentElement.classList.add('dark')
+                return;
+            }
+            document.documentElement.classList.remove('dark')
         },
         testMail(mail: string) {
             return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
