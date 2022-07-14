@@ -63,7 +63,7 @@ html {
 }
 
 a {
-    @apply cursor-pointer;
+    @apply cursor-pointer break-words;
 }
 
 .alert {
