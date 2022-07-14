@@ -43,7 +43,10 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        return request()->category->user_id === $user->id;
+        if (request()->category?->user_id) {
+            return request()->category?->user_id === $user->id;
+        }
+        return true;
     }
 
     /**
