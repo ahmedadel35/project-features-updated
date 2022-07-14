@@ -158,7 +158,7 @@
                     .leaving((user) => {
                         $dispatch('remove-user', user);
                     })
-                    .listen('TaskEvent', (e) => {
+                    .listen('.TaskEvent', (e) => {
                         {{-- handle response --}}
                         {{-- types =>  created | updated | deleted --}}
                         if (e.type === 'created') {
