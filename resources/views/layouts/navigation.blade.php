@@ -1,4 +1,14 @@
-<nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+<nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900" x-data="{
+    size: 320, // mobile first,
+    navMenuOpen: false,
+    initate: function() {
+        this.size = window.innerWidth;
+
+        if (this.size >= 768) {
+            this.navMenuOpen = true;
+        }
+    },
+}" x-init="initate">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
         <a href="https://flowbite.com/" class="flex items-center">
             <x-fas-trash class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
@@ -42,7 +52,7 @@
                 </x-slot>
             </x-dropdown>
             {{-- main menu toggler --}}
-            <button data-collapse-toggle="mobile-menu-2" type="button"
+            <button x-on:click.prevent="navMenuOpen = !navMenuOpen" type="button"
                 class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 aria-controls="mobile-menu-2" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
@@ -60,7 +70,7 @@
                 </svg>
             </button>
         </div>
-        <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+        <div x-show="navMenuOpen" class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2" x-cloak x-transition>
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                 <li>
                     <x-nav-link :active="request()->routeIs('categories.index')" href="{{ route('categories.index') }}">
