@@ -45,10 +45,6 @@
             return;
         }
         $dispatch('add-task', {task: res.data})
-
-        {{-- hide project completed state if visible --}}
-        const badge = document.querySelector('#{{$project->slug}} #completed-badge')
-        badge.classList.add('hidden')
     },
     editTask: function(task) {
         this.editMode = true;

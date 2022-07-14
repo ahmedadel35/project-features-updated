@@ -16,7 +16,9 @@ class TodoObserver
      */
     public function created(Todo $todo)
     {
-        //
+        broadcast(
+            new TaskEvent('created', Auth::user(), request()->project, $todo)
+        )->toOthers();
     }
 
     /**

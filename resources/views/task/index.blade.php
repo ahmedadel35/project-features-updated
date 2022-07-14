@@ -59,6 +59,13 @@
                     this.nextPage = res.data.tasks.next_page_url;
                     this.prevPage = res.data.tasks.prev_page_url;
                 },
+                insert: function(task) {
+                    this.tasks.unshift(task);
+            
+                    {{-- hide project completed state if visible --}}
+                    const badge = document.querySelector('#{{ $project->slug }} #completed-badge');
+                    badge.classList.add('hidden');
+                },
                 remove: async function(id) {
                     if (this.deleting === id) return;
             
@@ -129,17 +136,34 @@
                         badge.classList.add('hidden');
                     }
                 },
+                notify: function(text, info, body, user) {
+                    $dispatch('toast', {
+                        type: 'success',
+                        text: text,
+                        info: user.name + info + body.substr(0, 10) + '...',
+                        img: user.avatar,
+                    })
+                },
                 pre: function() {
                     window.Echo.private('project.{{ $project->slug }}.tasks').listen('TaskEvent', (e) => {
                         {{-- handle response --}}
                         {{-- types =>  created | updated | deleted --}}
-                        if (e.type === 'updated') {
-                            $dispatch('toast', {
-                                type: 'success',
-                                text: '{{ __('task.updated') }}',
-                                info: e.user.name + ' {{ __('task.word_updated') }} ' + e.task.body,
-                                img: e.user.avatar,
-                            })
+                        if (e.type === 'created') {
+                            this.notify(
+                                '{{ __('task.created') }}',
+                                ' {{ __('task.word_created') }} ',
+                                e.task.body,
+                                e.user
+                            );
+
+                            this.insert(e.task);
+                        } else if (e.type === 'updated') {
+                            this.notify(
+                                '{{ __('task.updated') }}',
+                                ' {{ __('task.word_updated') }} ',
+                                e.task.body,
+                                e.user
+                            );
             
                             this.update(e.task);
                         }
@@ -149,7 +173,7 @@
                 },
             }"
                 x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}');
-                pre()" x-on:add-task.window="tasks.unshift($event.detail.task)"
+                pre()" x-on:add-task.window="insert($event.detail.task)"
                 x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))
