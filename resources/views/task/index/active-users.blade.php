@@ -20,7 +20,7 @@
     },
 }" x-on:set-users.window="users = $event.detail"
     x-on:add-user.window="addUser($event.detail)" x-on:remove-user.window="removeUser($event.detail)">
-    <div class="card-bg w-full">
+    <div class="card-bg w-full" x-show="users.length">
         <div class="bg-cyan-600 text-white rounded">
             <h4 class="text-2xl text-center uppercase">Active Users</h4>
         </div>

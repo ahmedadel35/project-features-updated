@@ -225,10 +225,10 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-row flex-wrap w-full md:w-1/4">
+        <div class="flex flex-col w-full md:w-1/4">
             @include('project.show', ['p' => $project, 'class' => ''])
 
-            @include('task.index.users')
+            @include('task.index.active-users')
         </div>
     </div>
 
