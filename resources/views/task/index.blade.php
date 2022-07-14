@@ -136,16 +136,35 @@
                         badge.classList.add('hidden');
                     }
                 },
-                notify: function(text, info, body, user) {
+                notify: function(text, info, body, user, type) {
+                    if (typeof type === 'undefined') {
+                        type = 'success';
+                    }
+
                     $dispatch('toast', {
-                        type: 'success',
+                        type: type,
                         text: text,
                         info: user.name + info + body.substr(0, 10) + '...',
                         img: user.avatar,
                     })
                 },
-                pre: function() {
-                    window.Echo.private('project.{{ $project->slug }}.tasks').listen('TaskEvent', (e) => {
+                registerTaskEventListener: function() {
+                    window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
+                        console.log(users);
+                    })
+                    .joining((user) => {
+                        this.notify(
+                            '{{__('task.user_joined')}}',
+                            '', '', user, 'info'
+                        )
+                    })
+                    .leaving((user) => {
+                        this.notify(
+                            '{{__('task.user_leaved')}}',
+                            '', '', user, 'warning'
+                        )
+                    })
+                    .listen('TaskEvent', (e) => {
                         {{-- handle response --}}
                         {{-- types =>  created | updated | deleted --}}
                         if (e.type === 'created') {
@@ -182,11 +201,10 @@
             
                         console.log(e);
                     });
-            
                 },
             }"
                 x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}');
-                pre()" x-on:add-task.window="insert($event.detail.task)"
+                registerTaskEventListener()" x-on:add-task.window="insert($event.detail.task)"
                 x-on:update-task.window="update($event.detail.task)">
                 <template x-for="task in tasks" :key="task.id">
                     @include('task.show', compact('project', 'category'))

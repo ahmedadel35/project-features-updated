@@ -18,6 +18,9 @@ Broadcast::channel('project.{project}.tasks', function (
     $user,
     Project $project
 ) {
-    return (int) $project->category->user_id === (int) $user->id ||
-        $project->isTeamMember($user);
+    if( (int) $project->category->user_id === (int) $user->id ||
+        $project->isTeamMember($user)) {
+            return $user->only(['name', 'avatar']);
+        }
+    return false;
 });

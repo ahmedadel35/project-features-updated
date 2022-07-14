@@ -39,6 +39,8 @@ class TaskEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('project.' . $this->project->slug . '.tasks');
+        return new PresenceChannel(
+            'project.' . $this->project->slug . '.tasks'
+        );
     }
 }
