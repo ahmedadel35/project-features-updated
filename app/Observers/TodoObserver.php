@@ -11,59 +11,40 @@ class TodoObserver
     /**
      * Handle the Todo "created" event.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Todo  $task
      * @return void
      */
-    public function created(Todo $todo)
+    public function created(Todo $task)
     {
+        $task->completed = false;
         broadcast(
-            new TaskEvent('created', Auth::user(), request()->project, $todo)
+            new TaskEvent('created', Auth::user(), request()->project, $task)
         )->toOthers();
     }
 
     /**
      * Handle the Todo "updated" event.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Todo  $task
      * @return void
      */
-    public function updated(Todo $todo)
+    public function updated(Todo $task)
     {
         broadcast(
-            new TaskEvent('updated', Auth::user(), request()->project, $todo)
+            new TaskEvent('updated', Auth::user(), request()->project, $task)
         )->toOthers();
     }
 
     /**
      * Handle the Todo "deleted" event.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  \App\Models\Todo  $task
      * @return void
      */
-    public function deleted(Todo $todo)
+    public function deleted(Todo $task)
     {
-        //
-    }
-
-    /**
-     * Handle the Todo "restored" event.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return void
-     */
-    public function restored(Todo $todo)
-    {
-        //
-    }
-
-    /**
-     * Handle the Todo "force deleted" event.
-     *
-     * @param  \App\Models\Todo  $todo
-     * @return void
-     */
-    public function forceDeleted(Todo $todo)
-    {
-        //
+        broadcast(
+            new TaskEvent('deleted', Auth::user(), request()->project, $task)
+        )->toOthers();
     }
 }

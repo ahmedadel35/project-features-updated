@@ -155,7 +155,7 @@
                                 e.task.body,
                                 e.user
                             );
-
+            
                             this.insert(e.task);
                         } else if (e.type === 'updated') {
                             this.notify(
@@ -166,7 +166,20 @@
                             );
             
                             this.update(e.task);
+                        } else if (e.type === 'deleted') {
+                            this.notify(
+                                '{{ __('task.deleted') }}',
+                                ' {{ __('task.word_deleted') }} ',
+                                e.task.body,
+                                e.user
+                            );
+            
+                            this.tasks.splice(
+                                this.tasks.findIndex(x => x.id === e.task.id),
+                                1
+                            )
                         }
+            
                         console.log(e);
                     });
             
