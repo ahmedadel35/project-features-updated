@@ -150,7 +150,6 @@
                 },
                 registerTaskEventListener: function() {
                     window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
-                        console.log(users);
                         $dispatch('set-users', users);
                     })
                     .joining((user) => {
@@ -192,9 +191,7 @@
                                 this.tasks.findIndex(x => x.id === e.task.id),
                                 1
                             )
-                        }
-            
-                        console.log(e);
+                        }            
                     });
                 },
             }"
