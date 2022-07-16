@@ -42,6 +42,8 @@ class ChangeUserPasswordController extends Controller
             'changed_password' => true,
         ]);
 
+        Auth::guard('web')->logout();
+
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
