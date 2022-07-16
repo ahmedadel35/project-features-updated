@@ -52,12 +52,15 @@ abstract class AbstractExternalLoginController extends Controller
                 "name" => $user->getName(),
                 "email" => $user->getEmail(),
                 'avatar' => $user->getAvatar(),
-                "password" => Hash::make(Str::random(8)),
                 'email_verified_at' => Carbon::now(),
+                "password" => Hash::make(Str::random(8)),
+                'changed_password' => false,
                 // you can change auto generate password here and send it via email but you need to add checking that the user need to change the password for security reasons
             ]);
 
             Auth::login($newUser);
+
+            session()->flash('notify', "please change your password at <a href='" . route('projects.index', 'all')."'>here</a>");
 
             return redirect()->route('projects.index', 'all');
         }

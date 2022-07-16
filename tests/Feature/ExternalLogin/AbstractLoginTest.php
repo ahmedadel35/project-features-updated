@@ -43,3 +43,24 @@ test("will login user if already registerd", function ($provider, $contract) {
     ['facebook', FacebookProvider::class],
     ['github', GithubProvider::class],
 ]);
+
+
+it("will show notification for newly registerd users", function ($provider, $contract) {
+    $user = User::factory()->make();
+
+    $stub = $this->mockSocialite($contract, $user);
+    $this->app->instance(Socialite::class, $stub);
+
+    $res = get(route("ext-login.$provider.callback"));
+
+    $res->assertSessionHas('notify');
+
+    $this->assertDatabaseHas("users", [
+        "email" => $user->email,
+        'name' => $user->name,
+        'changed_password' => false,
+    ]);
+})->with([
+    ['facebook', FacebookProvider::class],
+    ['github', GithubProvider::class],
+]);

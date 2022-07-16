@@ -13,7 +13,13 @@
         this.notices.splice(this.notices.findIndex(notice => notice.id == id), 1)
     },
 }">
-    <div class="fixed bottom-5 p-3 toast-container ltr:right-5 rtl:left-5" x-on:toast.window="add($event.detail)">
+    <div class="fixed bottom-5 p-3 toast-container ltr:right-5 rtl:left-5" x-on:toast.window="add($event.detail)" @if(session('notify'))
+        x-init="add({
+            type: 'info',
+            text: '{{__('auth.notify')}}',
+            info: '{{session('notify')}}',
+        })"
+    @endif>
         <template x-for="notice of notices" :key="notice.id">
             <div id="toast-notification"
                 class="p-2 w-full max-w-xs text-gray-900 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-300 cursor-pointer mb-2"
