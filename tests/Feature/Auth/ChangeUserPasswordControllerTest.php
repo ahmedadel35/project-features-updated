@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 
 test('guest can not change password', function () {
     $this->get(route('change-password.create'))->assertRedirect(route('login'));
@@ -19,19 +20,21 @@ it('will show old password if user changed password before', function () {
 
     actingAs($user)
         ->get(route('change-password.create'))
-        ->assertDontSee('old password')
-        ->assertSee('new-password');
+        ->assertDontSee('old-password')
+        ->assertSee('password');
 
     $user->update(['changed_password' => true]);
 
     actingAs($user)
         ->get(route('change-password.create'))
         ->assertSee('old-password')
-        ->assertSee('new-password');
+        ->assertSee('password');
 });
 
 test('user can not change password with invalid data', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'changed_password' => false,
+    ]);
 
     // without old-password
     $res = actingAs($user)
@@ -39,13 +42,45 @@ test('user can not change password with invalid data', function () {
         ->assertStatus(302)
         ->assertSessionHasErrors();
 
+    $pass = fake()->sentence(5);
+
+    $user->changed_password = true;
+    $user->update();
     // with old password
     $res = actingAs($user)
         ->put(route('change-password.update'), [
-            'password' => fake()->text(7), // min length is 8 chars
-            'new-password' => fake()->password,
-            'password_confirmation' => fake()->password,
+            'old-password' => fake()->text(7), // min length is 8 chars
+            'password' => $pass,
+            'password_confirmation' => $pass,
         ])
         ->assertStatus(302)
-        ->assertSessionHasErrors();
+        ->assertSessionHasErrors(['old-password']);
+
+    // without old password and user must provide it
+    $res = actingAs($user)
+        ->put(route('change-password.update'), [
+            'password' => $pass,
+            'password_confirmation' => $pass,
+        ])
+        ->assertStatus(403);
 });
+
+test(
+    'user can change password for the first time without old one',
+    function () {
+        $user = User::factory()->create([
+            'changed_password' => false,
+        ]);
+
+        $pass = fake()->sentence(5);
+
+        actingAs($user)
+            ->put(route('change-password.update'), [
+                'password' => $pass,
+                'password_confirmation' => $pass,
+            ])
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        expect(User::find($user->id))->password->toBe(Hash::make($pass));
+    }
+);

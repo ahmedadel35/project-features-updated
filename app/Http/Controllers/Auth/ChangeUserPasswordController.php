@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
 
 class ChangeUserPasswordController extends Controller
 {
@@ -18,9 +20,17 @@ class ChangeUserPasswordController extends Controller
     public function update(Request $request)
     {
         $req = $request->validate([
-            'password' => 'sometimes|string|min:8|max:255',
-            'new-password' => 'required|string|min:8|max:255',
-            'password_confirmation' => 'required|string|min:8|max:255',
+            'old-password' => ['sometimes', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::defaults(),
+            ],
         ]);
+
+        // check if user joined with third party apps
+        if (Auth::user()->changed_password) {
+            abort_if(!isset($req['old-password']), 403);
+        }
     }
 }
