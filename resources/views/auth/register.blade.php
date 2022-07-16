@@ -75,7 +75,7 @@
                 <div class="flex items-center justify-between mt-4">
                     <x-btn-with-spinner tag='a' desc='go to login page' class=""
                         icon='fas-right-to-bracket' href="{{ route('login') }}">
-                        {{ __('auth.Already registered?') }}
+                        {{ __('auth.Already_registered?') }}
                     </x-btn-with-spinner>
 
                     <x-btn-with-spinner type='submit' class="green" icon="fas-user-plus" desc='tegister'
@@ -83,6 +83,8 @@
                         {{ __('auth.Register') }}
                     </x-btn-with-spinner>
                 </div>
+
+                @include('auth.external')
             </form>
         </div>
     </x-auth-card>

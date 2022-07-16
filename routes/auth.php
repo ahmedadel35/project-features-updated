@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ExternalLogin\GithubLoginController;
+use App\Http\Controllers\ExternalLogin\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -43,6 +45,27 @@ Route::middleware('guest')->group(function () {
         NewPasswordController::class,
         'store',
     ])->name('password.update');
+
+    Route::prefix('/ext-login')
+        ->name('ext-login.')
+        ->middleware('guest')
+        ->group(function () {
+            Route::controller(GoogleLoginController::class)
+                ->name('google.')
+                ->prefix('/google')
+                ->group(function () {
+                    Route::get('', 'redirect')->name('redirect');
+                    Route::get('/callback', 'callback')->name('callback');
+                });
+
+            Route::controller(GithubLoginController::class)
+                ->name('github.')
+                ->prefix('/github')
+                ->group(function () {
+                    Route::get('', 'redirect')->name('redirect');
+                    Route::get('/callback', 'callback')->name('callback');
+                });
+        });
 });
 
 Route::middleware('auth')->group(function () {

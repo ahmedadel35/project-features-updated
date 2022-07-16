@@ -24,7 +24,7 @@
             logging: false,
             submit: function() {
                 if (this.logging) return;
-
+        
                 this.error.email = this.error.pass = false;
         
                 {{-- filter inputs --}}
@@ -84,7 +84,8 @@
                         <input id="remember_me" type="checkbox"
                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             name="remember">
-                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember_me') }}</span>
+                        <span
+                            class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember_me') }}</span>
                     </label>
                 </div>
 
@@ -121,7 +122,7 @@
                         'admin@site.com',
                         'password',
                     )">
-                        user1
+                        login as user1
                     </x-button>
 
                     <x-button type='button' class="btn green"
@@ -129,9 +130,11 @@
                         'user@site.com',
                         'password',
                     )">
-                        User2
+                        login as User2
                     </x-button>
                 </div>
+
+                @include('auth.external')
             </form>
         </div>
     </x-auth-card>
