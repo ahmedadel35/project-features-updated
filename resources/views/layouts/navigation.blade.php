@@ -12,7 +12,7 @@
     }" x-init="initate">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
         <a href="https://flowbite.com/" class="flex items-center">
-            <x-fas-trash class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+            <x-fas-diagram-project class="h-6 sm:h-9" alt="Flowbite Logo" />
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 {{ env('APP_NAME', '') }}
             </span>

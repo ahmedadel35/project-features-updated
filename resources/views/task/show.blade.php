@@ -4,7 +4,7 @@
             class="w-4 h-4 text-green-600 bg-gray-100 rounded border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" x-bind:class="{'dark:bg-green-600 dark:border-green-600': task.completed}" x-show="toggle !== task.id" required/>
             <x-btn-spinner color="text-green-600 !m-0" x-show="toggle === task.id" />
             <label x-bind:for="'checkbox' + task.id" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-            <span x-text="task.body + '--' + task.id"></span>
+            <span x-text="task.body"></span>
         </label>
     </div>
     <div class="text-end">
