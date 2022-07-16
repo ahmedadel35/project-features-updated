@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-app-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -12,70 +12,127 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('login') }}" class="">
-            @csrf
-            <div class="my-2" x-data="{
-                setVal: function(m, p) {
-                    const email = document.querySelector('#email');
-                    const pass = document.querySelector('#password');
+        <div x-data="{
+            form: {
+                email: '',
+                pass: '',
+            },
+            error: {
+                email: null,
+                pass: null,
+            },
+            logging: false,
+            submit: function() {
+                if (this.logging) return;
 
-                    email.value = m;
-                    pass.value = p;
+                this.error.email = this.error.pass = false;
+        
+                {{-- filter inputs --}}
+                if (!this.form.pass.length) {
+                    this.error.pass = true;
                 }
-            }">
-                <x-button type='button' class="btn lime" x-on:click.prevent="setVal(
-                    'admin@site.com',
-                    'password',
-                )">
-                    Admin
-                </x-button>
-                
-                <x-button type='button' class="btn red" x-on:click.prevent="setVal(
-                    'user@site.com',
-                    'password',
-                )">
-                    User
-                </x-button>
-            </div>
+                if (!this.form.email.length || !$store.common.testMail(this.form.email)) {
+                    this.error.email = true;
+                }
+                if (this.error.email || this.error.pass) return;
+        
+                this.logging = true;
+        
+                $refs.form.submit();
+            },
+        }">
+            <form method="POST" x-on:submit.prevent="submit" x-ref='form' action="{{ route('login') }}" class=""
+                novalidate>
+                @csrf
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" class=" p-5 text-[#25aaee]" />
+                <!-- Email Address -->
+                <div>
+                    <x-label for="email" :value="__('auth.Email')" class="form-label" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                    autofocus />
-            </div>
+                    <x-input id="email" class="form-input w-full" type="email" name="email" :value="old('email')"
+                        placeholder="example@website.com" x-model.trim='form.email' required autofocus />
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                        @error('email')
+                            {{ $message }}
+                        @enderror
+                        <span x-show='error.email'>
+                            {{ __('validation.email', ['attribute' => __('auth.Email')]) }}
+                        </span>
+                    </p>
+                </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <!-- Password -->
+                <div class="mt-4">
+                    <x-label for="password" :value="__('auth.Password')" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="current-password" />
-            </div>
+                    <x-input id="password" class="form-input w-full" type="password" name="password"
+                        placeholder="{{ __('auth.Password') }}" x-model.trim='form.pass' required
+                        autocomplete="current-password" />
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                        @error('password')
+                            {{ $message }}
+                        @enderror
+                        <span x-show="error.pass">
+                            {{ __('validation.required', ['attribute' => __('auth.Password')]) }}
+                        </span>
+                    </p>
+                </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox"
-                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+                <!-- Remember Me -->
+                <div class="block mt-4">
+                    <label for="remember_me" class="inline-flex items-center">
+                        <input id="remember_me" type="checkbox"
+                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            name="remember">
+                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember_me') }}</span>
+                    </label>
+                </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if(Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                <div class="flex justify-between items-center my-3">
+                    <x-btn-with-spinner type='submit' class="cyan" icon="fas-right-to-bracket" desc='login'
+                        busy='logging'>
+                        {{ __('auth.Log_in') }}
+                    </x-btn-with-spinner>
+
+                    <x-btn-with-spinner tag='a' href="{{ route('register') }}" class="purple"
+                        icon="fas-user-plus" desc='register'>
+                        {{ __('auth.register') }}
+                    </x-btn-with-spinner>
+                </div>
+
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-300"
                         href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{ __('auth.Forgot_your_password?') }}
                     </a>
                 @endif
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
+                <div class="my-2" x-data="{
+                    setVal: function(m, p) {
+                        const email = document.querySelector('#email');
+                        const pass = document.querySelector('#password');
+                
+                        email.value = m;
+                        pass.value = p;
+                    }
+                }">
+                    <x-button type='button' class="btn green"
+                        x-on:click.prevent="setVal(
+                        'admin@site.com',
+                        'password',
+                    )">
+                        user1
+                    </x-button>
+
+                    <x-button type='button' class="btn green"
+                        x-on:click.prevent="setVal(
+                        'user@site.com',
+                        'password',
+                    )">
+                        User2
+                    </x-button>
+                </div>
+            </form>
+        </div>
     </x-auth-card>
-</x-guest-layout>
+</x-app-layout>

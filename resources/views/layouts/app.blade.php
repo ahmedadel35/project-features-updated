@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="utf-8">
@@ -24,7 +23,7 @@
     @vite('resources/css/app.css')
     <script>
         function lazyLoadIt(id) {
-            const img = document.querySelector('#' +id);
+            const img = document.querySelector('#' + id);
             const loader = document.querySelector('#' + id + '-loader')
             img.classList.remove('hidden')
             loader.classList.add('hidden')
@@ -38,11 +37,13 @@
         @include('layouts.navigation')
 
         <!-- Page Heading -->
-        <header class="pt-20 card-bg !rounded-none">
-            <div class="px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                {{ $header ?? '' }}
-            </div>
-        </header>
+        @isset($header)
+            <header class="pt-20 card-bg !rounded-none">
+                <div class="px-4 py-1 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
 
         <!-- Page Content -->
         <main>
