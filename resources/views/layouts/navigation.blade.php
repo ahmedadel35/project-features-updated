@@ -59,8 +59,8 @@
                         <span
                             class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
                     </div>
-                    <x-dropdown-link href='#'>
-                        change password
+                    <x-dropdown-link href="{{route('change-password.create')}}" aria-describedby="change user pasword">
+                        {{__('auth.change_password')}}
                     </x-dropdown-link>
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}">

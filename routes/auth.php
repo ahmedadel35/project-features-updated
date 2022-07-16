@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\ChangeUserPasswordController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -102,4 +103,8 @@ Route::middleware('auth')->group(function () {
         AuthenticatedSessionController::class,
         'destroy',
     ])->name('logout');
+
+    Route::controller(ChangeUserPasswordController::class)->name('change-password.')->prefix('change-password')->group(function() {
+        Route::get('', 'create')->name('create');
+    });
 });
