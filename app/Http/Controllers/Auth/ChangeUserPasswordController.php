@@ -23,11 +23,7 @@ class ChangeUserPasswordController extends Controller
     {
         $req = $request->validate([
             'old-password' => ['sometimes', Rules\Password::defaults()],
-            'password' => [
-                'required',
-                'confirmed',
-                Rules\Password::defaults(),
-            ],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = Auth::user();
@@ -35,6 +31,10 @@ class ChangeUserPasswordController extends Controller
         // check if user joined with third party apps
         if ($user->changed_password) {
             abort_if(!isset($req['old-password']), 403);
+            // verify old password
+            if (!Hash::check($req['old-password'], $user->password)) {
+                return back()->withErrors(['old-password' => __('auth.password')]);
+            }
         }
 
         $user->update([
@@ -42,7 +42,6 @@ class ChangeUserPasswordController extends Controller
             'changed_password' => true,
         ]);
 
-        
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();

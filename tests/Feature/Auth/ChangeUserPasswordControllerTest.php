@@ -86,3 +86,37 @@ test(
         expect(Auth::user())->toBe($user);
     }
 );
+
+test('user can change password with old one if changed before', function () {
+    $oldPass = fake()->sentence(5);
+    $pass = fake()->sentence(5);
+    $user = User::factory()->create([
+        'changed_password' => true,
+        'password' => Hash::make($oldPass),
+    ]);
+    $this->travel(10)->second();
+    $another = User::factory()->create();
+
+    // try with invalid old password
+    actingAs($user)
+        ->put(route('change-password.update'), [
+            'old-password' => fake()->sentence(5),
+            'password' => $pass,
+            'password_confirmation' => $pass,
+        ])
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['old-password']);
+
+    expect(User::latest('updated_at')->first())->id->toBe($another->id);
+
+    actingAs($user)
+        ->put(route('change-password.update'), [
+            'old-password' => $oldPass,
+            'password' => $pass,
+            'password_confirmation' => $pass,
+        ])
+        ->assertRedirect(RouteServiceProvider::HOME);
+
+    expect(User::latest('updated_at')->first())->id->toBe($user->id);
+    expect(Auth::user())->toBe($user);
+});
