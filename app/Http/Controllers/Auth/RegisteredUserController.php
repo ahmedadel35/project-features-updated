@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,8 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
+        SEOTools::setTitle(__('auth.register'));
+
         return view('auth.register');
     }
 
