@@ -48,7 +48,7 @@ abstract class AbstractExternalLoginController extends Controller
 
             return redirect()->route('projects.index', 'all');
         } else {
-            $newUser = User::updateOrCreate([
+            $newUser = User::create([
                 "name" => $user->getName(),
                 "email" => $user->getEmail(),
                 'avatar' => $user->getAvatar(),

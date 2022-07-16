@@ -8,8 +8,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ExternalLogin\FacebookLoginController;
 use App\Http\Controllers\ExternalLogin\GithubLoginController;
-use App\Http\Controllers\ExternalLogin\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -50,9 +50,9 @@ Route::middleware('guest')->group(function () {
         ->name('ext-login.')
         ->middleware('guest')
         ->group(function () {
-            Route::controller(GoogleLoginController::class)
-                ->name('google.')
-                ->prefix('/google')
+            Route::controller(FacebookLoginController::class)
+                ->name('facebook.')
+                ->prefix('/facebook')
                 ->group(function () {
                     Route::get('', 'redirect')->name('redirect');
                     Route::get('/callback', 'callback')->name('callback');

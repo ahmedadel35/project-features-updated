@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\ExternalLogin;
 
-class GoogleLoginController extends AbstractExternalLoginController
+class FacebookLoginController extends AbstractExternalLoginController
 {
     protected function getServiceSlug(): string
     {
-        return 'google';
+        return 'facebook';
     }    
 }
