@@ -126,9 +126,7 @@ class ProjectController extends Controller
     {
         SEOTools::setTitle($project->name.' '.__('nav.todos'));
 
-        $tasks = Todo::whereProjectId($project->id)->paginate();
-
-        return view('task.index', compact('category', 'project', 'tasks'));
+        return view('task.index', compact('category', 'project'));
     }
 
     /**
