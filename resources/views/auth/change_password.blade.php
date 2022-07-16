@@ -26,10 +26,9 @@
                 @if (Auth::user()->changed_password)
                     <!-- old password -->
                     <div class="mt-4">
-                        <x-label for="password" :value="__('auth.Password')" />
+                        <x-label for="old-password" :value="__('auth.Password')" />
 
-                        <x-input id="password" class="form-input w-full" type="password" name="password" required
-                            autocomplete="new-password" />
+                        <x-input id="old-password" class="form-input w-full" type="password" name="password" required />
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                             @error('password')
                                 {{ $message }}
