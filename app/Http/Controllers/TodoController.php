@@ -20,11 +20,11 @@ class TodoController extends Controller
      */
     public function index(Category $category, Project $project)
     {
-        $tasks = Todo::where('project_id', $project->id)
+        if (request()->wantsJson()) {
+            $tasks = Todo::where('project_id', $project->id)
             ->orderByDesc('updated_at')
             ->simplePaginate();
 
-        if (request()->wantsJson()) {
             return response()->json(compact('tasks'));
         }
 
