@@ -71,6 +71,7 @@ test(
         $user = User::factory()->create([
             'changed_password' => false,
         ]);
+        $another = User::factory()->create();
 
         $pass = fake()->sentence(5);
 
@@ -81,6 +82,7 @@ test(
             ])
             ->assertRedirect(RouteServiceProvider::HOME);
 
-        expect(User::find($user->id))->password->toBe(Hash::make($pass));
+        expect(User::latest('updated_at')->first())->id->toBe($user->id);
+        expect(Auth::user())->toBe($user);
     }
 );
