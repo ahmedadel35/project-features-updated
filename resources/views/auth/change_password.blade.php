@@ -20,8 +20,9 @@
                 }
             }
         }">
-            <form x-ref='form' x-on:submit="submit" method="POST" action="{{ route('register') }}">
+            <form x-ref='form' x-on:submit="submit" method="POST" action="{{ route('change-password.update') }}">
                 @csrf
+                @method('put')
 
                 @if (Auth::user()->changed_password)
                     <!-- old password -->

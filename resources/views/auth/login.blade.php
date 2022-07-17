@@ -49,7 +49,7 @@
                 <div>
                     <x-label for="email" :value="__('auth.Email')" class="form-label" />
 
-                    <x-input id="email" class="form-input w-full" type="email" name="email"
+                    <x-input id="email" class="form-input w-full" type="email" name="email" :value="old('email')"
                         placeholder="example@website.com" x-model.trim='form.email' required autofocus />
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('email')
@@ -119,18 +119,18 @@
                 }">
                     <x-button type='button' class="btn green"
                         x-on:click.prevent="setVal(
-                        'admin@site.com',
+                        'user1@site.com',
                         'password',
                     )">
-                        login as user1
+                        user1
                     </x-button>
 
                     <x-button type='button' class="btn green"
                         x-on:click.prevent="setVal(
-                        'user@site.com',
+                        'user2@site.com',
                         'password',
                     )">
-                        login as User2
+                        User2
                     </x-button>
                 </div>
 

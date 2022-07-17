@@ -89,7 +89,7 @@ test(
 
 test('user can change password with old one if changed before', function () {
     $oldPass = fake()->sentence(5);
-    $pass = fake()->sentence(5);
+    $pass = fake()->sentence(6);
     $user = User::factory()->create([
         'changed_password' => true,
         'password' => Hash::make($oldPass),
@@ -119,4 +119,14 @@ test('user can change password with old one if changed before', function () {
 
     expect(User::latest('updated_at')->first())->id->toBe($user->id);
     expect(Auth::user())->toBe($user);
+
+    // try to login user with new password
+    Auth::guard('web')->logout();
+
+    $this->post(route('login'), [
+        'email' => $user->email,
+        'password' => $pass,
+    ])
+        ->assertStatus(302)
+        ->assertSessionHasNoErrors();
 });
