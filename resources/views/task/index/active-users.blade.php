@@ -1,6 +1,13 @@
 <div class="my-3 px-2 w-full" x-data="{
     users: [],
     current: { name: '{{ Auth::user()->name }}', avatar: '{{ Auth::user()->avatar }}' },
+    setUsers: function(users) {
+        if (Array.isArray(users)) {
+            {{-- remove current user from list --}}
+            users = users.filter(x => x.name !== '{{Auth::user()->name}}')
+            this.users = users
+        }
+    },
     addUser: function(user) {
         this.users.push(user);
         $dispatch('toast', {
@@ -16,9 +23,8 @@
             text: '{{ __('task.user_leaved') }}',
             info: user.name,
         });
-
     },
-}" x-on:set-users.window="users = $event.detail"
+}" x-on:set-users.window="setUsers($event.detail)"
     x-on:add-user.window="addUser($event.detail)" x-on:remove-user.window="removeUser($event.detail)">
     <div class="card-bg w-full" x-show="users.length">
         <div class="bg-cyan-600 text-white rounded">
@@ -26,9 +32,8 @@
                 {{__('task.active_users')}}
             </h4>
         </div>
-        <template x-for="user in users" :key='user.name'>
-            <div class="flex items-center space-x-2 my-3"
-                x-show="user.name !== current.name && user.avatar !== current.avatar">
+        <template x-for="user in users" :key='user.name + Math.random()'>
+            <div class="flex items-center space-x-2 my-3">
                 <div class="overflow-hidden w-12 h-12 relative">
                     <img x-bind:id='user.name + "avatar"' x-bind:src="user.avatar" x-bind:title="user.name"
                         class="w-12 h-12 border-2 border-white rounded-full dark:border-gray-800" />

@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user = User::factory()->createQuietly([
-            'name' => 'Ahmed Adel',
+            'name' => 'Mahmoud Adel',
             'email' => 'user2@site.com',
          ]);
 
