@@ -8,6 +8,7 @@ use App\Models\Todo;
 use App\Models\User;
 use DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Mail;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,15 +22,15 @@ class DatabaseSeeder extends Seeder
         // for perfomance
         DB::beginTransaction();
 
-        $admin = User::factory()->create([
+        $admin = User::factory()->createQuietly([
             'name' => 'Ahmed Adel',
-            'email' => 'admin@site.com',
+            'email' => 'user1@site.com',
         ]);
 
-        $user = User::factory()->create([
+        $user = User::factory()->createQuietly([
             'name' => 'Ahmed Adel',
-            'email' => 'user@site.com',
-        ]);
+            'email' => 'user2@site.com',
+         ]);
 
         $cats = Category::factory()
             ->has(
@@ -38,14 +39,14 @@ class DatabaseSeeder extends Seeder
                     ->has(Todo::factory()->count(random_int(3, 8)))
             )
             ->count(5)
-            ->create([
+            ->createQuietly([
                 'user_id' => $admin->id,
             ]);
 
         User::factory(3)
-            ->create()
+            ->createQuietly()
             ->each(function (User $user) {
-                // create categories for each user
+                // createQuietly categories for each user
 
                 Category::factory()
                     ->count(random_int(1, 2))
@@ -54,7 +55,7 @@ class DatabaseSeeder extends Seeder
                             ->count(random_int(1, 2))
                             ->has(Todo::factory()->count(1, 2))
                     )
-                    ->create([
+                    ->createQuietly([
                         'user_id' => $user->id,
                     ]);
             });
@@ -64,7 +65,7 @@ class DatabaseSeeder extends Seeder
             ->each->addToTeam($user);
         Category::factory()
             ->has(Project::factory()->count(20))
-            ->create(['user_id' => $user->id]);
+            ->createQuietly(['user_id' => $user->id]);
 
         DB::commit();
     }
