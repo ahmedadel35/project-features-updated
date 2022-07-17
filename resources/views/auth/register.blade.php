@@ -61,7 +61,7 @@
 
                 <!-- Confirm Password -->
                 <div class="mt-4">
-                    <x-label for="password_confirmation" :value="__('auth.Confirm Password')" />
+                    <x-label for="password_confirmation" :value="__('auth.Confirm-Password')" />
 
                     <x-input id="password_confirmation" class="form-input w-full" type="password"
                         name="password_confirmation" required />
@@ -75,7 +75,7 @@
                 <div class="flex items-center justify-between mt-4">
                     <x-btn-with-spinner tag='a' desc='go to login page' class=""
                         icon='fas-right-to-bracket' href="{{ route('login') }}">
-                        {{ __('auth.Already_registered?') }}
+                        {{ __('auth.Already-registered?') }}
                     </x-btn-with-spinner>
 
                     <x-btn-with-spinner type='submit' class="green" icon="fas-user-plus" desc='tegister'

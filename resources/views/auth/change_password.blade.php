@@ -53,7 +53,7 @@
 
                 <!-- Confirm Password -->
                 <div class="mt-4">
-                    <x-label for="password_confirmation" :value="__('auth.Confirm Password')" />
+                    <x-label for="password_confirmation" :value="__('auth.Confirm-Password')" />
 
                     <x-input id="password_confirmation" class="form-input w-full" type="password"
                         name="password_confirmation" required />
@@ -67,7 +67,7 @@
                 <div class="flex items-center justify-between mt-4">
                     <x-btn-with-spinner type='submit' class="green" icon="fas-user-plus" desc='change password'
                         busy='updating'>
-                        {{ __('category.update') }}
+                        {{ __('auth.update') }}
                     </x-btn-with-spinner>
                 </div>
             </form>

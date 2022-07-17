@@ -82,55 +82,41 @@
                 <div class="block mt-4">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            class="mx-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             name="remember">
                         <span
-                            class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember_me') }}</span>
+                            class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember-Me') }}</span>
                     </label>
                 </div>
 
                 <div class="flex justify-between items-center my-3">
                     <x-btn-with-spinner type='submit' class="cyan" icon="fas-right-to-bracket" desc='login'
                         busy='logging'>
-                        {{ __('auth.Log_in') }}
+                        {{ __('auth.Login') }}
                     </x-btn-with-spinner>
 
                     <x-btn-with-spinner tag='a' href="{{ route('register') }}" class="purple"
                         icon="fas-user-plus" desc='register'>
-                        {{ __('auth.register') }}
+                        {{ __('auth.Register') }}
                     </x-btn-with-spinner>
                 </div>
 
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-300"
                         href="{{ route('password.request') }}">
-                        {{ __('auth.Forgot_your_password?') }}
+                        {{ __('auth.Forgot-Your-Password?') }}
                     </a>
                 @endif
 
-                <div class="my-2" x-data="{
-                    setVal: function(m, p) {
-                        const email = document.querySelector('#email');
-                        const pass = document.querySelector('#password');
-                
-                        email.value = m;
-                        pass.value = p;
-                    }
-                }">
+                <div class="my-2">
                     <x-button type='button' class="btn green"
-                        x-on:click.prevent="setVal(
-                        'user1@site.com',
-                        'password',
-                    )">
-                        user1
+                        x-on:click.prevent="form.email = 'user1@site.com'; form.pass = 'password';">
+                        {{__('auth.user1')}}
                     </x-button>
 
                     <x-button type='button' class="btn green"
-                        x-on:click.prevent="setVal(
-                        'user2@site.com',
-                        'password',
-                    )">
-                        User2
+                        x-on:click.prevent="form.email = 'user2@site.com'; form.pass = 'password';">
+                        {{__('auth.user2')}}
                     </x-button>
                 </div>
 
