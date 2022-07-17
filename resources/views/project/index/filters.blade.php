@@ -74,14 +74,14 @@
         sortBy: function(opt) {
             this.active = opt;
             const queryParams = new URLSearchParams(window.location.search);  
-            queryParams.set('sort', opt.value)
+            queryParams.set('sort', opt.value);
             window.location.search = queryParams.toString();
         },
         setSortOnInit: function() {
             const queryParams = new URLSearchParams(window.location.search);  
             if (!queryParams.has('sort')) return;
 
-            const val = queryParams.get('sort')
+            const val = queryParams.get('sort');
             for (let opt of this.options) {
                 if (opt.value === val) {
                     this.active = opt;

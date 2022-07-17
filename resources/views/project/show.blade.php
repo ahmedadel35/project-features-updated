@@ -35,7 +35,7 @@
                     if (this.refusing) return;
 
                     this.refusing = true;
-                    const res = await axios.delete('{{ route('projects.refuse', [$category?->slug ?? $p->category->slug, $p->slug]) }}').catch(err => {})
+                    const res = await axios.delete('{{ route('projects.refuse', [$category?->slug ?? $p->category->slug, $p->slug]) }}').catch(err => {});
 
                     this.refusing = false;
 
@@ -43,7 +43,7 @@
                         $dispatch('toast', {
                             type: 'error',
                             text: '{{__('category.erorr')}}'
-                        })
+                        });
                         return;
                     }
 
@@ -60,7 +60,7 @@
                     $dispatch('toast', {
                         type: 'success',
                         text: '{{__('category.success')}}'
-                    })
+                    });
                 },
             }">
                

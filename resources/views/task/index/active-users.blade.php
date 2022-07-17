@@ -1,11 +1,14 @@
 <div class="my-3 px-2 w-full" x-data="{
     users: [],
-    current: { name: '{{ Auth::user()->name }}', avatar: '{{ Auth::user()->avatar }}' },
+    current: { 
+        name: '{{ Auth::user()->name }}',
+        avatar: '{{ Auth::user()->avatar }}',
+    },
     setUsers: function(users) {
         if (Array.isArray(users)) {
             {{-- remove current user from list --}}
-            users = users.filter(x => x.name !== '{{Auth::user()->name}}')
-            this.users = users
+            users = users.filter(x => x.name !== '{{Auth::user()->name}}');
+            this.users = users;
         }
     },
     addUser: function(user) {
@@ -14,10 +17,10 @@
             type: 'info',
             text: '{{ __('task.user_joined') }}',
             info: user.name,
-        })
+        });
     },
     removeUser: function(user) {
-        this.users.splice(this.users.findIndex(x => x.name === user.name), 1)
+        this.users.splice(this.users.findIndex(x => x.name === user.name), 1);
         $dispatch('toast', {
             type: 'warning',
             text: '{{ __('task.user_leaved') }}',

@@ -25,13 +25,13 @@
             return;
         }
 
-        $dispatch('toast', {type: 'success', text: '{{__("category.success")}}' })
+        $dispatch('toast', {type: 'success', text: '{{__("category.success")}}' });
 
         @if (isset($to))
             location.href = '{{$to}}';
         @else
             {{-- remove element from dom --}}
-            const el = document.querySelector('#' + slug)
+            const el = document.querySelector('#' + slug);
             el.remove();
         @endif
     },

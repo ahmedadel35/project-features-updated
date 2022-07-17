@@ -24,9 +24,9 @@
     <script>
         function lazyLoadIt(id) {
             const img = document.querySelector('#' + id);
-            const loader = document.querySelector('#' + id + '-loader')
-            img.classList.remove('hidden')
-            loader.classList.add('hidden')
+            const loader = document.querySelector('#' + id + '-loader');
+            img.classList.remove('hidden');
+            loader.classList.add('hidden');
         }
     </script>
 

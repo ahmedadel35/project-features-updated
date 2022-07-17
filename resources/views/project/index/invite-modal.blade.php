@@ -11,7 +11,7 @@
         this.emailErr = null;
         this.url = url;
         this.slug = slug;
-        this.projectModal = true
+        this.projectModal = true;
     },
     save: async function() {
         if (this.saving) return false;
@@ -25,15 +25,15 @@
         this.saving = true;
 
         const res = await axios.post(this.url, { email: this.email }).catch(err => {
-            console.log(err.response);
+            {{-- console.log(err.response); --}}
             if (err.response.status === 422) {
-                this.emailErr = err.response.data.message
+                this.emailErr = err.response.data.message;
             }
-        })
+        });
 
         this.saving = false;
         if (!res || !res.data) {
-            $dispatch('toast', { type: 'error', text: '{{ __('category.error') }}' })
+            $dispatch('toast', { type: 'error', text: '{{ __('category.erorr') }}' });
             return;
         }
 
@@ -42,7 +42,7 @@
         teamImagesContainer.innerHTML += res.data;
         this.projectModal = false;
 
-        $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' })
+        $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' });
     },
 }">
     <x-modal id='projectModal' :title="__('project.invite_title')" event="project-invite-modal" action="open($event.detail)">

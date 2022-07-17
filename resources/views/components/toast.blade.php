@@ -1,16 +1,16 @@
 <div x-data="{
     notices: [],
     add(notice) {
-        notice.id = Date.now()
-        this.notices.push(notice)
+        notice.id = Date.now();
+        this.notices.push(notice);
 
-        const timeShown = 2000 * this.notices.length
+        const timeShown = 2000 * this.notices.length;
         setTimeout(() => {
-            this.remove(notice.id)
+            this.remove(notice.id);
         }, timeShown)
     },
     remove(id) {
-        this.notices.splice(this.notices.findIndex(notice => notice.id == id), 1)
+        this.notices.splice(this.notices.findIndex(notice => notice.id == id), 1);
     },
 }">
     <div class="fixed bottom-5 p-3 toast-container ltr:right-5 rtl:left-5" x-on:toast.window="add($event.detail)" @if(session('notify'))

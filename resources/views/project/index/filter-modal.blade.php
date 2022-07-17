@@ -1,5 +1,5 @@
 <div x-data="{
-    size: 320, // mobile first,
+    size: 320, 
     opend: false,
     initate: function() {
         this.size = window.innerWidth;

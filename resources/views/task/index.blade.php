@@ -43,7 +43,7 @@
             
                     this.loadingArr = Array(7).fill(0);
             
-                    const res = await axios.get(url).catch(err => {})
+                    const res = await axios.get(url).catch(err => {});
             
                     this.loadingArr = [];
             
@@ -51,7 +51,7 @@
                         $dispatch('toast', {
                             type: 'error',
                             text: '{{ __('category.error') }}',
-                        })
+                        });
                         return;
                     }
             
@@ -77,7 +77,7 @@
             
                     this.deleting = id;
             
-                    const res = await axios.delete('{{ str_replace(25, '', route('tasks.destroy', [$category->slug, $project->slug, 25])) }}' + id).catch(err => {})
+                    const res = await axios.delete('{{ str_replace(25, '', route('tasks.destroy', [$category->slug, $project->slug, 25])) }}' + id).catch(err => {});
             
                     this.deleting = '';
             
@@ -85,18 +85,18 @@
                         $dispatch('toast', {
                             type: 'error',
                             text: '{{ __('category.error') }}'
-                        })
+                        });
                         return;
                     }
             
                     $dispatch('toast', {
                         type: 'warning',
                         text: '{{ __('category.success') }}'
-                    })
+                    });
                     this.tasks.splice(
                         this.tasks.findIndex(x => x.id === id),
                         1
-                    )
+                    );
                 },
                 update: function(task) {
                     this.tasks.map(x => {
@@ -111,7 +111,7 @@
                             x.completed = task.completed;
                         }
                         return x;
-                    })
+                    });
                 },
                 complete: async function(task) {
                     if (this.toggle) return;
@@ -121,14 +121,14 @@
                     const route = '{{ route('tasks.toggle', [$category->slug, $project->slug, 'id-place-holder']) }}';
                     const res = await axios.put(route.replace('id-place-holder', task.id), {
                         completed: !task.completed,
-                    }).catch(err => {})
+                    }).catch(err => {});
             
                     this.toggle = false;
                     if (!res || !res.data) {
                         $dispatch('toast', {
                             type: 'error',
                             text: '{{ __('category.error') }}'
-                        })
+                        });
                         return;
                     }
             
@@ -137,11 +137,11 @@
                             x.completed = !x.completed;
                         }
                         return x;
-                    })
+                    });
             
             
                     {{-- toggle project completed state --}}
-                    this.toggleBadge(res.data.project_completed)
+                    this.toggleBadge(res.data.project_completed);
                 },
                 notify: function(info, body, user, type) {
                     if (typeof type === 'undefined') {
@@ -153,7 +153,7 @@
                         text: '{{ __('auth.notify') }}',
                         info: user.name + info + body.substr(0, 10) + '...',
                         img: user.avatar,
-                    })
+                    });
                 },
                 registerTaskEventListener: function() {
                     window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
@@ -174,7 +174,6 @@
                                 e.task.body,
                                 e.user
                             );
-            
                             this.insert(e.task);
                         } else if (e.type === 'updated') {
                             this.notify(
@@ -182,7 +181,6 @@
                                 e.task.body,
                                 e.user
                             );
-            
                             this.update(e.task);
                         } else if (e.type === 'deleted') {
                             this.notify(
@@ -190,11 +188,10 @@
                                 e.task.body,
                                 e.user
                             );
-            
                             this.tasks.splice(
                                 this.tasks.findIndex(x => x.id === e.task.id),
                                 1
-                            )
+                            );
                         }            
                     });
                 },

@@ -6,11 +6,11 @@
         opend: false,
         slug: '',
         show: function(ev) {
-            this.slug = ev.slug
+            this.slug = ev.slug;
             this.opend = true;
         },
         confirm: function() {
-            $dispatch('popup-confirm', {slug: this.slug})
+            $dispatch('popup-confirm', {slug: this.slug});
             this.opend = false;
         },
     }" x-on:popup.window="show($event.detail)">

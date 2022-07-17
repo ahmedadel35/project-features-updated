@@ -24,13 +24,13 @@
             }
         }).catch(err => {
 
-        })
+        });
 
         this.saving = false;
         if (!res || (this.editMode && res.status !== 204)
         || (!this.editMode && res.status !== 201)
         ) {
-            $dispatch('toast', {type: 'error', text: '{{__('category.error')}}'})
+            $dispatch('toast', {type: 'error', text: '{{__('category.error')}}'});
             return;
         }
 
@@ -40,11 +40,11 @@
         this.body = this.bodyErr = '';
 
         if (this.editMode) {
-            $dispatch('update-task', {task: this.task})
+            $dispatch('update-task', {task: this.task});
             this.editMode = false;
             return;
         }
-        $dispatch('add-task', {task: res.data})
+        $dispatch('add-task', {task: res.data});
     },
     editTask: function(task) {
         this.editMode = true;
@@ -52,7 +52,7 @@
         this.body = task.body;
         this.bodyErr = false;
 
-        this.url = this.postUrl + '/' + task.id
+        this.url = this.postUrl + '/' + task.id;
     }
 }" x-on:edit-task.window="editTask($event.detail)">
     <form method="post" x-on:submit.prevent="save" class="" novalidate>

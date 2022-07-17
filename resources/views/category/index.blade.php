@@ -13,7 +13,7 @@
                     desc: '',
                 })">
                     <x-fas-plus />
-                    Create
+                    {{__('category.create')}}
                 </button>
             </div>
         </div>
