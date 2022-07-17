@@ -25,7 +25,7 @@ class TodoFactory extends Factory
         return [
             'project_id' => fn () => Project::factory()->create(),
             'body' => $this->faker->sentence,
-            'completed' => $this->faker->boolean,
+            'completed' => false,
         ];
     }
 }

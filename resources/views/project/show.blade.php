@@ -18,7 +18,7 @@
             {{ $p->info }}
         </p>
 
-        <div class='flex justify-end my-1 -space-x-4' id="{{ $p->slug }}-team">
+        <div dir="ltr" class='flex ltr:justify-end rtl:justify-start my-1 -space-x-4 rtl:pl-1 ltr:pr-1' id="{{ $p->slug }}-team">
             @foreach ($p->team as $team_user)
                 <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
             @endforeach

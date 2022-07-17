@@ -22,32 +22,31 @@ class DatabaseSeeder extends Seeder
         // for perfomance
         DB::beginTransaction();
 
-        $admin = User::factory()->createQuietly([
+        $ahmed = User::factory()->createQuietly([
             'name' => 'Ahmed Adel',
             'email' => 'user1@site.com',
         ]);
 
-        $user = User::factory()->createQuietly([
+        $mahmoud = User::factory()->createQuietly([
             'name' => 'Mahmoud Adel',
             'email' => 'user2@site.com',
-         ]);
+        ]);
 
         $cats = Category::factory()
             ->has(
                 Project::factory()
-                    ->count(7)
+                    ->count(random_int(4, 9))
                     ->has(Todo::factory()->count(random_int(3, 8)))
             )
             ->count(5)
             ->createQuietly([
-                'user_id' => $admin->id,
+                'user_id' => $ahmed->id,
             ]);
 
         User::factory(3)
             ->createQuietly()
             ->each(function (User $user) {
-                // createQuietly categories for each user
-
+                // create categories for each user
                 Category::factory()
                     ->count(random_int(1, 2))
                     ->has(
@@ -60,12 +59,30 @@ class DatabaseSeeder extends Seeder
                     ]);
             });
 
-        Project::limit(20)
+        Project::limit(10)
             ->get()
-            ->each->addToTeam($user);
+            ->each->addToTeam($mahmoud);
         Category::factory()
-            ->has(Project::factory()->count(20))
-            ->createQuietly(['user_id' => $user->id]);
+            ->has(Project::factory()->count(19))
+            ->createQuietly(['user_id' => $mahmoud->id]);
+
+        Project::inRandomOrder()
+            ->limit(15)
+            ->get()
+            ->each(function (Project $project) {
+                $project->todos->each->updateQuietly(['completed' => true]);
+                $project->updateQuietly(['completed' => true]);
+            });
+
+        Project::inRandomOrder()
+            ->limit(15)
+            ->get()
+            ->each(function (Project $project) {
+                User::factory()
+                    ->count(random_int(2, 4))
+                    ->create()
+                    ->each(fn($user) => $project->addToTeam($user));
+            });
 
         DB::commit();
     }
