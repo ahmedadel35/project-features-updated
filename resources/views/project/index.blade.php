@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="py-5">
+    <div class="py-5 px-2 md:px-4">
         {{ $projects->links() }}
     </div>
 
