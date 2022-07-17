@@ -143,14 +143,14 @@
                     {{-- toggle project completed state --}}
                     this.toggleBadge(res.data.project_completed)
                 },
-                notify: function(text, info, body, user, type) {
+                notify: function(info, body, user, type) {
                     if (typeof type === 'undefined') {
                         type = 'success';
                     }
 
                     $dispatch('toast', {
                         type: type,
-                        text: text,
+                        text: '{{ __('auth.notify') }}',
                         info: user.name + info + body.substr(0, 10) + '...',
                         img: user.avatar,
                     })
@@ -170,7 +170,6 @@
                         {{-- types =>  created | updated | deleted --}}
                         if (e.type === 'created') {
                             this.notify(
-                                '{{ __('task.created') }}',
                                 ' {{ __('task.word_created') }} ',
                                 e.task.body,
                                 e.user
@@ -179,7 +178,6 @@
                             this.insert(e.task);
                         } else if (e.type === 'updated') {
                             this.notify(
-                                '{{ __('task.updated') }}',
                                 ' {{ __('task.word_updated') }} ',
                                 e.task.body,
                                 e.user
@@ -188,7 +186,6 @@
                             this.update(e.task);
                         } else if (e.type === 'deleted') {
                             this.notify(
-                                '{{ __('task.deleted') }}',
                                 ' {{ __('task.word_deleted') }} ',
                                 e.task.body,
                                 e.user
