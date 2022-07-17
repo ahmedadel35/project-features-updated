@@ -117,7 +117,7 @@
                 <x-slot name='content'>
                     <template x-for="opt in options" :key="opt.value">
                         <x-dropdown-link href='#' x-on:click.prevent="sortBy(opt)"
-                            x-bind:class="{'active': active === opt}">
+                            x-bind:class="{'active': active.value === opt.value}">
                             <span class="w-5">
                                 <template x-if="opt.icon === 'up'">
                                     <x-fas-arrow-up-9-1 />

@@ -272,6 +272,6 @@ form {
     }
 }
 
-.active {
+.dropdown .active {
     @apply bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-800 dark:hover:bg-blue-600;
 }
