@@ -14,7 +14,7 @@
 
         <div x-data="{
             form: {
-                email: '',
+                email: '{{old('email')}}',
                 pass: '',
             },
             error: {
@@ -49,7 +49,7 @@
                 <div>
                     <x-label for="email" :value="__('auth.Email')" class="form-label" />
 
-                    <x-input id="email" class="form-input w-full" type="email" name="email" :value="old('email')"
+                    <x-input id="email" class="form-input w-full" type="email" name="email"
                         placeholder="example@website.com" x-model.trim='form.email' required autofocus />
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('email')
