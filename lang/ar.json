@@ -766,5 +766,6 @@
     "nav.create_project": "إنشاء مشروع",
     "nav.edit_project": "تعديل المشروع",
     "nav.tasks": "المهام",
-    "nav.update_project": "تحديث المشروع"
+    "nav.update_project": "تحديث المشروع",
+    "nav.few_ago": ".قبل بضع ثوان"
 }

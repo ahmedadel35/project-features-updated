@@ -31,4 +31,5 @@ return array (
   'update' => 'Update Password',
   'old-Password' => 'Current Password',
   'new-password' => 'New Password',
+  'notify' => 'new Notification',
 );

@@ -42,7 +42,7 @@
         teamImagesContainer.innerHTML += res.data;
         this.projectModal = false;
 
-        $dispatch('toast', { type: 'success', text: '{{ __('projects.invite_success') }}' })
+        $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' })
     },
 }">
     <x-modal id='projectModal' :title="__('project.invite_title')" event="project-invite-modal" action="open($event.detail)">

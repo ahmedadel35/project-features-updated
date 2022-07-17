@@ -20,9 +20,9 @@
         }"
             x-show="opend" x-transition x-on:click.outside="size < 768 ? opend = false : null">
             <div class="flex items-center justify-between mb-3 space-x-4 md:hidden">
-                <h1 class="text-xl font-medium ">
-                    {{ __('project.filter') }}
-                </h1>
+                <h6 class="text-xl font-medium ">
+                    {{ __('project.filter_title') }}
+                </h6>
 
                 <button type="button" x-on:click="opend = false" class="transition duration-200 transform hover:scale-110">
                     <x-fas-times-circle />
