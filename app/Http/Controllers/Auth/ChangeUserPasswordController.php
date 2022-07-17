@@ -14,7 +14,7 @@ class ChangeUserPasswordController extends Controller
 {
     public function create()
     {
-        SEOTools::setTitle(__('auth.change_pass'));
+        SEOTools::setTitle(__('auth.change_password'));
 
         return view('auth.change_password');
     }
@@ -33,7 +33,7 @@ class ChangeUserPasswordController extends Controller
             abort_if(!isset($req['old-password']), 403);
             // verify old password
             if (!Hash::check($req['old-password'], $user->password)) {
-                return back()->withErrors(['old-password' => __('auth.password')]);
+                return back()->withErrors(['old-password' => __('auth.Password')]);
             }
         }
 

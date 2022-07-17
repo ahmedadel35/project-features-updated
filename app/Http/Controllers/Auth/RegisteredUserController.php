@@ -21,7 +21,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        SEOTools::setTitle(__('auth.register'));
+        SEOTools::setTitle(__('auth.Register'));
 
         return view('auth.register');
     }

@@ -15,7 +15,7 @@
                     [
                         'url' => '#',
                         'no_trans' => true,
-                        'name' => 'projects',
+                        'name' => __('nav.projects'),
                     ],
                     [
                         'url' => '#',

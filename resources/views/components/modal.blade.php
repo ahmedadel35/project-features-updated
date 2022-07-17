@@ -5,7 +5,7 @@
     'action',
     ])
 
-    <div x-on:{{ $event }}.window="{{ $action }}" x-show="{{ $id }}" class="fixed inset-0 z-50 overflow-y-auto"
+    <div x-on:{{ $event }}.window="{{ $action }}" x-show="{{ $id }}" class="fixed inset-0 z-50 overflow-y-auto modal"
         aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: none;">
         <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0" x-cloak>
             <div x-cloak x-on:click="{{ $id }} = false" x-show="{{ $id }}"

@@ -266,3 +266,8 @@ form {
     margin-top: .3rem;
     margin-bottom: .3rem;
 }
+.modal {
+    input, textarea {
+        @apply mx-1;
+    }
+}

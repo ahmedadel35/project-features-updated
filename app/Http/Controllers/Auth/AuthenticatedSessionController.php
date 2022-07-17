@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        SEOTools::setTitle(__('auth.login'));
+        SEOTools::setTitle(__('auth.Login'));
 
         return view('auth.login');
     }

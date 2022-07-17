@@ -758,5 +758,13 @@
     "Zambia": "زامبيا",
     "Zimbabwe": "زيمبابوي",
     "Zip / Postal Code": "الرمز البريدي",
-    "Åland Islands": "جزر آلاند"
+    "Åland Islands": "جزر آلاند",
+
+    "nav.home": "الرئيسية",
+    "nav.categories": "الفئات",
+    "nav.projects": "المشاريع",
+    "nav.create_project": "إنشاء مشروع",
+    "nav.edit_project": "تعديل المشروع",
+    "nav.tasks": "المهام",
+    "nav.update_project": "تحديث المشروع"
 }

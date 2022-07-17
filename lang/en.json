@@ -758,5 +758,13 @@
     "Zambia": "Zambia",
     "Zimbabwe": "Zimbabwe",
     "Zip / Postal Code": "Zip / Postal Code",
-    "Åland Islands": "Åland Islands"
+    "Åland Islands": "Åland Islands",
+    
+    "nav.home": "Home",
+    "nav.categories": "Categories",
+    "nav.projects": "Projects",
+    "nav.create_project": "Create Project",
+    "nav.edit_project": "Edit Project",
+    "nav.todos": "Tasks",
+    "nav.update_project": "Update Project"
 }

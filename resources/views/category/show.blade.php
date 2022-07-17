@@ -8,7 +8,7 @@
             {{ $cat->description }}
         </p>
         <div class="px-2 py-4 text-blue-600 rounded dark:text-blue-400">
-            {{__('category.projects')}}: {{ $cat->projects_count }}
+            {{__('nav.projects')}}: {{ $cat->projects_count }}
         </div>
     </x-slot>
 
