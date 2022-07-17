@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware(['localeCookieRedirect'])
     ->group(function () {
-        require __DIR__.'/auth.php';
+        require __DIR__ . '/auth.php';
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([
@@ -74,6 +74,9 @@ Route::prefix(LaravelLocalization::setLocale())
                     Route::post('/{project}/invite', 'invite')
                         ->name('invite')
                         ->can('update', 'project');
+                    Route::delete('/{project}/invite', 'refuse')
+                        ->name('refuse')
+                        ->can('view', 'project');
                 });
 
             Route::controller(ProjectController::class)
@@ -100,7 +103,10 @@ Route::prefix(LaravelLocalization::setLocale())
                     ]);
 
                     // complete
-                    Route::put('/tasks/{task}/toggle', [TodoController::class, 'toggle'])->name('tasks.toggle');
+                    Route::put('/tasks/{task}/toggle', [
+                        TodoController::class,
+                        'toggle',
+                    ])->name('tasks.toggle');
                 });
         });
     });

@@ -209,4 +209,18 @@ class ProjectController extends Controller
             ]
         );
     }
+
+    /**
+     * allow user to refuse invitaion to project
+     *
+     * @param Category $category
+     * @param Project $project
+     * @return void
+     */
+    public function refuse(Category $category, Project $project)
+    {
+        $project->removeFromTeam(Auth::user());
+
+        return response()->noContent();
+    }
 }

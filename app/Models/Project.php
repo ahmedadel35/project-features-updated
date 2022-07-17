@@ -81,6 +81,11 @@ class Project extends Model
         return true;
     }
 
+    public function removeFromTeam(User $user): void
+    {
+        $this->team()->detach($user);
+    }
+
     public function isTeamMember(User $user): bool
     {
         return DB::table('project_user')

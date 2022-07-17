@@ -90,3 +90,17 @@ test('project can not dublicate team members', function () {
     expect($p->team)->toHaveCount(1);
     expect($p->isTeamMember($user))->toBeTrue();
 });
+
+test('project can remove user from team', function() {
+    $p = Project::factory()->createQuietly();
+    $user = User::factory()->createQuietly();
+    expect($p->isTeamMember($user))->toBeFalse();
+    $p->addToTeam($user);
+    $p->refresh();
+    expect($p->isTeamMember($user))->toBeTrue();
+
+    // remove user from project team
+    $p->removeFromTeam($user);
+
+    expect($p->isTeamMember($user))->toBeFalse();
+});

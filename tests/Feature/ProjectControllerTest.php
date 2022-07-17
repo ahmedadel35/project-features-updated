@@ -3,6 +3,8 @@
 use App\Models\Project;
 use App\Models\User;
 
+use function Pest\Laravel\withoutExceptionHandling;
+
 test('only logged in users can create projects', function () {
     [$user, $cat, $proj] = userWithTodos();
 
@@ -175,13 +177,13 @@ test('user can see only completed projects', function () {
     $url = route('categories.show', $cat->slug);
 
     actingAs($user)
-        ->get($url.'?filter[completed]=true')
+        ->get($url . '?filter[completed]=true')
         ->assertOk()
         ->assertSee($proj->first()->slug)
         ->assertDontSee($nonCompleted->slug);
 
     actingAs($user)
-        ->get($url.'?filter[completed]=false')
+        ->get($url . '?filter[completed]=false')
         ->assertOk()
         ->assertDontSee($proj->first()->slug)
         ->assertSee($nonCompleted->slug);
@@ -217,4 +219,23 @@ test('project owner can see all projects', function () {
         ->get(route('projects.index', ['project_tab' => 'all']))
         ->assertOk()
         ->assertSee($proj->first()->title);
+});
+
+test('user refuse invitation to project', function () {
+    /** @var App\Models\Project $proj */
+    [, $cat, $proj] = userWithTodos();
+    $user = User::factory()->create();
+    expect($proj->isTeamMember($user))->toBeFalse();
+
+    // invite user to project
+    $proj->addToTeam($user);
+    expect($proj->isTeamMember($user))->toBeTrue();
+
+    // refuse invitaion
+    actingAs($user)
+        ->deleteJson(route('projects.refuse', [$cat, $proj]))
+        ->assertStatus(204);
+
+    $proj->refresh();
+    expect($proj->isTeamMember($user))->toBeFalse();
 });
