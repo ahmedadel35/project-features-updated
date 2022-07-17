@@ -30,7 +30,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return ($user->id === request()->category->user_id &&
+        return ($user->id === request()->category?->user_id &&
             request()->category?->id === $project->category_id) ||
             $project->isTeamMember($user);
     }
