@@ -10,7 +10,7 @@ test('guest can not change password', function () {
 it('has change password page', function () {
     $response = actingAs()->get(route('change-password.create'));
 
-    $response->assertStatus(200)->assertSee('new-password');
+    $response->assertStatus(200)->assertSee('password');
 });
 
 it('will show old password if user changed password before', function () {

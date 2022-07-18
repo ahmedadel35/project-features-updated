@@ -3,6 +3,8 @@
 use App\Models\Todo;
 use App\Models\User;
 
+beforeEach(fn() => Event::fake());
+
 test('any one can not add new todo', function () {
     [$user, $cat, $proj] = userWithTodos();
 
