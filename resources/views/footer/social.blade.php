@@ -25,7 +25,7 @@
     @endphp
 
     @foreach ($links as $link)
-    <a href="{{$link->href}}" target='_blank' class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+    <a href="{{$link->href}}" target='_blank' class="text-gray-200 hover:text-gray-900 dark:hover:text-white">
         @svg('fab-' . $link->icon)
         <span class="sr-only">{{$link->sr_text}}</span>
     </a>
