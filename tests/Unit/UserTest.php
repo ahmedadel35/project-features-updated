@@ -28,3 +28,9 @@ test('user have todos through categories, projects', function () {
 
     expect($user)->todos->toHaveCount(6);
 });
+
+test('user have hashed id', function() {
+    $user = User::factory()->create();
+
+    expect($user->id_hash)->toBe(Hashids::encode($user->id));
+});

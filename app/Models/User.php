@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Hashids;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -33,7 +35,12 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token', 'changed_password'];
+    protected $hidden = [
+        'id',
+        'password',
+        'remember_token',
+        'changed_password',
+    ];
 
     /**
      * The attributes that should be cast.
@@ -44,6 +51,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'changed_password' => 'boolean',
     ];
+
+    protected $appends = ['id_hash'];
+
+    protected function idHash(): Attribute
+    {
+        return Attribute::make(
+            get: fn($val, $attr) => Hashids::encode($attr['id'])
+        )->shouldCache();
+    }
 
     public function categories(): HasMany
     {

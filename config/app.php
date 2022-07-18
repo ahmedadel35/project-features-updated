@@ -211,6 +211,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
     ])->toArray(),
 
 ];
