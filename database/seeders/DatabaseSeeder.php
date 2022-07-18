@@ -25,11 +25,13 @@ class DatabaseSeeder extends Seeder
         $ahmed = User::factory()->createQuietly([
             'name' => 'Ahmed Adel',
             'email' => 'user1@site.com',
+            'avatar' => '/users/admin.jpeg',
         ]);
 
         $mahmoud = User::factory()->createQuietly([
             'name' => 'Mahmoud Adel',
             'email' => 'user2@site.com',
+            'avatar' => '/users/4.png',
         ]);
 
         $cats = Category::factory()
