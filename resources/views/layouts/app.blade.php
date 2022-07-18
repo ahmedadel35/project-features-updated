@@ -55,6 +55,7 @@
         <x-toast />
         @vite('resources/js/app.ts')
     </div>
+    @include('footer')
 </body>
 
 </html>
