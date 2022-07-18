@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->string('title');
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->index();
             $table->timestamps();
         });
     }

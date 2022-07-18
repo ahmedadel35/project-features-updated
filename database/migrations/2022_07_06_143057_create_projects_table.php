@@ -20,10 +20,10 @@ class CreateProjectsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->index();
             $table->float('cost')->default('1.00');
             $table->string('info');
-            $table->boolean('completed')->default(false);
+            $table->boolean('completed')->default(false)->index();
             $table->timestamps();
         });
     }
