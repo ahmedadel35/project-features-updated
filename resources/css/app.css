@@ -280,3 +280,7 @@ form {
 .dropdown .active {
     @apply bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-800 dark:hover:bg-blue-600;
 }
+
+.nav-bg {
+    @apply bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white border-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900;
+}

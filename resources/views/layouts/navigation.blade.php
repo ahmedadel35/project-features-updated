@@ -1,4 +1,4 @@
-<nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 w-full fixed top-0 z-50"
+<nav class="nav-bg px-2 sm:px-4 py-2.5 rounded w-full fixed top-0 z-50"
     x-data="{
         size: 320,
         navMenuOpen: false,
