@@ -262,9 +262,14 @@ form {
         direction: ltr;
     }
 }
-.auth-card form input {
+.auth-card {
+    form input {
     margin-top: .3rem;
     margin-bottom: .3rem;
+}
+    .logo a {
+        @apply h-12 md:h-20; 
+    }
 }
 .modal {
     input, textarea {

@@ -11,9 +11,9 @@
         },
     }" x-init="initate">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
-        <a href="https://flowbite.com/" class="flex items-center">
-            <x-fas-diagram-project class="h-6 sm:h-9" alt="Flowbite Logo" />
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+        <a href="/" class="flex items-center">
+            <x-application-logo class="h-5 sm:h-7" alt="{{ env('APP_NAME', 'website') }} Logo" />
+            <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
                 {{ env('APP_NAME', '') }}
             </span>
         </a>
