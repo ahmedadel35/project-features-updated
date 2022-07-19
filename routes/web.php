@@ -17,10 +17,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })
@@ -31,6 +27,10 @@ Route::prefix(LaravelLocalization::setLocale())
     ->middleware(['localeCookieRedirect'])
     ->group(function () {
         require __DIR__ . '/auth.php';
+
+        Route::get('/', function () {
+            return view('home');
+        });        
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([
