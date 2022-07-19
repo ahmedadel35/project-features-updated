@@ -1,7 +1,7 @@
 @props([
     'id' => '',
     'url' => '#',
-    'class' => 'w-full sm:w-1/2 md:w-1/3 p-3 sm:px-2 md:px-4',
+    'class' => 'w-full sm:w-1/2 lg:w-1/3 p-3 sm:px-2 md:px-4',
     ])
 
     <div class="{{ $class }}" id="{{ $id }}">

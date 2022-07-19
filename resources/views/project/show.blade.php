@@ -1,4 +1,4 @@
-<x-card :id='$p->slug' class="w-full p-3 {{ $class ?? 'sm:w-1/2 lg:w-1/3 sm:px-2 md:px-4' }}" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
+<x-card :id='$p->slug' class="w-full p-3 sm:w-1/2 md:w-1/3 lg:w-1/4 2xl:w-1/5 sm:px-2 md:px-3" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
     <x-slot name='title'>
         {{ $p->name }}
     </x-slot>
@@ -17,7 +17,7 @@
             {{ $p->info }}
         </p>
 
-        <div dir="ltr" class='flex ltr:justify-end rtl:justify-start my-1 -space-x-4 rtl:pl-1 ltr:pr-1'
+        <div dir="ltr" class='flex my-1 -space-x-4 ltr:justify-end rtl:justify-start rtl:pl-1 ltr:pr-1'
             id="{{ $p->slug }}-team">
             @foreach ($p->team as $team_user)
                 <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
@@ -29,45 +29,46 @@
         @if ($p->team->contains(fn($user) => $user->id === Auth::id()))
             <div x-data="{
                 refusing: false,
-                slug: '{{$p->slug}}',
-                atProjectShow: {{request()->project !== null ? 1 : 0}},
+                slug: '{{ $p->slug }}',
+                atProjectShow: {{ request()->project !== null ? 1 : 0 }},
                 remove: async function() {
                     if (this.refusing) return;
-
+            
                     this.refusing = true;
                     const res = await axios.delete('{{ route('projects.refuse', [$category?->slug ?? $p->category->slug, $p->slug]) }}').catch(err => {});
-
+            
                     this.refusing = false;
-
+            
                     if (!res || res.status !== 204) {
                         $dispatch('toast', {
                             type: 'error',
-                            text: '{{__('category.erorr')}}'
+                            text: '{{ __('category.erorr') }}'
                         });
                         return;
                     }
-
+            
                     if (this.atProjectShow) {
                         {{-- redirect to all projects --}}
-                        window.location.href = '{{route('projects.index', 'all')}}';
+                        window.location.href = '{{ route('projects.index', 'all') }}';
                         return;
                     }
-
+            
                     {{-- hide this project card --}}
                     const card = document.querySelector('#' + this.slug);
                     card.style.display = 'none';
-
+            
                     $dispatch('toast', {
                         type: 'success',
-                        text: '{{__('category.success')}}'
+                        text: '{{ __('category.success') }}'
                     });
                 },
             }">
-               
-                <button type="button" x-on:click.prevent="remove" class="btn red" aria-describedby='refuse invitation from project'>
+
+                <button type="button" x-on:click.prevent="remove" class="btn red"
+                    aria-describedby='refuse invitation from project'>
                     <x-fas-xmark x-show="!refusing" />
                     <x-btn-spinner x-show="refusing" />
-                    {{__('project.refuse')}}
+                    {{ __('project.refuse') }}
                 </button>
             </div>
         @endif
@@ -79,11 +80,13 @@
                 url: '{{ route('projects.invite', [$category?->slug ?? $p->category->slug, $p->slug]) }}'
             })">
                 <x-fas-users />
-                {{ __('project.invite') }}
+                <span class="sm:hidden lg:inline-block">
+                    {{ __('project.invite') }}
+                </span>
             </button>
             <x-btn-with-spinner tag='a'
                 href="{{ route('projects.edit', [$category?->slug ?? $p->category->slug, $p->slug]) }}"
-                desc="edit project {{ $p->slug }}" icon="fas-pencil">
+                desc="edit project {{ $p->slug }}" icon="fas-pencil" class="mx-1">
                 <span class="sm:hidden lg:inline-block">
                     {{ __('category.edit') }}
                 </span>

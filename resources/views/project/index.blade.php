@@ -26,18 +26,12 @@
     </x-slot>
 
     <div class="flex flex-row flex-wrap">
-        <div class="flex flex-row flex-wrap w-full md:w-3/4">
+        <div class="flex flex-row flex-wrap w-full">
             @forelse($projects as $p)
                 @include('project.show', compact('p'))
             @empty
                 @include('project.index.empty')
             @endforelse
-        </div>
-        <div class="w-full py-4 md:w-1/4">
-            @includeWhen($category !== null, 'category.show', [
-                'cat' => $category,
-                'class' => '',
-            ])
         </div>
     </div>
 
