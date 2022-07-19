@@ -11,10 +11,24 @@ return [
         'defaults' => [
             'title' => env('APP_NAME', 'laravel'), // set false to total remove
             'titleBefore' => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
-            'description' => 'project tasks manager with real time feedback', // set false to total remove
+            'description' => 'Project Management for software companies', // set false to total remove
             'separator' => ' - ',
-            'keywords' => ['laravel', 'php', 'project'],
-            'canonical' => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
+            'keywords' => [
+                'project',
+                'tasks',
+                'project managament',
+                'category ststem',
+                'project team',
+                'laravel',
+                'laravel 9',
+                'alpinejs',
+                'tailwindcss',
+                'laravel vite',
+                'vite',
+                'join with github',
+                'join with facebook',
+            ],
+            'canonical' => 'current', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'robots' => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],
         /*
@@ -38,7 +52,7 @@ return [
         'defaults' => [
             'title' => 'Over 9000 Thousand!', // set false to total remove
             'description' => 'For those who helped create the Genki Dama', // set false to total remove
-            'url' => false, // Set null for using Url::current(), set false to total remove
+            'url' => null, // Set null for using Url::current(), set false to total remove
             'type' => false,
             'site_name' => false,
             'images' => [],
@@ -60,7 +74,7 @@ return [
         'defaults' => [
             'title' => 'Over 9000 Thousand!', // set false to total remove
             'description' => 'For those who helped create the Genki Dama', // set false to total remove
-            'url' => false, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
+            'url' => null, // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'type' => 'WebPage',
             'images' => [],
         ],

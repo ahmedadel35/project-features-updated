@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TodoController;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -29,6 +30,7 @@ Route::prefix(LaravelLocalization::setLocale())
         require __DIR__ . '/auth.php';
 
         Route::get('/', function () {
+            SEOTools::setTitle(__('nav.home'));
             return view('home');
         });        
 

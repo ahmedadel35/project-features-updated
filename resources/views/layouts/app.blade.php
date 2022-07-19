@@ -13,7 +13,7 @@
 
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
 
-    {!! SEO::setDescription('weaweawe')->setCanonical(url()->current())->generate() !!}
+    {!! SEO::setDescription(__('home.hero_title'))->generate() !!}
 
     <!-- Fonts -->
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"> --}}
