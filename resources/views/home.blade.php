@@ -8,7 +8,7 @@
 
     @include('home.built_with')
 
-    @include('home.features')
+    @include('home.stats')
 
     @include('home.quotes')
 </x-app-layout>
