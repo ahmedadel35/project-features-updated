@@ -18,12 +18,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})
-    ->middleware(['auth'])
-    ->name('dashboard');
-
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware(['localeCookieRedirect'])
     ->group(function () {
@@ -32,7 +26,7 @@ Route::prefix(LaravelLocalization::setLocale())
         Route::get('/', function () {
             SEOTools::setTitle(__('nav.home'));
             return view('home');
-        });        
+        })->name('home');        
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([
