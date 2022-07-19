@@ -11,12 +11,15 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
-
     {!! SEO::setDescription(__('home.hero_title'))->generate() !!}
 
+    @include('page-loading.style')
+
     <!-- Fonts -->
-    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap"> --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="preload" as='style'
+        onload="this.onload=null; this.rel='stylesheet'" />
 
     <!-- Scripts -->
     <style>
@@ -36,6 +39,7 @@
 </head>
 
 <body class="font-sans antialiased">
+    @include('page-loading.template')
     <div class="min-h-screen pb-32">
         @include('layouts.navigation')
 
