@@ -8,7 +8,7 @@
         <div class="relative max-w-sm card-bg">
             <div class="py-3"></div>
             <h5
-                class="py-1 pl-3 mb-2 text-2xl font-bold tracking-tight text-gray-900 transition ltr:border-l-4 rtl:border-r-4 border-cyan-600 hover:border-cyan-800 dark:text-white ">
+                class="py-1 mb-2 text-2xl font-bold tracking-tight text-gray-900 transition ltr:pl-3 rtl:pr-3 ltr:border-l-4 rtl:border-r-4 border-cyan-600 hover:border-cyan-800 dark:text-white ">
                 <a href="{{ $url }}" class="">
                     {{ $title }}
                 </a>

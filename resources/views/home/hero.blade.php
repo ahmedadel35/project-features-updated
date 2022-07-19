@@ -19,7 +19,7 @@
             </a> 
         </div>
         <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <x-img-loader src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="app hero image">
+            <x-img-loader src="/shots/1.jpeg" alt="app hero image" />
         </div>                
     </div>
 </section>
