@@ -95,6 +95,12 @@ class ProjectController extends Controller
                 'slug',
                 'title',
             ]);
+
+            if ($categories->isEmpty()) {
+                // redirect to category create page
+                session()->flash('notify', __('project.category_first'));
+                return redirect()->route('categories.index');
+            }
         }
 
         return view('project.create', compact('category', 'categories'));

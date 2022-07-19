@@ -34,4 +34,5 @@ return [
     'invite_title' => 'Invite user to this project',
     'completed' => 'Completed',
     'is_team' => 'this user is already invited to this project',
+    'category_first' => 'you must create a category first',
 ];
