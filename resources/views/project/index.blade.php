@@ -33,7 +33,7 @@
                 @include('project.index.empty')
             @endforelse
         </div>
-        <div class="w-full md:w-1/4">
+        <div class="w-full py-4 md:w-1/4">
             @includeWhen($category !== null, 'category.show', [
                 'cat' => $category,
                 'class' => '',
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="py-5 px-2 md:px-4">
+    <div class="px-2 py-5 md:px-4">
         {{ $projects->links() }}
     </div>
 
