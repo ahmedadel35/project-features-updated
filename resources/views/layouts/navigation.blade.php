@@ -1,16 +1,15 @@
-<nav class="nav-bg px-2 sm:px-4 py-2.5 rounded w-full fixed top-0 z-50"
-    x-data="{
-        size: 320,
-        navMenuOpen: false,
-        initate: function() {
-            this.size = window.innerWidth;
-    
-            if (this.size >= 768) {
-                this.navMenuOpen = true;
-            }
-        },
-    }" x-init="initate">
-    <div class="container flex flex-wrap justify-between items-center mx-auto">
+<nav class="nav-bg px-2 sm:px-4 py-2.5 rounded w-full fixed top-0 z-50" x-data="{
+    size: 320,
+    navMenuOpen: false,
+    initate: function() {
+        this.size = window.innerWidth;
+
+        if (this.size >= 768) {
+            this.navMenuOpen = true;
+        }
+    },
+}" x-init="initate">
+    <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a href="/" class="flex items-center">
             <x-application-logo class="h-5 sm:h-7" alt="{{ env('APP_NAME', 'website') }} Logo" />
             <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
@@ -32,7 +31,8 @@
                 <x-slot name='content'>
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         <x-dropdown-link rel="alternate" hreflang="{{ $localeCode }}"
-                            href="{{app()->getLocale() == $localeCode ? 'javascript:void' : LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" :active="app()->getLocale() == $localeCode">
+                            href="{{ app()->getLocale() == $localeCode ? 'javascript:void' : LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                            :active="app()->getLocale() == $localeCode">
                             {{ $properties['native'] }}
                         </x-dropdown-link>
                     @endforeach
@@ -41,7 +41,7 @@
                 </x-slot>
             </x-dropdown>
             {{-- user dropdown --}}
-            @auth
+
             <x-dropdown>
                 <x-slot name="trigger">
                     <button type="button"
@@ -49,32 +49,54 @@
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown"
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
-                        <x-avatar :src="Auth::user()->avatar" :title="Auth::user()->name" alt="user avatar" />
+                        @auth
+                            <x-avatar :src="Auth::user()->avatar" :title="Auth::user()->name" alt="user avatar" />
+                        @else
+                            <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd">
+                                    </path>
+                                </svg>
+                            </div>
+                        @endauth
                     </button>
                 </x-slot>
 
                 <x-slot name='content'>
-                    <div class="py-3 px-4">
-                        <span class="block text-sm text-gray-900 dark:text-white">{{ Auth::user()->name }}</span>
-                        <span
-                            class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
-                    </div>
-                    <x-dropdown-link href="{{route('change-password.create')}}" aria-describedby="change user pasword">
-                        {{__('auth.change_password')}}
-                    </x-dropdown-link>
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-dropdown-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                            {{ __('Log Out') }}
+                    @auth
+                        <div class="px-4 py-3">
+                            <span class="block text-sm text-gray-900 dark:text-white">{{ Auth::user()->name }}</span>
+                            <span
+                                class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
+                        </div>
+                        <x-dropdown-link href="{{ route('change-password.create') }}"
+                            aria-describedby="change user pasword">
+                            {{ __('auth.change_password') }}
                         </x-dropdown-link>
-                    </form>
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    @else
+                        <x-dropdown-link href="{{ route('login') }}" aria-describedby="login to enter app"
+                            :active="request()->routeIs('login')">
+                            {{ __('Login') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link href="{{ route('register') }}" aria-describedby="register user"
+                            :active="request()->routeIs('register')">
+                            {{ __('Register') }}
+                        </x-dropdown-link>
+                    @endauth
                 </x-slot>
-            </x-dropdown>    
-            @endauth
+            </x-dropdown>
             {{-- main menu toggler --}}
             <button x-on:click.prevent="navMenuOpen = !navMenuOpen" type="button"
                 class="inline-flex items-center p-2 ml-1 text-sm text-gray-200 rounded-lg md:hidden hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -94,7 +116,7 @@
                 </svg>
             </button>
         </div>
-        <div x-show="navMenuOpen" class="justify-between items-center w-full md:flex md:w-auto md:order-1"
+        <div x-show="navMenuOpen" class="items-center justify-between w-full md:flex md:w-auto md:order-1"
             id="mobile-menu-2" x-cloak x-transition>
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                 <li>
