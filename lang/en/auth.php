@@ -32,4 +32,5 @@ return array (
   'old-Password' => 'Current Password',
   'new-password' => 'New Password',
   'notify' => 'new Notification',
+  'change_pass_notify' => 'please change your password',
 );

@@ -36,4 +36,5 @@ return array(
   'old-Password' => 'كلمة المرور الحالية',
   'new-password' => 'كلمة المرور الجديدة',
   'notify' => 'إشعار جديد',
+  'change_pass_notify' => "من فضلك قم بتغيير كلمة المرور الخاصة بك",
 );
