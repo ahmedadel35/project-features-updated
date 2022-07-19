@@ -61,6 +61,13 @@ class User extends Authenticatable
         )->shouldCache();
     }
 
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn($val, $attr) => null !== $attr['avatar'] ? $attr['avatar'] : url('/users/admin.jpeg'),
+        );
+    }
+
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
