@@ -31,7 +31,7 @@
                 </h2>
                 <ul class="text-gray-300 dark:text-gray-400">
                     <li class="mb-4">
-                        <a target="_blank" href="https://github.com/themesberg/flowbite" class="hover:underline ">
+                        <a target="_blank" href="https://github.com/abo3adel/project-features-updated" class="hover:underline ">
                             {{ __('auth.github') }}
                         </a>
                     </li>
