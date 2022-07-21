@@ -154,7 +154,7 @@ test('project owner can not invite user twice', function () {
             'email' => $teamUser->email,
         ])
         ->assertOk()
-        ->assertSee($teamUser->avatar);
+        ->assertJsonPath('user.avatar', $teamUser->avatar);
 
     actingAs($user)
         ->post(route('projects.invite', [$cat->slug, $proj->slug]), [

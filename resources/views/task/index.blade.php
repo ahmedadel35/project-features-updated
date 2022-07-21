@@ -165,23 +165,31 @@
                         .leaving((user) => {
                             $dispatch('remove-user', user);
                         })
-                        .listen('UserRemovedFromProjectTeam', (e) => {
+                        .listen('ProjectTeam\\UserRemovedFromProjectTeam', (e) => {
                             {{-- if current us was removed --}}
                             {{-- then redirect to all projects --}}
-                            if (e.id_hash === '{{Auth::user()->id_hash}}') {
+                            if (e.id_hash === '{{ Auth::user()->id_hash }}') {
                                 $dispatch('toast', {
                                     type: 'error',
-                                    text: '{{__('project.you')}}' + ' {{__('project.team_removed')}}', 
+                                    text: '{{ __('project.you') }}' + ' {{ __('project.team_removed') }}',
                                 });
-                                window.location.href = '{{route('projects.index', 'all')}}';
+                                window.location.href = '{{ route('projects.index', 'all') }}';
                                 return;
                             }
-
+            
                             $dispatch('toast', {
                                 type: 'warning',
-                                text: e.name + ' {{__('project.team_removed')}}', 
+                                text: e.user.name + ' {{ __('project.team_removed') }}',
                             });
-                            $dispatch('remove-team-member', e.id_hash);
+                            $dispatch('team-list-remove', e.user.id_hash);
+                        })
+                        .listen('ProjectTeam\\UserAddedToProjectTeam', (e) => {
+                            {{-- add newly added user avatar next to the rest of the team members --}}
+                            $dispatch('team-avatar-add', {
+                                slug: e.project_slug,
+                                blade: e.bladeComponent,
+                            });
+                            $dispatch('team-list-add', e.user)
                         })
                         .listen('.TaskEvent', (e) => {
                             {{-- handle response --}}

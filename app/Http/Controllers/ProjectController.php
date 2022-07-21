@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProjectTab;
-use App\Events\UserRemovedFromProjectTeam;
+use App\Events\ProjectTeam\UserAddedToProjectTeam;
+use App\Events\ProjectTeam\UserRemovedFromProjectTeam;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
@@ -205,25 +206,28 @@ class ProjectController extends Controller
 
         $html = file_get_contents(View::getFinder()->find('components.avatar'));
 
-        return response()->json([
-            'user' => $user,
-            'blade' => Blade::render(
-                str_replace(
-                    [
-                        "@props(['src','title','hash'=> '','id'=> 'a'.random_int(10, 9999)])",
-                    ],
-                    '',
-                    $html
-                ),
+        $bladeComponent = Blade::render(
+            str_replace(
                 [
-                    'src' => $user->avatar,
-                    'id' => 'a' . random_int(1, 9999),
-                    'title' => $user->name,
-                    'hash' => $user->id_hash,
-                    'attributes' => "alt='" . $user->name . " avatar'",
-                ]
+                    "@props(['src','title','hash'=> '','id'=> 'a'.random_int(10, 9999)])",
+                ],
+                '',
+                $html
             ),
-        ]);
+            [
+                'src' => $user->avatar,
+                'id' => 'a' . random_int(1, 9999),
+                'title' => $user->name,
+                'hash' => $user->id_hash,
+                'attributes' => "alt='" . $user->name . " avatar'",
+            ]
+        );
+
+        broadcast(
+            new UserAddedToProjectTeam($user, $project, $bladeComponent)
+        )->toOthers();
+
+        return response()->json(compact('user', 'bladeComponent'));
     }
 
     /**
@@ -254,7 +258,9 @@ class ProjectController extends Controller
             $user = User::findOrFail($id[0]);
             $project->removeFromTeam($user);
 
-            broadcast(new UserRemovedFromProjectTeam($user, $project))->toOthers();
+            broadcast(
+                new UserRemovedFromProjectTeam($user, $project)
+            )->toOthers();
 
             return response()->noContent();
         }

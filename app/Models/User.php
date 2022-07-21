@@ -40,6 +40,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'changed_password',
+        'email',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -64,7 +68,9 @@ class User extends Authenticatable
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn($val, $attr) => null !== $attr['avatar'] ? $attr['avatar'] : url('/users/admin.jpeg'),
+            get: fn($val, $attr) => null !== $attr['avatar']
+                ? $attr['avatar']
+                : url('/users/admin.jpeg')
         );
     }
 

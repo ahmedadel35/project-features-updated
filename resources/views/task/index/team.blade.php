@@ -10,8 +10,11 @@
         const avatar = document.querySelector('#avatar-' + hash);
         avatar.style.display = 'none';
     },
-}" x-on:add-team-member.window="insert($event.detail)"
-    x-on:remove-team-member.window="del($event.detail)" x-show='team.length' x-transition>
+    appendToList: function({ slug, blade }) {
+        const teamImagesContainer = document.querySelector('#' + slug + '-team');
+        teamImagesContainer.innerHTML += blade;
+    },
+}" x-on:team-list-add.window="insert($event.detail)" x-on:team-list-remove.window="del($event.detail)" x-on:team-avatar-add.window="appendToList($event.detail)" x-show='team.length' x-transition>
     @can('update', $project)
         <x-card id="team" class="w-full my-3">
             <x-slot name='title'>

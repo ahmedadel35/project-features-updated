@@ -32,20 +32,22 @@
         });
 
         this.saving = false;
-        if (!res || !res.data || !res.data.blade) {
+        if (!res || !res.data || !res.data.bladeComponent) {
             $dispatch('toast', { type: 'error', text: '{{ __('category.erorr') }}' });
             return;
         }
 
         {{-- add newly added user avatar next to the rest of the team members --}}
-        const teamImagesContainer = document.querySelector('#' + this.slug + '-team');
-        teamImagesContainer.innerHTML += res.data.blade;
+        $dispatch('team-avatar-add', {
+            slug: this.slug,
+            blade: res.data.bladeComponent,
+        });
         this.projectModal = false;
 
-        $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' });
-
         {{-- add newly added user to team list --}}
-        $dispatch('add-team-member', res.data.user);
+        $dispatch('team-list-add', res.data.user);
+
+        $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' });
     },
 }">
     <x-modal id='projectModal' :title="__('project.invite_title')" event="project-invite-modal" action="open($event.detail)">
@@ -53,7 +55,7 @@
             @csrf
             <div class="flex flex-row flex-wrap">
                 <label for="user-email"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-full md:w-1/5">{{ __('Email') }}</label>
+                    class="block w-full mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 md:w-1/5">{{ __('Email') }}</label>
                 <div class="relative w-full md:w-4/5">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <x-fas-envelope class="w-5 h-5 text-gray-500 dark:text-gray-400" />
@@ -61,7 +63,7 @@
                     <input type="email" id="user-email" class="input" placeholder="someone@example.com"
                         name="email" x-model='email' required>
                 </div>
-                <div class="w-full flex">
+                <div class="flex w-full">
                     <div class="md:w-1/5"></div>
                     <div>
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">

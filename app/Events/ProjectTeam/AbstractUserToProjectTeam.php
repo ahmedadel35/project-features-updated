@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\ProjectTeam;
 
 use App\Models\Project;
 use App\Models\User;
@@ -12,25 +12,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserRemovedFromProjectTeam implements ShouldBroadcast
+abstract class AbstractUserToProjectTeam implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public string $id_hash;
-    public string $name;
+    public string $project_slug;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(
-        protected User $user,
-        protected Project $project
-    )
+    public function __construct(public User $user, protected Project $project, public ?string $bladeComponent = null)
     {
-        $this->id_hash = $user->id_hash;
-        $this->name = $user->name;
+        $this->project_slug = $project->slug;
     }
 
     /**
@@ -40,6 +35,8 @@ class UserRemovedFromProjectTeam implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('project.' . $this->project->slug . '.tasks');
+        return new PresenceChannel(
+            'project.' . $this->project->slug . '.tasks'
+        );
     }
 }

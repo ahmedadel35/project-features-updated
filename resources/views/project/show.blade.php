@@ -1,4 +1,4 @@
-<x-card :id='$p->slug' class="{{$class ?? 'w-full p-3 sm:w-1/2 md:w-1/3 lg:w-1/4 2xl:w-1/5 sm:px-2 md:px-3'}}" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
+<x-card :id='$p->slug' class="{{ $class ?? 'w-full p-3 sm:w-1/2 md:w-1/3 lg:w-1/4 2xl:w-1/5 sm:px-2 md:px-3' }}" :url="route('projects.show', [$category?->slug ?? $p->category->slug, $p->slug])">
     <x-slot name='title'>
         {{ $p->name }}
     </x-slot>

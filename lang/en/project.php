@@ -38,5 +38,6 @@ return [
     'team_members' => 'Team Members',
     'remove' => 'Remove',
     'team_removed' => ' removed from this project team',
+    'team_added' => ' added to this project team',
     'you' => 'YOU',
 ];
