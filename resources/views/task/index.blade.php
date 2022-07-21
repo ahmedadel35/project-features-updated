@@ -226,8 +226,8 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col w-full md:w-1/4">
-            @include('project.show', ['p' => $project, 'class' => ''])
+        <div class="flex flex-col w-full md:w-1/4 px-4 py-2">
+            @include('project.show', ['p' => $project, 'class' => 'w-full'])
 
             @include('task.index.active-users')
         </div>
