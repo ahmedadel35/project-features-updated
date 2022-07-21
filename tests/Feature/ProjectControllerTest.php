@@ -239,3 +239,23 @@ test('user refuse invitation to project', function () {
     $proj->refresh();
     expect($proj->isTeamMember($user))->toBeFalse();
 });
+
+test('project owner can remove user from project team', function () {
+    /** @var App\Models\Project $proj */
+    [$owner, $cat, $proj] = userWithTodos();
+    $this->travel(1)->seconds();
+    $user = User::factory()->create();
+    expect($proj->isTeamMember($user))->toBeFalse();
+
+    // invite user to project
+    $proj->addToTeam($user);
+    expect($proj->isTeamMember($user))->toBeTrue();
+
+    // remove from team
+    actingAs($owner)
+        ->deleteJson(route('projects.refuse', [$cat, $proj, $user->id_hash]))
+        ->assertNoContent();
+
+    $proj->refresh();
+    expect($proj->isTeamMember($user))->toBeFalse();
+});

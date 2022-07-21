@@ -70,7 +70,7 @@ Route::prefix(LaravelLocalization::setLocale())
                     Route::post('/{project}/invite', 'invite')
                         ->name('invite')
                         ->can('update', 'project');
-                    Route::delete('/{project}/invite', 'refuse')
+                    Route::delete('/{project}/invite/{user_id?}', 'refuse')
                         ->name('refuse')
                         ->can('view', 'project');
                 });

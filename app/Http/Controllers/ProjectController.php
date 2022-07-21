@@ -11,6 +11,7 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
 use Blade;
 use DB;
+use Hashids;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -225,8 +226,29 @@ class ProjectController extends Controller
      * @param Project $project
      * @return void
      */
-    public function refuse(Category $category, Project $project)
-    {
+    public function refuse(
+        Category $category,
+        Project $project,
+        ?string $user_id = null
+    ) {
+        if (null !== $user_id) {
+            // assert this is project owner
+            $this->authorize('update', $project);
+
+            // decode hashed user id
+            $id = Hashids::decode($user_id);
+
+            if (empty($id)) {
+                // this hash was wrong
+                return null;
+            }
+
+            // remove user from team
+            $project->removeFromTeam(User::findOrFail($id[0]));
+
+            return response()->noContent();
+        }
+
         $project->removeFromTeam(Auth::user());
 
         return response()->noContent();
