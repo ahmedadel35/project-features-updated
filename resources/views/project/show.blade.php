@@ -20,7 +20,7 @@
         <div dir="ltr" class='flex my-1 -space-x-4 ltr:justify-end rtl:justify-start rtl:pl-1 ltr:pr-1'
             id="{{ $p->slug }}-team">
             @foreach ($p->team as $team_user)
-                <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' />
+                <x-avatar :src="$team_user->avatar" :title="$team_user->name" alt='{{ $team_user->name }} profile photo' :hash='$team_user->id_hash' />
             @endforeach
         </div>
     </x-slot>

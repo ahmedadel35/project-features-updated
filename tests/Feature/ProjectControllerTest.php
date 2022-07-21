@@ -128,12 +128,11 @@ test('only project owner can invite users to team', function () {
         ->assertForbidden();
 
     // try with owner
-    actingAs($user)
+    $res = actingAs($user)
         ->post(route('projects.invite', [$cat->slug, $proj->slug]), [
             'email' => $teamUser->email,
         ])
-        ->assertOk()
-        ->assertSee($teamUser->avatar);
+        ->assertOk();
 });
 
 test('project owner can not invite un registered user', function () {

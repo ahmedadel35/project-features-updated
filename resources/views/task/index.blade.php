@@ -147,7 +147,7 @@
                     if (typeof type === 'undefined') {
                         type = 'success';
                     }
-
+            
                     $dispatch('toast', {
                         type: type,
                         text: '{{ __('auth.notify') }}',
@@ -157,43 +157,43 @@
                 },
                 registerTaskEventListener: function() {
                     window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
-                        $dispatch('set-users', users);
-                    })
-                    .joining((user) => {
-                        $dispatch('add-user', user);
-                    })
-                    .leaving((user) => {
-                        $dispatch('remove-user', user);
-                    })
-                    .listen('.TaskEvent', (e) => {
-                        {{-- handle response --}}
-                        {{-- types =>  created | updated | deleted --}}
-                        if (e.type === 'created') {
-                            this.notify(
-                                ' {{ __('task.word_created') }} ',
-                                e.task.body,
-                                e.user
-                            );
-                            this.insert(e.task);
-                        } else if (e.type === 'updated') {
-                            this.notify(
-                                ' {{ __('task.word_updated') }} ',
-                                e.task.body,
-                                e.user
-                            );
-                            this.update(e.task);
-                        } else if (e.type === 'deleted') {
-                            this.notify(
-                                ' {{ __('task.word_deleted') }} ',
-                                e.task.body,
-                                e.user
-                            );
-                            this.tasks.splice(
-                                this.tasks.findIndex(x => x.id === e.task.id),
-                                1
-                            );
-                        }            
-                    });
+                            $dispatch('set-users', users);
+                        })
+                        .joining((user) => {
+                            $dispatch('add-user', user);
+                        })
+                        .leaving((user) => {
+                            $dispatch('remove-user', user);
+                        })
+                        .listen('.TaskEvent', (e) => {
+                            {{-- handle response --}}
+                            {{-- types =>  created | updated | deleted --}}
+                            if (e.type === 'created') {
+                                this.notify(
+                                    ' {{ __('task.word_created') }} ',
+                                    e.task.body,
+                                    e.user
+                                );
+                                this.insert(e.task);
+                            } else if (e.type === 'updated') {
+                                this.notify(
+                                    ' {{ __('task.word_updated') }} ',
+                                    e.task.body,
+                                    e.user
+                                );
+                                this.update(e.task);
+                            } else if (e.type === 'deleted') {
+                                this.notify(
+                                    ' {{ __('task.word_deleted') }} ',
+                                    e.task.body,
+                                    e.user
+                                );
+                                this.tasks.splice(
+                                    this.tasks.findIndex(x => x.id === e.task.id),
+                                    1
+                                );
+                            }
+                        });
                 },
             }"
                 x-init="loadTasks('{{ route('tasks.index', [$category->slug, $project->slug]) }}');
@@ -230,6 +230,8 @@
             @include('project.show', ['p' => $project, 'class' => 'w-full'])
 
             @include('task.index.active-users')
+
+            @includeWhen(Auth::user()->can('update', $project), 'task.index.team')
         </div>
     </div>
 

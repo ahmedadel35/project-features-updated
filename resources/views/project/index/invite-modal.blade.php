@@ -32,17 +32,20 @@
         });
 
         this.saving = false;
-        if (!res || !res.data) {
+        if (!res || !res.data || !res.data.blade) {
             $dispatch('toast', { type: 'error', text: '{{ __('category.erorr') }}' });
             return;
         }
 
         {{-- add newly added user avatar next to the rest of the team members --}}
         const teamImagesContainer = document.querySelector('#' + this.slug + '-team');
-        teamImagesContainer.innerHTML += res.data;
+        teamImagesContainer.innerHTML += res.data.blade;
         this.projectModal = false;
 
         $dispatch('toast', { type: 'success', text: '{{ __('category.success') }}' });
+
+        {{-- add newly added user to team list --}}
+        $dispatch('add-team-member', res.data.user);
     },
 }">
     <x-modal id='projectModal' :title="__('project.invite_title')" event="project-invite-modal" action="open($event.detail)">

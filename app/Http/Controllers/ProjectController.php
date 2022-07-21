@@ -204,19 +204,25 @@ class ProjectController extends Controller
 
         $html = file_get_contents(View::getFinder()->find('components.avatar'));
 
-        return Blade::render(
-            str_replace(
-                ["@props(['src', 'title', 'id' => 'a' . random_int(1, 6999)])"],
-                '',
-                $html
+        return response()->json([
+            'user' => $user,
+            'blade' => Blade::render(
+                str_replace(
+                    [
+                        "@props(['src','title','hash'=> '','id'=> 'a'.random_int(10, 9999)])",
+                    ],
+                    '',
+                    $html
+                ),
+                [
+                    'src' => $user->avatar,
+                    'id' => 'a' . random_int(1, 9999),
+                    'title' => $user->name,
+                    'hash' => $user->id_hash,
+                    'attributes' => "alt='" . $user->name . " avatar'",
+                ]
             ),
-            [
-                'src' => $user->avatar,
-                'id' => 'a' . random_int(1, 9999),
-                'title' => $user->name,
-                'attributes' => "alt='" . $user->name . " avatar'",
-            ]
-        );
+        ]);
     }
 
     /**

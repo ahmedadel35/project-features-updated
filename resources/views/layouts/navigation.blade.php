@@ -127,7 +127,7 @@
                 <li>
                     <x-dropdown>
                         <x-slot name='trigger'>
-                            <x-nav-link :active="request()->routeIs('projects.index*')" href="#">
+                            <x-nav-link :active="request()->routeIs('projects.index*')" href="javascript:void">
                                 {{ __('nav.projects') }}
                             </x-nav-link>
                         </x-slot>

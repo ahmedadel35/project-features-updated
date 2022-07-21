@@ -35,4 +35,6 @@ return [
     'completed' => 'Completed',
     'is_team' => 'this user is already invited to this project',
     'category_first' => 'you must create a category first',
+    'team_members' => 'Team Members',
+    'remove' => 'Remove',
 ];
