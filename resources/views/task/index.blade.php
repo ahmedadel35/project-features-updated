@@ -31,7 +31,7 @@
         <div class="flex flex-col w-full md:w-3/4">
             @include('task.form')
 
-            <div class="my-3 flex flex-col flex-wrap w-full px-1" id="tasks" x-data="{
+            <div class="flex flex-col flex-wrap w-full px-1 my-3" id="tasks" x-data="{
                 tasks: [],
                 loadingArr: [],
                 toggle: false,
@@ -214,7 +214,7 @@
                     @include('task.placeholder')
                 </template>
 
-                <div class="my-3 flex items-center justify-between px-5" x-show="prevPage || nextPage">
+                <div class="flex items-center justify-between px-5 my-3" x-show="prevPage || nextPage">
                     <button class="btn purple" type="button" aria-describedby="previos page"
                         x-on:click.prevent="loadTasks(prevPage)" x-bind:disapled="!prevPage">
                         <x-fas-chevron-left />
