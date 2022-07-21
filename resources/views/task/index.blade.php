@@ -165,6 +165,24 @@
                         .leaving((user) => {
                             $dispatch('remove-user', user);
                         })
+                        .listen('UserRemovedFromProjectTeam', (e) => {
+                            {{-- if current us was removed --}}
+                            {{-- then redirect to all projects --}}
+                            if (e.id_hash === '{{Auth::user()->id_hash}}') {
+                                $dispatch('toast', {
+                                    type: 'error',
+                                    text: '{{__('project.you')}}' + ' {{__('project.team_removed')}}', 
+                                });
+                                window.location.href = '{{route('projects.index', 'all')}}';
+                                return;
+                            }
+
+                            $dispatch('toast', {
+                                type: 'warning',
+                                text: e.name + ' {{__('project.team_removed')}}', 
+                            });
+                            $dispatch('remove-team-member', e.id_hash);
+                        })
                         .listen('.TaskEvent', (e) => {
                             {{-- handle response --}}
                             {{-- types =>  created | updated | deleted --}}
@@ -226,12 +244,12 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col w-full md:w-1/4 px-4 py-2">
+        <div class="flex flex-col w-full px-4 py-2 md:w-1/4">
             @include('project.show', ['p' => $project, 'class' => 'w-full'])
 
             @include('task.index.active-users')
 
-            @includeWhen(Auth::user()->can('update', $project), 'task.index.team')
+            @include('task.index.team')
         </div>
     </div>
 

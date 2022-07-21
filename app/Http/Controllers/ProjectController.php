@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProjectTab;
+use App\Events\UserRemovedFromProjectTeam;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Todo;
@@ -250,7 +251,10 @@ class ProjectController extends Controller
             }
 
             // remove user from team
-            $project->removeFromTeam(User::findOrFail($id[0]));
+            $user = User::findOrFail($id[0]);
+            $project->removeFromTeam($user);
+
+            broadcast(new UserRemovedFromProjectTeam($user, $project))->toOthers();
 
             return response()->noContent();
         }

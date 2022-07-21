@@ -37,4 +37,6 @@ return [
     'category_first' => 'you must create a category first',
     'team_members' => 'Team Members',
     'remove' => 'Remove',
+    'team_removed' => ' removed from this project team',
+    'you' => 'YOU',
 ];
