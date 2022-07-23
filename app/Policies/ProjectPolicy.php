@@ -46,6 +46,7 @@ class ProjectPolicy
         if (request()->category?->user_id) {
             return request()->category?->user_id === $user->id;
         }
+
         return true;
     }
 

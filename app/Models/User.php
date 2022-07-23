@@ -61,14 +61,14 @@ class User extends Authenticatable
     protected function idHash(): Attribute
     {
         return Attribute::make(
-            get: fn($val, $attr) => Hashids::encode($attr['id'])
+            get: fn ($val, $attr) => Hashids::encode($attr['id'])
         )->shouldCache();
     }
 
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn($val, $attr) => null !== $attr['avatar']
+            get: fn ($val, $attr) => null !== $attr['avatar']
                 ? $attr['avatar']
                 : url('/users/admin.jpeg')
         );

@@ -26,7 +26,7 @@ class Kernel extends HttpKernel
         \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
         \RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
         \RenatoMarinho\LaravelPageSpeed\Middleware\DeferJavascript::class,
-    
+
     ];
 
     /**

@@ -46,7 +46,7 @@ class Todo extends Model
     public function broadcastOn($event)
     {
         return new PresenceChannel(
-            'project.' . request()->project->slug . '.tasks'
+            'project.'.request()->project->slug.'.tasks'
         );
     }
 

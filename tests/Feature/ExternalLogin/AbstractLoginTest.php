@@ -2,25 +2,23 @@
 
 use App\Models\User;
 use Laravel\Socialite\Contracts\Factory as Socialite;
-use Laravel\Socialite\Two\GithubProvider;
 use Laravel\Socialite\Two\FacebookProvider;
-use Tests\MockSocialiteTrait;
-
+use Laravel\Socialite\Two\GithubProvider;
 use function Pest\Laravel\get;
+use Tests\MockSocialiteTrait;
 
 uses(MockSocialiteTrait::class);
 
-test("can register user if not registerd", function ($provider, $contract) {
+test('can register user if not registerd', function ($provider, $contract) {
     $user = User::factory()->make();
 
     $stub = $this->mockSocialite($contract, $user);
     $this->app->instance(Socialite::class, $stub);
 
-
     get(route("ext-login.$provider.callback"));
 
-    $this->assertDatabaseHas("users", [
-        "email" => $user->email,
+    $this->assertDatabaseHas('users', [
+        'email' => $user->email,
         'name' => $user->name,
     ]);
 })->with([
@@ -28,12 +26,11 @@ test("can register user if not registerd", function ($provider, $contract) {
     ['github', GithubProvider::class],
 ]);
 
-test("will login user if already registerd", function ($provider, $contract) {
+test('will login user if already registerd', function ($provider, $contract) {
     $user = User::factory()->create();
 
     $stub = $this->mockSocialite($contract, $user);
     $this->app->instance(Socialite::class, $stub);
-
 
     get(route("ext-login.$provider.callback"));
 
@@ -44,8 +41,7 @@ test("will login user if already registerd", function ($provider, $contract) {
     ['github', GithubProvider::class],
 ]);
 
-
-it("will show notification for newly registerd users", function ($provider, $contract) {
+it('will show notification for newly registerd users', function ($provider, $contract) {
     $user = User::factory()->make();
 
     $stub = $this->mockSocialite($contract, $user);
@@ -55,8 +51,8 @@ it("will show notification for newly registerd users", function ($provider, $con
 
     $res->assertSessionHas('notify');
 
-    $this->assertDatabaseHas("users", [
-        "email" => $user->email,
+    $this->assertDatabaseHas('users', [
+        'email' => $user->email,
         'name' => $user->name,
         'changed_password' => false,
     ]);

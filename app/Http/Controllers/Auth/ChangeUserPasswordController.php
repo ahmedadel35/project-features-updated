@@ -30,9 +30,9 @@ class ChangeUserPasswordController extends Controller
 
         // check if user joined with third party apps
         if ($user->changed_password) {
-            abort_if(!isset($req['old-password']), 403);
+            abort_if(! isset($req['old-password']), 403);
             // verify old password
-            if (!Hash::check($req['old-password'], $user->password)) {
+            if (! Hash::check($req['old-password'], $user->password)) {
                 return back()->withErrors(['old-password' => __('auth.Password')]);
             }
         }

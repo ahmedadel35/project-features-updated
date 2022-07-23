@@ -91,7 +91,7 @@ test('project can not dublicate team members', function () {
     expect($p->isTeamMember($user))->toBeTrue();
 });
 
-test('project can remove user from team', function() {
+test('project can remove user from team', function () {
     $p = Project::factory()->createQuietly();
     $user = User::factory()->createQuietly();
     expect($p->isTeamMember($user))->toBeFalse();

@@ -7,5 +7,5 @@ class FacebookLoginController extends AbstractExternalLoginController
     protected function getServiceSlug(): string
     {
         return 'facebook';
-    }    
+    }
 }

@@ -17,18 +17,18 @@ return [
     'start' => 'Start by adding new Project',
     'filter_title' => 'Filters',
     'filter' => [
-        'set_state' => "set State",
-        "state_all" => 'All Projects',
+        'set_state' => 'set State',
+        'state_all' => 'All Projects',
         'state_comp' => 'Completed only',
         'state_non_comp' => 'Non Completed only',
-        "sort" => [
+        'sort' => [
             'updated_desc' => 'Latest',
             'updated_asc' => 'Oldest',
             'name_asc' => 'Name ascending',
             'name_desc' => 'Name descending',
             'cost_asc' => 'Cost ascending',
             'cost_desc' => 'Cost descending',
-            "by" => "Sort by",
+            'by' => 'Sort by',
         ],
     ],
     'invite_title' => 'Invite user to this project',

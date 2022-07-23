@@ -8,7 +8,6 @@ use App\Models\Todo;
 use App\Models\User;
 use DB;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Mail;
 
 class DatabaseSeeder extends Seeder
 {
@@ -83,7 +82,7 @@ class DatabaseSeeder extends Seeder
                 User::factory()
                     ->count(random_int(2, 4))
                     ->create()
-                    ->each(fn($user) => $project->addToTeam($user));
+                    ->each(fn ($user) => $project->addToTeam($user));
             });
 
         DB::commit();

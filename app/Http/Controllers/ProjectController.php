@@ -7,7 +7,6 @@ use App\Events\ProjectTeam\UserAddedToProjectTeam;
 use App\Events\ProjectTeam\UserRemovedFromProjectTeam;
 use App\Models\Category;
 use App\Models\Project;
-use App\Models\Todo;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Auth;
@@ -40,7 +39,7 @@ class ProjectController extends Controller
     public function index(ProjectTab $projectTab)
     {
         SEOTools::setTitle(
-            __('project.tabs.' . $projectTab->value) . ' ' . __('nav.projects')
+            __('project.tabs.'.$projectTab->value).' '.__('nav.projects')
         );
 
         $categories = $invitedToProjects = [];
@@ -67,7 +66,7 @@ class ProjectController extends Controller
         $projects = QueryBuilder::for(Project::class)
             ->with('team', 'category')
             ->orWhere(
-                fn($q) => $q
+                fn ($q) => $q
                     ->whereIn('id', $invitedToProjects)
                     ->orWhereIn('category_id', $categories)
             )
@@ -102,6 +101,7 @@ class ProjectController extends Controller
             if ($categories->isEmpty()) {
                 // redirect to category create page
                 session()->flash('notify', __('project.category_first'));
+
                 return redirect()->route('categories.index');
             }
         }
@@ -135,7 +135,7 @@ class ProjectController extends Controller
      */
     public function show(Request $request, Category $category, Project $project)
     {
-        SEOTools::setTitle($project->name . ' ' . __('nav.todos'));
+        SEOTools::setTitle($project->name.' '.__('nav.todos'));
 
         return view('task.index', compact('category', 'project'));
     }
@@ -148,7 +148,7 @@ class ProjectController extends Controller
      */
     public function edit(Category $category, Project $project)
     {
-        SEOTools::setTitle(__('nav.edit_project') . ' ' . $project->name);
+        SEOTools::setTitle(__('nav.edit_project').' '.$project->name);
 
         return view('project.edit', compact('category', 'project'));
     }
@@ -194,7 +194,7 @@ class ProjectController extends Controller
 
         $user = User::firstWhere('email', '=', $req['email']);
 
-        if (!$project->addToTeam($user)) {
+        if (! $project->addToTeam($user)) {
             // user already member of this team
             return response()->json(
                 [
@@ -216,10 +216,10 @@ class ProjectController extends Controller
             ),
             [
                 'src' => $user->avatar,
-                'id' => 'a' . random_int(1, 9999),
+                'id' => 'a'.random_int(1, 9999),
                 'title' => $user->name,
                 'hash' => $user->id_hash,
-                'attributes' => "alt='" . $user->name . " avatar'",
+                'attributes' => "alt='".$user->name." avatar'",
             ]
         );
 
@@ -233,8 +233,8 @@ class ProjectController extends Controller
     /**
      * allow user to refuse invitaion to project
      *
-     * @param Category $category
-     * @param Project $project
+     * @param  Category  $category
+     * @param  Project  $project
      * @return void
      */
     public function refuse(

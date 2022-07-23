@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  *  will be used for extenal loggin (third party)
- * to detrmine if user changed the defult password that 
+ * to detrmine if user changed the defult password that
  * we created for him on joining using third party apps
  */
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *

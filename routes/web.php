@@ -21,12 +21,13 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::prefix(LaravelLocalization::setLocale())
     ->middleware(['localeCookieRedirect'])
     ->group(function () {
-        require __DIR__ . '/auth.php';
+        require __DIR__.'/auth.php';
 
         Route::get('/', function () {
             SEOTools::setTitle(__('nav.home'));
+
             return view('home');
-        })->name('home');        
+        })->name('home');
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([

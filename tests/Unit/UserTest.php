@@ -29,13 +29,13 @@ test('user have todos through categories, projects', function () {
     expect($user)->todos->toHaveCount(6);
 });
 
-test('user have hashed id', function() {
+test('user have hashed id', function () {
     $user = User::factory()->create();
 
     expect($user->id_hash)->toBe(Hashids::encode($user->id));
 });
 
-test('user have default avatar', function() {
+test('user have default avatar', function () {
     // normal user
     $user = User::factory()->create();
     expect($user->avatar)->not()->toBe(url('/users/admin.jpeg'));

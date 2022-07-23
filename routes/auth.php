@@ -104,7 +104,7 @@ Route::middleware('auth')->group(function () {
         'destroy',
     ])->name('logout');
 
-    Route::controller(ChangeUserPasswordController::class)->name('change-password.')->prefix('change-password')->group(function() {
+    Route::controller(ChangeUserPasswordController::class)->name('change-password.')->prefix('change-password')->group(function () {
         Route::get('', 'create')->name('create');
         Route::put('', 'update')->name('update');
     });
