@@ -43,7 +43,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        if (request()->category?->user_id) {
+        if (request()->category) {
             return request()->category?->user_id === $user->id;
         }
 
@@ -59,8 +59,16 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $project->category_id === request()->category?->id &&
-            request()->category->user_id === $user->id;
+        $category = request()->category;
+
+        if (null === $category) {
+            $project->loadMissing('category');
+
+            $category = $project->category;
+        }
+
+        return $project->category_id === $category->id &&
+            $category->user_id === $user->id;
     }
 
     /**
@@ -72,31 +80,15 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $project->category_id === request()->category?->id &&
-            request()->category->user_id === $user->id;
-    }
+        $category = request()->category;
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Project $project)
-    {
-        //
-    }
+        if (null === $category) {
+            $project->loadMissing('category');
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Project $project)
-    {
-        //
+            $category = $project->category;
+        }
+
+        return $project->category_id === $category->id &&
+            $category->user_id === $user->id;
     }
 }
