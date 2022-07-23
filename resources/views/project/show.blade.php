@@ -5,7 +5,7 @@
 
     <x-slot name='body'>
         <div class="p-2 font-semibold text-blue-600 rounded dark:text-blue-400">
-            {{ numfmt_format_currency(numfmt_create('usd', NumberFormatter::CURRENCY), $p->cost, 'USD') }}
+            ${{ number_format($p->cost) }}
         </div>
 
         <div id="completed-badge"
