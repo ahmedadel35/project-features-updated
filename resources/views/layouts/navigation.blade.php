@@ -10,7 +10,7 @@
     },
 }" x-init="initate">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="{{route('home')}}" class="flex items-center">
+        <a href="{{route('home')}}" class="flex items-center" aria-describedby="application logo">
             <x-application-logo class="h-5 sm:h-7" alt="{{ env('APP_NAME', 'website') }} Logo" />
             <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
                 {{ env('APP_NAME', '') }}

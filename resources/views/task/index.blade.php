@@ -156,6 +156,8 @@
                     });
                 },
                 registerTaskEventListener: function() {
+                    if (!window.Echo) return;
+
                     window.Echo.join('project.{{ $project->slug }}.tasks').here((users) => {
                             $dispatch('set-users', users);
                         })

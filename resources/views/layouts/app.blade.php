@@ -31,8 +31,9 @@
         function lazyLoadIt(id) {
             const img = document.querySelector('#' + id);
             const loader = document.querySelector('#' + id + '-loader');
-            img.classList.remove('hidden');
-            loader.classList.add('hidden');
+
+            if (img) img.classList.remove('hidden');
+            if (loader) loader.classList.add('hidden');
         }
     </script>
     @vite('resources/css/app.css')
