@@ -93,6 +93,7 @@ class DatabaseSeeder extends Seeder
             $this->call(CategoriesTableSeeder::class);
             $this->call(ProjectsTableSeeder::class);
             $this->call(TodosTableSeeder::class);
+            $this->call(ProjectUserTableSeeder::class);
         }
     }
 }
