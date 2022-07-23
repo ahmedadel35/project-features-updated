@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TodoController;
 use Artesaos\SEOTools\Facades\SEOTools;
@@ -23,11 +24,7 @@ Route::prefix(LaravelLocalization::setLocale())
     ->group(function () {
         require __DIR__.'/auth.php';
 
-        Route::get('/', function () {
-            SEOTools::setTitle(__('nav.home'));
-
-            return view('home');
-        })->name('home');
+        Route::get('/', HomeController::class)->name('home');
 
         Route::middleware('auth')->group(function () {
             Route::resource('categories', CategoryController::class)->only([
