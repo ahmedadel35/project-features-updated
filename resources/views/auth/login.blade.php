@@ -2,7 +2,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <x-application-logo class="w-20 h-20 text-gray-500 fill-current" />
             </a>
         </x-slot>
 
@@ -49,7 +49,7 @@
                 <div>
                     <x-label for="email" :value="__('auth.Email')" class="form-label" />
 
-                    <x-input id="email" class="form-input w-full" type="email" name="email" :value="old('email')"
+                    <x-input id="email" class="w-full form-input" type="email" name="email" :value="old('email')"
                         placeholder="example@website.com" x-model.trim='form.email' required autofocus />
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                         @error('email')
@@ -65,7 +65,7 @@
                 <div class="mt-4">
                     <x-label for="password" :value="__('auth.Password')" />
 
-                    <x-input id="password" class="form-input w-full" type="password" name="password"
+                    <x-input id="password" class="w-full form-input" type="password" name="password"
                         placeholder="{{ __('auth.Password') }}" x-model.trim='form.pass' required
                         autocomplete="current-password" />
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -82,14 +82,14 @@
                 <div class="block mt-4">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox"
-                            class="mx-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            class="mx-1 text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             name="remember">
                         <span
                             class="ml-2 text-sm text-gray-600 dark:text-gray-500">{{ __('auth.Remember-Me') }}</span>
                     </label>
                 </div>
 
-                <div class="flex justify-between items-center my-3">
+                <div class="flex items-center justify-between my-3">
                     <x-btn-with-spinner type='submit' class="cyan" icon="fas-right-to-bracket" desc='login'
                         busy='logging'>
                         {{ __('auth.Login') }}
@@ -102,13 +102,13 @@
                 </div>
 
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-300"
+                    <a class="text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-500 dark:hover:text-gray-300"
                         href="{{ route('password.request') }}">
                         {{ __('auth.Forgot-Your-Password?') }}
                     </a>
                 @endif
 
-                <div class="my-2">
+                <div class="flex items-center my-2 space-x-2 justify-evenly">
                     <x-button type='button' class="btn green"
                         x-on:click.prevent="form.email = 'user1@site.com'; form.pass = 'password';">
                         {{__('auth.user1')}}
